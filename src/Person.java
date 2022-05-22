@@ -1,13 +1,20 @@
 public class Person {
-    private int ID;
-    private String name;
-    private String email;
-    private String password;
-    private String textFile;
+    private int ID; //ID of person
+    private String name; //name of person
+    private String email; //email of person
+    private String password; //password of person
+    private String textFile; //text file for person
 
-    public Person(int ID, String name, String email, String password) {
-        this.ID = ID;
+    /**
+     * Constructor for Person.java
+     * @param name
+     * @param ID
+     * @param email
+     * @param password
+     */
+    public Person(String name, int ID, String email, String password) {
         this.name = name;
+        this.ID = ID;
         this.email = email;
         this.password = password;
         this.textFile = email + ".txt";
