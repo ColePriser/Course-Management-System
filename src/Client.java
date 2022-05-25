@@ -11,26 +11,32 @@ public class Client implements Runnable {
     private static PrintWriter writer; //PrintWriter object
     private static int ID; //ID of client
 
-    private static JFrame mainMenu = new JFrame("Course Management System Main Menu");
+    private static JFrame mainMenu = new JFrame("Main Menu");
     private static JFrame teacherMenu = new JFrame("Teacher Menu");
     private static JFrame studentMenu = new JFrame("Student Menu");
+    private static JFrame teacherSettingsMenu = new JFrame("Settings");
+    private static JFrame studentSettingsMenu = new JFrame("Settings");
+
 
     public static void main(String[] args) {
         Thread client = new Thread(new Client());
         client.start();
         try {
-            Socket temp = new Socket("localhost", 2361);
-            socket = temp;
-            bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            writer = new PrintWriter(socket.getOutputStream());
-            /*
+            /**
              * Creating socket and setting up reading and writing capabilities
              * to communicate with the server.
+             */
+            socket = new Socket("localhost", 2361);
+            bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            writer = new PrintWriter(socket.getOutputStream());
+
+            /**
+             * Main menu GUI
              */
             JPanel mainMenuPanel = new JPanel();
             Container mainMenuContainer = mainMenu.getContentPane();
             mainMenuContainer.setLayout(new BorderLayout());
-            mainMenu.setSize(300, 200);
+            mainMenu.setSize(1000, 800);
             ImageIcon logoIcon = new ImageIcon("book.png");
             Image logo = logoIcon.getImage();
             mainMenu.setIconImage(logo);
@@ -40,6 +46,70 @@ public class Client implements Runnable {
             mainMenuPanel.add(signInButton);
             mainMenuContainer.add(mainMenuPanel, BorderLayout.CENTER);
             mainMenu.setVisible(true);
+
+            /**
+             * Teacher menu GUI
+             */
+            JPanel teacherPanel = new JPanel();
+            Container teacherMenuContainer = teacherMenu.getContentPane();
+            teacherMenuContainer.setLayout(new BorderLayout());
+            teacherPanel.setSize(1000, 800);
+            JButton teacherSettings = new JButton("Settings");
+            JButton teacherManageCourses = new JButton("Manage Courses");
+            teacherPanel.add(teacherSettings);
+            teacherPanel.add(teacherManageCourses);
+            teacherMenuContainer.add(teacherPanel, BorderLayout.CENTER);
+
+            /**
+            * Teacher Settings GUI
+            */
+            JPanel teacherSettingsPanel = new JPanel();
+            Container teacherSettingsContainer = teacherSettingsMenu.getContentPane();
+            teacherSettingsContainer.setLayout(new BorderLayout());
+            teacherSettingsPanel.setSize(1000, 800);
+            JButton teacherEditID = new JButton("Edit ID");
+            JButton teacherEditName = new JButton("Edit Name");
+            JButton teacherEditEmail = new JButton("Edit Email");
+            JButton teacherEditPassword = new JButton("Edit Password");
+            JButton teacherDeleteAccount = new JButton("Delete Account");
+            teacherSettingsPanel.add(teacherEditID);
+            teacherSettingsPanel.add(teacherEditName);
+            teacherSettingsPanel.add(teacherEditEmail);
+            teacherSettingsPanel.add(teacherEditPassword);
+            teacherSettingsPanel.add(teacherDeleteAccount);
+            teacherSettingsContainer.add(teacherSettingsPanel, BorderLayout.CENTER);
+
+            /**
+             * Student menu GUI
+             */
+            JPanel studentPanel = new JPanel();
+            Container studentMenuContainer = studentMenu.getContentPane();
+            studentMenuContainer.setLayout(new BorderLayout());
+            studentPanel.setSize(1000, 800);
+            JButton studentSettings = new JButton("Settings");
+            JButton studentManageCourses = new JButton("Manage Courses");
+            studentPanel.add(studentSettings);
+            studentPanel.add(studentManageCourses);
+            studentMenuContainer.add(studentPanel, BorderLayout.CENTER);
+
+            /**
+             * Student Settings GUI
+             */
+            JPanel studentSettingsPanel = new JPanel();
+            Container studentSettingsContainer = studentSettingsMenu.getContentPane();
+            studentSettingsContainer.setLayout(new BorderLayout());
+            studentSettingsPanel.setSize(1000, 800);
+            JButton studentEditID = new JButton("Edit ID");
+            JButton studentEditName = new JButton("Edit Name");
+            JButton studentEditEmail = new JButton("Edit Email");
+            JButton studentEditPassword = new JButton("Edit Password");
+            JButton studentDeleteAccount = new JButton("Delete Account");
+            studentSettingsPanel.add(studentEditID);
+            studentSettingsPanel.add(studentEditName);
+            studentSettingsPanel.add(studentEditEmail);
+            studentSettingsPanel.add(studentEditPassword);
+            studentSettingsPanel.add(studentDeleteAccount);
+            studentSettingsContainer.add(studentSettingsPanel, BorderLayout.CENTER);
 
             /**
              * When user clicks "Create Account", they are prompted to
