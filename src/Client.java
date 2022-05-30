@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 
@@ -9,7 +11,7 @@ public class Client implements Runnable {
     private static Socket socket; //Socket object
     private static BufferedReader bfr; //BufferedReader object
     private static PrintWriter writer; //PrintWriter object
-    private static int ID; //ID of client
+    private static int userID; //ID of user
 
     private static JFrame mainMenu = new JFrame("Main Menu");
     private static JFrame teacherMenu = new JFrame("Teacher Menu");
@@ -36,7 +38,8 @@ public class Client implements Runnable {
             JPanel mainMenuPanel = new JPanel();
             Container mainMenuContainer = mainMenu.getContentPane();
             mainMenuContainer.setLayout(new BorderLayout());
-            mainMenu.setSize(1000, 800);
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            mainMenu.setSize(screenSize.width, screenSize.height);
             ImageIcon logoIcon = new ImageIcon("book.png");
             Image logo = logoIcon.getImage();
             mainMenu.setIconImage(logo);
@@ -45,6 +48,15 @@ public class Client implements Runnable {
             mainMenuPanel.add(createAccountButton);
             mainMenuPanel.add(signInButton);
             mainMenuContainer.add(mainMenuPanel, BorderLayout.CENTER);
+            mainMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            mainMenu.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    super.windowClosing(e);
+                    writer.write("Main Menu Close");
+                    writer.println();
+                    writer.flush();
+                }
+            });
             mainMenu.setVisible(true);
 
             /**
@@ -53,12 +65,19 @@ public class Client implements Runnable {
             JPanel teacherPanel = new JPanel();
             Container teacherMenuContainer = teacherMenu.getContentPane();
             teacherMenuContainer.setLayout(new BorderLayout());
-            teacherPanel.setSize(1000, 800);
-            JButton teacherSettings = new JButton("Settings");
-            JButton teacherManageCourses = new JButton("Manage Courses");
-            teacherPanel.add(teacherSettings);
-            teacherPanel.add(teacherManageCourses);
+            teacherPanel.setSize(screenSize.width, screenSize.height);
+            JButton teacherSettingsButton = new JButton("Settings");
+            JButton teacherManageCoursesButton = new JButton("Manage Courses");
+            teacherPanel.add(teacherSettingsButton);
+            teacherPanel.add(teacherManageCoursesButton);
             teacherMenuContainer.add(teacherPanel, BorderLayout.CENTER);
+            teacherMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            teacherMenu.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    super.windowClosing(e);
+                    mainMenu.setVisible(true);
+                }
+            });
 
             /**
             * Teacher Settings GUI
@@ -66,18 +85,25 @@ public class Client implements Runnable {
             JPanel teacherSettingsPanel = new JPanel();
             Container teacherSettingsContainer = teacherSettingsMenu.getContentPane();
             teacherSettingsContainer.setLayout(new BorderLayout());
-            teacherSettingsPanel.setSize(1000, 800);
-            JButton teacherEditID = new JButton("Edit ID");
-            JButton teacherEditName = new JButton("Edit Name");
-            JButton teacherEditEmail = new JButton("Edit Email");
-            JButton teacherEditPassword = new JButton("Edit Password");
-            JButton teacherDeleteAccount = new JButton("Delete Account");
-            teacherSettingsPanel.add(teacherEditID);
-            teacherSettingsPanel.add(teacherEditName);
-            teacherSettingsPanel.add(teacherEditEmail);
-            teacherSettingsPanel.add(teacherEditPassword);
-            teacherSettingsPanel.add(teacherDeleteAccount);
+            teacherSettingsPanel.setSize(screenSize.width, screenSize.height);
+            JButton teacherViewAccountInfoButton = new JButton("View Account Info");
+            JButton teacherEditNameButton = new JButton("Edit Name");
+            JButton teacherEditEmailButton = new JButton("Edit Email");
+            JButton teacherEditPasswordButton = new JButton("Edit Password");
+            JButton teacherDeleteAccountButton = new JButton("Delete Account");
+            teacherSettingsPanel.add(teacherViewAccountInfoButton);
+            teacherSettingsPanel.add(teacherEditNameButton);
+            teacherSettingsPanel.add(teacherEditEmailButton);
+            teacherSettingsPanel.add(teacherEditPasswordButton);
+            teacherSettingsPanel.add(teacherDeleteAccountButton);
             teacherSettingsContainer.add(teacherSettingsPanel, BorderLayout.CENTER);
+            teacherSettingsMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            teacherSettingsMenu.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    super.windowClosing(e);
+                    teacherMenu.setVisible(true);
+                }
+            });
 
             /**
              * Student menu GUI
@@ -85,12 +111,19 @@ public class Client implements Runnable {
             JPanel studentPanel = new JPanel();
             Container studentMenuContainer = studentMenu.getContentPane();
             studentMenuContainer.setLayout(new BorderLayout());
-            studentPanel.setSize(1000, 800);
-            JButton studentSettings = new JButton("Settings");
-            JButton studentManageCourses = new JButton("Manage Courses");
-            studentPanel.add(studentSettings);
-            studentPanel.add(studentManageCourses);
+            studentPanel.setSize(screenSize.width, screenSize.height);
+            JButton studentSettingsButton = new JButton("Settings");
+            JButton studentManageCoursesButton = new JButton("Manage Courses");
+            studentPanel.add(studentSettingsButton);
+            studentPanel.add(studentManageCoursesButton);
             studentMenuContainer.add(studentPanel, BorderLayout.CENTER);
+            studentMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            studentMenu.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    super.windowClosing(e);
+                    mainMenu.setVisible(true);
+                }
+            });
 
             /**
              * Student Settings GUI
@@ -98,21 +131,28 @@ public class Client implements Runnable {
             JPanel studentSettingsPanel = new JPanel();
             Container studentSettingsContainer = studentSettingsMenu.getContentPane();
             studentSettingsContainer.setLayout(new BorderLayout());
-            studentSettingsPanel.setSize(1000, 800);
-            JButton studentEditID = new JButton("Edit ID");
-            JButton studentEditName = new JButton("Edit Name");
-            JButton studentEditEmail = new JButton("Edit Email");
-            JButton studentEditPassword = new JButton("Edit Password");
-            JButton studentDeleteAccount = new JButton("Delete Account");
-            studentSettingsPanel.add(studentEditID);
-            studentSettingsPanel.add(studentEditName);
-            studentSettingsPanel.add(studentEditEmail);
-            studentSettingsPanel.add(studentEditPassword);
-            studentSettingsPanel.add(studentDeleteAccount);
+            studentSettingsPanel.setSize(screenSize.width, screenSize.height);
+            JButton studentViewAccountInfoButton = new JButton("View Account Info");
+            JButton studentEditNameButton = new JButton("Edit Name");
+            JButton studentEditEmailButton = new JButton("Edit Email");
+            JButton studentEditPasswordButton = new JButton("Edit Password");
+            JButton studentDeleteAccountButton = new JButton("Delete Account");
+            studentSettingsPanel.add(studentViewAccountInfoButton);
+            studentSettingsPanel.add(studentEditNameButton);
+            studentSettingsPanel.add(studentEditEmailButton);
+            studentSettingsPanel.add(studentEditPasswordButton);
+            studentSettingsPanel.add(studentDeleteAccountButton);
             studentSettingsContainer.add(studentSettingsPanel, BorderLayout.CENTER);
+            studentSettingsMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            studentSettingsMenu.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    super.windowClosing(e);
+                    studentMenu.setVisible(true);
+                }
+            });
 
             /**
-             * When user clicks "Create Account", they are prompted to
+             * When user clicks "Create Account" on the Main Menu, they are prompted to
              * input their account type (Student or Teacher), name,
              * email, password, and ID. This information is sent to the server.
              */
@@ -219,7 +259,7 @@ public class Client implements Runnable {
             createAccountButton.addActionListener(createAccountListener);
 
             /**
-             * When user clicks "Sign In", they are prompted to
+             * When user clicks "Sign In" on the Main Menu, they are prompted to
              * input their, ID and password. This information is sent to the server.
              */
             ActionListener signInListener = new ActionListener() {
@@ -270,6 +310,7 @@ public class Client implements Runnable {
                         writer.write(Integer.toString(ID));
                         writer.println();
                         writer.flush();
+                        userID = ID;
                         writer.write(password);
                         writer.println();
                         writer.flush();
@@ -278,6 +319,36 @@ public class Client implements Runnable {
                 }
             };
             signInButton.addActionListener(signInListener);
+
+            /**
+             * When user clicks "Settings" on the Teacher Menu, they are showed
+             * the settings that are specific to a Teacher.
+             */
+            ActionListener teacherSettingsListener = new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == teacherSettingsButton) {
+                        writer.write("Open Teacher Settings");
+                        writer.println();
+                        writer.close();
+                    }
+                }
+            };
+            teacherSettingsButton.addActionListener(teacherSettingsListener);
+
+            /**
+             * When user clicks "Settings" on the Student Menu, they are showed
+             * the settings that are specific to a Student.
+             */
+            ActionListener studentSettingsListener = new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == studentSettingsButton) {
+                        writer.write("Open Student Settings");
+                        writer.println();
+                        writer.close();
+                    }
+                }
+            };
+            studentSettingsButton.addActionListener(studentSettingsListener);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -292,51 +363,63 @@ public class Client implements Runnable {
                 } catch (Exception e) {
                     continue;
                 }
-                if (messageFromServer.equals("Teacher ID Taken")) {
-                    JOptionPane.showMessageDialog(null,
-                            "Failed to create account! There already exists a teacher with this ID!",
-                            "Create Account", JOptionPane.ERROR_MESSAGE);
-                    mainMenu.setVisible(true);
-                } else if (messageFromServer.equals("Teacher Account Created Success")) {
-                    JOptionPane.showMessageDialog(null,
-                            "Your account has been made successfully!",
-                            "Create Account", JOptionPane.INFORMATION_MESSAGE);
-                    mainMenu.setVisible(true);
-                } else if (messageFromServer.equals("Student ID Taken")) {
-                    JOptionPane.showMessageDialog(null,
-                            "Failed to create account! There already exists a student with this ID!",
-                            "Create Account", JOptionPane.ERROR_MESSAGE);
-                    mainMenu.setVisible(true);
-                } else if (messageFromServer.equals("Student Account Created Success")) {
-                    JOptionPane.showMessageDialog(null,
-                            "Your account has been made successfully!",
-                            "Create Account", JOptionPane.INFORMATION_MESSAGE);
-                    mainMenu.setVisible(true);
-                } else if (messageFromServer.equals("Teacher Sign In Success")) {
-                    JOptionPane.showMessageDialog(null,
-                            "You have signed in successfully!",
-                            "Sign In", JOptionPane.INFORMATION_MESSAGE);
-                    mainMenu.setVisible(false);
-                    teacherMenu.setVisible(true);
-                }
-                else if (messageFromServer.equals("Teacher Sign In Failed")) {
-                    JOptionPane.showMessageDialog(null,
-                            "No teacher account exists with the given ID and password.",
-                            "Create Account", JOptionPane.ERROR_MESSAGE);
-                    mainMenu.setVisible(true);
-                }
-                else if (messageFromServer.equals("Student Sign In Success")) {
-                    JOptionPane.showMessageDialog(null,
-                            "You have signed in successfully!",
-                            "Sign In", JOptionPane.INFORMATION_MESSAGE);
-                    mainMenu.setVisible(false);
-                    studentMenu.setVisible(true);
-                }
-                else if (messageFromServer.equals("Student Sign In Failed")) {
-                    JOptionPane.showMessageDialog(null,
-                            "No student account exists with the given ID and password.",
-                            "Create Account", JOptionPane.ERROR_MESSAGE);
-                    mainMenu.setVisible(true);
+                switch (messageFromServer) {
+                    case "Teacher ID Taken" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "Failed to create account! There already exists a teacher with this ID!",
+                                "Create Account", JOptionPane.ERROR_MESSAGE);
+                        mainMenu.setVisible(true);
+                    }
+                    case "Teacher Account Created Success", "Student Account Created Success" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "Your account has been made successfully!",
+                                "Create Account", JOptionPane.INFORMATION_MESSAGE);
+                        mainMenu.setVisible(true);
+                    }
+                    case "Student ID Taken" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "Failed to create account! There already exists a student with this ID!",
+                                "Create Account", JOptionPane.ERROR_MESSAGE);
+                        mainMenu.setVisible(true);
+                    }
+                    case "Teacher Sign In Success" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "You have signed in successfully!",
+                                "Sign In", JOptionPane.INFORMATION_MESSAGE);
+                        mainMenu.setVisible(false);
+                        teacherMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        teacherMenu.setVisible(true);
+                    }
+                    case "Teacher Sign In Failed" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "No teacher account exists with the given ID and password.",
+                                "Create Account", JOptionPane.ERROR_MESSAGE);
+                        mainMenu.setVisible(true);
+                    }
+                    case "Student Sign In Success" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "You have signed in successfully!",
+                                "Sign In", JOptionPane.INFORMATION_MESSAGE);
+                        mainMenu.setVisible(false);
+                        studentMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        studentMenu.setVisible(true);
+                    }
+                    case "Student Sign In Failed" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "No student account exists with the given ID and password.",
+                                "Create Account", JOptionPane.ERROR_MESSAGE);
+                        mainMenu.setVisible(true);
+                    }
+                    case "Open Teacher Settings" -> {
+                        teacherMenu.setVisible(false);
+                        teacherSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        teacherSettingsMenu.setVisible(true);
+                    }
+                    case "Open Student Settings" -> {
+                        studentMenu.setVisible(false);
+                        studentSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        studentSettingsMenu.setVisible(true);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

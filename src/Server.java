@@ -27,6 +27,21 @@ public class Server implements Runnable {
             try {
                 String messageFromClient = bfr.readLine();
                 switch (messageFromClient) {
+                    case "Main Menu Close": {
+
+                        /**
+                         * Since the client closes the Course Management System
+                         * and wants to end the program, they are removed from the list of clients.
+                         */
+                        synchronized (race) {
+                            for (int x = 0; x < clients.size(); x++) {
+                                if (clients.get(x) == this.socket) {
+                                    clients.remove(x);
+                                    break;
+                                }
+                            }
+                        }
+                    }
                     case "Create Teacher Account": {
                         String name = bfr.readLine();
                         String email = bfr.readLine();
@@ -34,8 +49,8 @@ public class Server implements Runnable {
                         int ID = Integer.parseInt(bfr.readLine());
                         boolean taken = false;
                         synchronized (race) {
-                            for (Teacher teacher : teachers) {
-                                if (teacher.getID() == ID) {
+                            for (int x = 0; x < teachers.size(); x++) {
+                                if (teachers.get(x).getID() == ID) {
                                     taken = true;
                                     break;
                                 }
@@ -127,6 +142,21 @@ public class Server implements Runnable {
                         writer.flush();
                         break;
                     }
+                    case "Open Teacher Settings": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Open Teacher Settings");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Open Student Settings": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Open Student Settings");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
