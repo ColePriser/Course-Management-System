@@ -16,8 +16,8 @@ public class Client implements Runnable {
     private static JFrame mainMenu = new JFrame("Main Menu");
     private static JFrame teacherMenu = new JFrame("Teacher Menu");
     private static JFrame studentMenu = new JFrame("Student Menu");
-    private static JFrame teacherSettingsMenu = new JFrame("Settings");
-    private static JFrame studentSettingsMenu = new JFrame("Settings");
+    private static JFrame teacherSettingsMenu = new JFrame("Teacher Settings");
+    private static JFrame studentSettingsMenu = new JFrame("Student Settings");
 
 
     public static void main(String[] args) {
@@ -86,16 +86,16 @@ public class Client implements Runnable {
             Container teacherSettingsContainer = teacherSettingsMenu.getContentPane();
             teacherSettingsContainer.setLayout(new BorderLayout());
             teacherSettingsPanel.setSize(screenSize.width, screenSize.height);
-            JButton teacherViewAccountInfoButton = new JButton("View Account Info");
-            JButton teacherEditNameButton = new JButton("Edit Name");
-            JButton teacherEditEmailButton = new JButton("Edit Email");
-            JButton teacherEditPasswordButton = new JButton("Edit Password");
-            JButton teacherDeleteAccountButton = new JButton("Delete Account");
-            teacherSettingsPanel.add(teacherViewAccountInfoButton);
-            teacherSettingsPanel.add(teacherEditNameButton);
-            teacherSettingsPanel.add(teacherEditEmailButton);
-            teacherSettingsPanel.add(teacherEditPasswordButton);
-            teacherSettingsPanel.add(teacherDeleteAccountButton);
+            JButton viewAccountInfoButton = new JButton("View Account Info");
+            JButton editNameButton = new JButton("Edit Name");
+            JButton editEmailButton = new JButton("Edit Email");
+            JButton editPasswordButton = new JButton("Edit Password");
+            JButton deleteAccountButton = new JButton("Delete Account");
+            teacherSettingsPanel.add(viewAccountInfoButton);
+            teacherSettingsPanel.add(editNameButton);
+            teacherSettingsPanel.add(editEmailButton);
+            teacherSettingsPanel.add(editPasswordButton);
+            teacherSettingsPanel.add(deleteAccountButton);
             teacherSettingsContainer.add(teacherSettingsPanel, BorderLayout.CENTER);
             teacherSettingsMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             teacherSettingsMenu.addWindowListener(new WindowAdapter() {
@@ -132,16 +132,11 @@ public class Client implements Runnable {
             Container studentSettingsContainer = studentSettingsMenu.getContentPane();
             studentSettingsContainer.setLayout(new BorderLayout());
             studentSettingsPanel.setSize(screenSize.width, screenSize.height);
-            JButton studentViewAccountInfoButton = new JButton("View Account Info");
-            JButton studentEditNameButton = new JButton("Edit Name");
-            JButton studentEditEmailButton = new JButton("Edit Email");
-            JButton studentEditPasswordButton = new JButton("Edit Password");
-            JButton studentDeleteAccountButton = new JButton("Delete Account");
-            studentSettingsPanel.add(studentViewAccountInfoButton);
-            studentSettingsPanel.add(studentEditNameButton);
-            studentSettingsPanel.add(studentEditEmailButton);
-            studentSettingsPanel.add(studentEditPasswordButton);
-            studentSettingsPanel.add(studentDeleteAccountButton);
+            studentSettingsPanel.add(viewAccountInfoButton);
+            studentSettingsPanel.add(editNameButton);
+            studentSettingsPanel.add(editEmailButton);
+            studentSettingsPanel.add(editPasswordButton);
+            studentSettingsPanel.add(deleteAccountButton);
             studentSettingsContainer.add(studentSettingsPanel, BorderLayout.CENTER);
             studentSettingsMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             studentSettingsMenu.addWindowListener(new WindowAdapter() {
@@ -329,7 +324,7 @@ public class Client implements Runnable {
                     if (e.getSource() == teacherSettingsButton) {
                         writer.write("Open Teacher Settings");
                         writer.println();
-                        writer.close();
+                        writer.flush();
                     }
                 }
             };
@@ -344,11 +339,46 @@ public class Client implements Runnable {
                     if (e.getSource() == studentSettingsButton) {
                         writer.write("Open Student Settings");
                         writer.println();
-                        writer.close();
+                        writer.flush();
                     }
                 }
             };
             studentSettingsButton.addActionListener(studentSettingsListener);
+
+            /**
+             * When user clicks "Edit Name", they will be prompted to
+             * input a new name.
+             */
+            ActionListener editNameListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == editNameButton) {
+                        studentSettingsMenu.setVisible(false);
+                        teacherSettingsMenu.setVisible(false);
+                        String newName;
+                        do {
+                            newName = JOptionPane.showInputDialog(null, "Enter your new name.",
+                                    "Edit Name", JOptionPane.QUESTION_MESSAGE);
+                            if ((newName == null) || (newName.isBlank())) {
+                                JOptionPane.showMessageDialog(null, "Name cannot be empty!", "Edit Name",
+                                        JOptionPane.ERROR_MESSAGE);
+
+                            }
+                        } while ((newName == null) || (newName.isBlank()));
+                        writer.write("Edit Name");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newName);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(userID));
+                        writer.println();
+                        writer.flush();
+                    }
+                }
+            };
+            editNameButton.addActionListener(editNameListener);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -417,6 +447,22 @@ public class Client implements Runnable {
                     }
                     case "Open Student Settings" -> {
                         studentMenu.setVisible(false);
+                        studentSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        studentSettingsMenu.setVisible(true);
+                    }
+                    case "Teacher Edit Name" -> {
+                        String newName = bfr.readLine();
+                        JOptionPane.showMessageDialog(null,
+                                "Hello " + newName + "! You have successfully changed your name!",
+                                "Sign In", JOptionPane.INFORMATION_MESSAGE);
+                        teacherSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        teacherSettingsMenu.setVisible(true);
+                    }
+                    case "Student Edit Name" -> {
+                        String newName = bfr.readLine();
+                        JOptionPane.showMessageDialog(null,
+                                "Hello " + newName + "! You have successfully changed your name!",
+                                "Sign In", JOptionPane.INFORMATION_MESSAGE);
                         studentSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         studentSettingsMenu.setVisible(true);
                     }

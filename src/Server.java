@@ -156,6 +156,40 @@ public class Server implements Runnable {
                         writer.flush();
                         break;
                     }
+                    case "Edit Name": {
+                        String newName = bfr.readLine();
+                        String stringID = bfr.readLine();
+                        int ID = Integer.parseInt(stringID);
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        if (stringID.charAt(0) == 1) {
+                            writer.write("Student Edit Name");
+                            synchronized (race) {
+                                for (int x = 0; x < students.size(); x++) {
+                                    if (students.get(x).getID() == ID) {
+                                        students.get(x).setName(newName);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            writer.write("Teacher Edit Name");
+                            synchronized (race) {
+                                for (int x = 0; x < teachers.size(); x++) {
+                                    if (teachers.get(x).getID() == ID) {
+                                        teachers.get(x).setName(newName);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        writer.println();
+                        writer.flush();
+                        writer.write(newName);
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
 
                 }
             } catch (Exception e) {
