@@ -86,16 +86,16 @@ public class Client implements Runnable {
             Container teacherSettingsContainer = teacherSettingsMenu.getContentPane();
             teacherSettingsContainer.setLayout(new BorderLayout());
             teacherSettingsPanel.setSize(screenSize.width, screenSize.height);
-            JButton viewAccountInfoButton = new JButton("View Account Info");
-            JButton editNameButton = new JButton("Edit Name");
-            JButton editEmailButton = new JButton("Edit Email");
-            JButton editPasswordButton = new JButton("Edit Password");
-            JButton deleteAccountButton = new JButton("Delete Account");
-            teacherSettingsPanel.add(viewAccountInfoButton);
-            teacherSettingsPanel.add(editNameButton);
-            teacherSettingsPanel.add(editEmailButton);
-            teacherSettingsPanel.add(editPasswordButton);
-            teacherSettingsPanel.add(deleteAccountButton);
+            JButton teacherViewAccountInfoButton = new JButton("View Account Info");
+            JButton teacherEditNameButton = new JButton("Edit Name");
+            JButton teacherEditEmailButton = new JButton("Edit Email");
+            JButton teacherEditPasswordButton = new JButton("Edit Password");
+            JButton teacherDeleteAccountButton = new JButton("Delete Account");
+            teacherSettingsPanel.add(teacherViewAccountInfoButton);
+            teacherSettingsPanel.add(teacherEditNameButton);
+            teacherSettingsPanel.add(teacherEditEmailButton);
+            teacherSettingsPanel.add(teacherEditPasswordButton);
+            teacherSettingsPanel.add(teacherDeleteAccountButton);
             teacherSettingsContainer.add(teacherSettingsPanel, BorderLayout.CENTER);
             teacherSettingsMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             teacherSettingsMenu.addWindowListener(new WindowAdapter() {
@@ -132,11 +132,16 @@ public class Client implements Runnable {
             Container studentSettingsContainer = studentSettingsMenu.getContentPane();
             studentSettingsContainer.setLayout(new BorderLayout());
             studentSettingsPanel.setSize(screenSize.width, screenSize.height);
-            studentSettingsPanel.add(viewAccountInfoButton);
-            studentSettingsPanel.add(editNameButton);
-            studentSettingsPanel.add(editEmailButton);
-            studentSettingsPanel.add(editPasswordButton);
-            studentSettingsPanel.add(deleteAccountButton);
+            JButton studentViewAccountInfoButton = new JButton("View Account Info");
+            JButton studentEditNameButton = new JButton("Edit Name");
+            JButton studentEditEmailButton = new JButton("Edit Email");
+            JButton studentEditPasswordButton = new JButton("Edit Password");
+            JButton studentDeleteAccountButton = new JButton("Delete Account");
+            studentSettingsPanel.add(studentViewAccountInfoButton);
+            studentSettingsPanel.add(studentEditNameButton);
+            studentSettingsPanel.add(studentEditEmailButton);
+            studentSettingsPanel.add(studentEditPasswordButton);
+            studentSettingsPanel.add(studentDeleteAccountButton);
             studentSettingsContainer.add(studentSettingsPanel, BorderLayout.CENTER);
             studentSettingsMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             studentSettingsMenu.addWindowListener(new WindowAdapter() {
@@ -331,6 +336,72 @@ public class Client implements Runnable {
             teacherSettingsButton.addActionListener(teacherSettingsListener);
 
             /**
+             * When user clicks "Edit Name" in Teacher Settings Menu,
+             * they will be prompted to input a new name.
+             */
+            ActionListener teacherEditNameListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == teacherEditNameButton) {
+                        teacherSettingsMenu.setVisible(false);
+                        String newName;
+                        do {
+                            newName = JOptionPane.showInputDialog(null, "Enter your new name.",
+                                    "Edit Name", JOptionPane.QUESTION_MESSAGE);
+                            if ((newName == null) || (newName.isBlank())) {
+                                JOptionPane.showMessageDialog(null, "Name cannot be empty!", "Edit Name",
+                                        JOptionPane.ERROR_MESSAGE);
+
+                            }
+                        } while ((newName == null) || (newName.isBlank()));
+                        writer.write("Teacher Edit Name");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newName);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(userID));
+                        writer.println();
+                        writer.flush();
+                    }
+                }
+            };
+            teacherEditNameButton.addActionListener(teacherEditNameListener);
+
+            /**
+             * When user clicks "Edit Email" in Teacher Settings Menu,
+             * they will be prompted to input a new email.
+             */
+            ActionListener teacherEditEmailListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == teacherEditEmailButton) {
+                        teacherSettingsMenu.setVisible(false);
+                        String newEmail;
+                        do {
+                            newEmail = JOptionPane.showInputDialog(null, "Enter your new email.",
+                                    "Edit Email", JOptionPane.QUESTION_MESSAGE);
+                            if ((newEmail == null) || (newEmail.isBlank())) {
+                                JOptionPane.showMessageDialog(null, "Email cannot be empty!", "Edit Email",
+                                        JOptionPane.ERROR_MESSAGE);
+
+                            }
+                        } while ((newEmail == null) || (newEmail.isBlank()));
+                        writer.write("Teacher Edit Email");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newEmail);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(userID));
+                        writer.println();
+                        writer.flush();
+                    }
+                }
+            };
+            teacherEditEmailButton.addActionListener(teacherEditEmailListener);
+
+            /**
              * When user clicks "Settings" on the Student Menu, they are showed
              * the settings that are specific to a Student.
              */
@@ -346,15 +417,14 @@ public class Client implements Runnable {
             studentSettingsButton.addActionListener(studentSettingsListener);
 
             /**
-             * When user clicks "Edit Name", they will be prompted to
-             * input a new name.
+             * When user clicks "Edit Name" in Student Settings Menu,
+             * they will be prompted to input a new name.
              */
-            ActionListener editNameListener = new ActionListener() {
+            ActionListener studentEditNameListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (e.getSource() == editNameButton) {
+                    if (e.getSource() == studentEditNameButton) {
                         studentSettingsMenu.setVisible(false);
-                        teacherSettingsMenu.setVisible(false);
                         String newName;
                         do {
                             newName = JOptionPane.showInputDialog(null, "Enter your new name.",
@@ -365,7 +435,7 @@ public class Client implements Runnable {
 
                             }
                         } while ((newName == null) || (newName.isBlank()));
-                        writer.write("Edit Name");
+                        writer.write("Student Edit Name");
                         writer.println();
                         writer.flush();
                         writer.write(newName);
@@ -377,7 +447,40 @@ public class Client implements Runnable {
                     }
                 }
             };
-            editNameButton.addActionListener(editNameListener);
+            studentEditNameButton.addActionListener(studentEditNameListener);
+
+            /**
+             * When user clicks "Edit Email" in Student Settings Menu,
+             * they will be prompted to input a new email.
+             */
+            ActionListener studentEditEmailListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == studentEditEmailButton) {
+                        studentSettingsMenu.setVisible(false);
+                        String newEmail;
+                        do {
+                            newEmail = JOptionPane.showInputDialog(null, "Enter your new email.",
+                                    "Edit Email", JOptionPane.QUESTION_MESSAGE);
+                            if ((newEmail == null) || (newEmail.isBlank())) {
+                                JOptionPane.showMessageDialog(null, "Email cannot be empty!", "Edit Email",
+                                        JOptionPane.ERROR_MESSAGE);
+
+                            }
+                        } while ((newEmail == null) || (newEmail.isBlank()));
+                        writer.write("Student Edit Email");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newEmail);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(userID));
+                        writer.println();
+                        writer.flush();
+                    }
+                }
+            };
+            studentEditEmailButton.addActionListener(studentEditEmailListener);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -394,21 +497,15 @@ public class Client implements Runnable {
                     continue;
                 }
                 switch (messageFromServer) {
-                    case "Teacher ID Taken" -> {
-                        JOptionPane.showMessageDialog(null,
-                                "Failed to create account! There already exists a teacher with this ID!",
-                                "Create Account", JOptionPane.ERROR_MESSAGE);
-                        mainMenu.setVisible(true);
-                    }
                     case "Teacher Account Created Success", "Student Account Created Success" -> {
                         JOptionPane.showMessageDialog(null,
                                 "Your account has been made successfully!",
                                 "Create Account", JOptionPane.INFORMATION_MESSAGE);
                         mainMenu.setVisible(true);
                     }
-                    case "Student ID Taken" -> {
+                    case "Teacher ID Taken" -> {
                         JOptionPane.showMessageDialog(null,
-                                "Failed to create account! There already exists a student with this ID!",
+                                "Failed to create account! There already exists a teacher with this ID!",
                                 "Create Account", JOptionPane.ERROR_MESSAGE);
                         mainMenu.setVisible(true);
                     }
@@ -423,6 +520,12 @@ public class Client implements Runnable {
                     case "Teacher Sign In Failed" -> {
                         JOptionPane.showMessageDialog(null,
                                 "No teacher account exists with the given ID and password.",
+                                "Create Account", JOptionPane.ERROR_MESSAGE);
+                        mainMenu.setVisible(true);
+                    }
+                    case "Student ID Taken" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "Failed to create account! There already exists a student with this ID!",
                                 "Create Account", JOptionPane.ERROR_MESSAGE);
                         mainMenu.setVisible(true);
                     }
@@ -454,15 +557,32 @@ public class Client implements Runnable {
                         String newName = bfr.readLine();
                         JOptionPane.showMessageDialog(null,
                                 "Hello " + newName + "! You have successfully changed your name!",
-                                "Sign In", JOptionPane.INFORMATION_MESSAGE);
+                                "Edit Name", JOptionPane.INFORMATION_MESSAGE);
                         teacherSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         teacherSettingsMenu.setVisible(true);
                     }
                     case "Student Edit Name" -> {
                         String newName = bfr.readLine();
+                        System.out.println(newName);
                         JOptionPane.showMessageDialog(null,
                                 "Hello " + newName + "! You have successfully changed your name!",
-                                "Sign In", JOptionPane.INFORMATION_MESSAGE);
+                                "Edit Name", JOptionPane.INFORMATION_MESSAGE);
+                        studentSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        studentSettingsMenu.setVisible(true);
+                    }
+                    case "Teacher Edit Email" -> {
+                        String newEmail = bfr.readLine();
+                        JOptionPane.showMessageDialog(null,
+                                "You have successfully changed your email to " + newEmail,
+                                "Edit Email", JOptionPane.INFORMATION_MESSAGE);
+                        teacherSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        teacherSettingsMenu.setVisible(true);
+                    }
+                    case "Student Edit Email" -> {
+                        String newEmail = bfr.readLine();
+                        JOptionPane.showMessageDialog(null,
+                                "You have successfully changed your email to " + newEmail,
+                                "Edit Email", JOptionPane.INFORMATION_MESSAGE);
                         studentSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         studentSettingsMenu.setVisible(true);
                     }

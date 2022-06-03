@@ -156,33 +156,20 @@ public class Server implements Runnable {
                         writer.flush();
                         break;
                     }
-                    case "Edit Name": {
+                    case "Teacher Edit Name": {
                         String newName = bfr.readLine();
                         String stringID = bfr.readLine();
                         int ID = Integer.parseInt(stringID);
+                        synchronized (race) {
+                            for (int x = 0; x < teachers.size(); x++) {
+                                if (teachers.get(x).getID() == ID) {
+                                    teachers.get(x).setName(newName);
+                                    break;
+                                }
+                            }
+                        }
                         writer = new PrintWriter(this.socket.getOutputStream());
-                        if (stringID.charAt(0) == 1) {
-                            writer.write("Student Edit Name");
-                            synchronized (race) {
-                                for (int x = 0; x < students.size(); x++) {
-                                    if (students.get(x).getID() == ID) {
-                                        students.get(x).setName(newName);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            writer.write("Teacher Edit Name");
-                            synchronized (race) {
-                                for (int x = 0; x < teachers.size(); x++) {
-                                    if (teachers.get(x).getID() == ID) {
-                                        teachers.get(x).setName(newName);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
+                        writer.write("Teacher Edit Name");
                         writer.println();
                         writer.flush();
                         writer.write(newName);
@@ -190,7 +177,69 @@ public class Server implements Runnable {
                         writer.flush();
                         break;
                     }
-
+                    case "Student Edit Name": {
+                        String newName = bfr.readLine();
+                        String stringID = bfr.readLine();
+                        int ID = Integer.parseInt(stringID);
+                        synchronized (race) {
+                            for (int x = 0; x < students.size(); x++) {
+                                if (students.get(x).getID() == ID) {
+                                    students.get(x).setName(newName);
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student Edit Name");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newName);
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Teacher Edit Email": {
+                        String newEmail = bfr.readLine();
+                        String stringID = bfr.readLine();
+                        int ID = Integer.parseInt(stringID);
+                        synchronized (race) {
+                            for (int x = 0; x < teachers.size(); x++) {
+                                if (teachers.get(x).getID() == ID) {
+                                    teachers.get(x).setEmail(newEmail);
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Teacher Edit Email");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newEmail);
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Student Edit Email": {
+                        String newEmail = bfr.readLine();
+                        String stringID = bfr.readLine();
+                        int ID = Integer.parseInt(stringID);
+                        synchronized (race) {
+                            for (int x = 0; x < students.size(); x++) {
+                                if (students.get(x).getID() == ID) {
+                                    students.get(x).setEmail(newEmail);
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student Edit Email");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newEmail);
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
