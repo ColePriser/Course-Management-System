@@ -240,6 +240,82 @@ public class Server implements Runnable {
                         writer.flush();
                         break;
                     }
+                    case "Teacher Edit Password": {
+                        String newPassword = bfr.readLine();
+                        String stringID = bfr.readLine();
+                        int ID = Integer.parseInt(stringID);
+                        synchronized (race) {
+                            for (int x = 0; x < teachers.size(); x++) {
+                                if (teachers.get(x).getID() == ID) {
+                                    teachers.get(x).setPassword(newPassword);
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Teacher Edit Password");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newPassword);
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Student Edit Password": {
+                        String newPassword = bfr.readLine();
+                        String stringID = bfr.readLine();
+                        int ID = Integer.parseInt(stringID);
+                        synchronized (race) {
+                            for (int x = 0; x < students.size(); x++) {
+                                if (students.get(x).getID() == ID) {
+                                    students.get(x).setPassword(newPassword);
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student Edit Password");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newPassword);
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Teacher Delete Account": {
+                        String stringID = bfr.readLine();
+                        int ID = Integer.parseInt(stringID);
+                        synchronized (race) {
+                            for (int x = 0; x < teachers.size(); x++) {
+                                if (teachers.get(x).getID() == ID) {
+                                    teachers.remove(x);
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Teacher Delete Account");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Student Delete Account": {
+                        String stringID = bfr.readLine();
+                        int ID = Integer.parseInt(stringID);
+                        synchronized (race) {
+                            for (int x = 0; x < students.size(); x++) {
+                                if (students.get(x).getID() == ID) {
+                                    students.remove(x);
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student Delete Account");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

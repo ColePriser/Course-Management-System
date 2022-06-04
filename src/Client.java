@@ -402,6 +402,59 @@ public class Client implements Runnable {
             teacherEditEmailButton.addActionListener(teacherEditEmailListener);
 
             /**
+             * When user clicks "Edit Password" in Teacher Settings Menu,
+             * they will be prompted to input a new password.
+             */
+            ActionListener teacherEditPasswordListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == teacherEditPasswordButton) {
+                        teacherSettingsMenu.setVisible(false);
+                        String newPassword;
+                        do {
+                            newPassword = JOptionPane.showInputDialog(null, "Enter your new password.",
+                                    "Edit Password", JOptionPane.QUESTION_MESSAGE);
+                            if ((newPassword == null) || (newPassword.isBlank())) {
+                                JOptionPane.showMessageDialog(null, "Password cannot be empty!", "Edit Password",
+                                        JOptionPane.ERROR_MESSAGE);
+
+                            }
+                        } while ((newPassword == null) || (newPassword.isBlank()));
+                        writer.write("Teacher Edit Password");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newPassword);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(userID));
+                        writer.println();
+                        writer.flush();
+                    }
+                }
+            };
+            teacherEditPasswordButton.addActionListener(teacherEditPasswordListener);
+
+            /**
+             * When user clicks "Delete Account" in Teacher Settings Menu,
+             * their account will be deleted and they will return to the main menu.
+             */
+            ActionListener teacherDeleteAccountListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == teacherDeleteAccountButton) {
+                        teacherSettingsMenu.setVisible(false);
+                        writer.write("Teacher Delete Account");
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(userID));
+                        writer.println();
+                        writer.flush();
+                    }
+                }
+            };
+            teacherDeleteAccountButton.addActionListener(teacherDeleteAccountListener);
+
+            /**
              * When user clicks "Settings" on the Student Menu, they are showed
              * the settings that are specific to a Student.
              */
@@ -481,6 +534,59 @@ public class Client implements Runnable {
                 }
             };
             studentEditEmailButton.addActionListener(studentEditEmailListener);
+
+            /**
+             * When user clicks "Edit Password" in Student Settings Menu,
+             * they will be prompted to input a new password.
+             */
+            ActionListener studentEditPasswordListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == studentEditPasswordButton) {
+                        studentSettingsMenu.setVisible(false);
+                        String newPassword;
+                        do {
+                            newPassword = JOptionPane.showInputDialog(null, "Enter your new password.",
+                                    "Edit Password", JOptionPane.QUESTION_MESSAGE);
+                            if ((newPassword == null) || (newPassword.isBlank())) {
+                                JOptionPane.showMessageDialog(null, "Password cannot be empty!", "Edit Password",
+                                        JOptionPane.ERROR_MESSAGE);
+
+                            }
+                        } while ((newPassword == null) || (newPassword.isBlank()));
+                        writer.write("Student Edit Password");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newPassword);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(userID));
+                        writer.println();
+                        writer.flush();
+                    }
+                }
+            };
+            studentEditPasswordButton.addActionListener(studentEditPasswordListener);
+
+            /**
+             * When user clicks "Delete Account" in Student Settings Menu,
+             * their account will be deleted and they will return to the main menu.
+             */
+            ActionListener studentDeleteAccountListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == studentDeleteAccountButton) {
+                        studentSettingsMenu.setVisible(false);
+                        writer.write("Student Delete Account");
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(userID));
+                        writer.println();
+                        writer.flush();
+                    }
+                }
+            };
+            studentDeleteAccountButton.addActionListener(studentDeleteAccountListener);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -563,7 +669,6 @@ public class Client implements Runnable {
                     }
                     case "Student Edit Name" -> {
                         String newName = bfr.readLine();
-                        System.out.println(newName);
                         JOptionPane.showMessageDialog(null,
                                 "Hello " + newName + "! You have successfully changed your name!",
                                 "Edit Name", JOptionPane.INFORMATION_MESSAGE);
@@ -585,6 +690,30 @@ public class Client implements Runnable {
                                 "Edit Email", JOptionPane.INFORMATION_MESSAGE);
                         studentSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         studentSettingsMenu.setVisible(true);
+                    }
+                    case "Teacher Edit Password" -> {
+                        String newPassword = bfr.readLine();
+                        JOptionPane.showMessageDialog(null,
+                                "You have successfully changed your password to " + newPassword,
+                                "Edit Password", JOptionPane.INFORMATION_MESSAGE);
+                        teacherSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        teacherSettingsMenu.setVisible(true);
+                    }
+                    case "Student Edit Password" -> {
+                        String newPassword = bfr.readLine();
+                        JOptionPane.showMessageDialog(null,
+                                "You have successfully changed your password to " + newPassword,
+                                "Edit Password", JOptionPane.INFORMATION_MESSAGE);
+                        studentSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        studentSettingsMenu.setVisible(true);
+                    }
+                    case "Teacher Delete Account" -> {
+                        mainMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        mainMenu.setVisible(true);
+                    }
+                    case "Student Delete Account" -> {
+                        mainMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        mainMenu.setVisible(true);
                     }
                 }
             } catch (Exception e) {
