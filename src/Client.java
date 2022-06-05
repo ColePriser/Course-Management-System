@@ -18,6 +18,7 @@ public class Client implements Runnable {
     private static JFrame studentMenu = new JFrame("Student Menu");
     private static JFrame teacherSettingsMenu = new JFrame("Teacher Settings");
     private static JFrame studentSettingsMenu = new JFrame("Student Settings");
+    private static JFrame studentAccountInfoMenu = new JFrame("Student Account Info");
 
 
     public static void main(String[] args) {
@@ -148,6 +149,17 @@ public class Client implements Runnable {
                 public void windowClosing(WindowEvent e) {
                     super.windowClosing(e);
                     studentMenu.setVisible(true);
+                }
+            });
+
+            /**
+             * Student Account Info GUI
+             */
+            studentAccountInfoMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            studentAccountInfoMenu.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    super.windowClosing(e);
+                    studentSettingsMenu.setVisible(true);
                 }
             });
 
@@ -588,6 +600,26 @@ public class Client implements Runnable {
             };
             studentDeleteAccountButton.addActionListener(studentDeleteAccountListener);
 
+            /**
+             * When user clicks "View Account Info" in Student Settings Menu,
+             * their ID, name, email, and password will be shown.
+             */
+            ActionListener studentViewAccountInfoListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == studentViewAccountInfoButton) {
+                        studentSettingsMenu.setVisible(false);
+                        writer.write("Student View Account Info");
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(userID));
+                        writer.println();
+                        writer.flush();
+                    }
+                }
+            };
+            studentViewAccountInfoButton.addActionListener(studentViewAccountInfoListener);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -714,6 +746,27 @@ public class Client implements Runnable {
                     case "Student Delete Account" -> {
                         mainMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         mainMenu.setVisible(true);
+                    }
+                    case "Student View Account Info" -> {
+                        String name = bfr.readLine();
+                        String email = bfr.readLine();
+                        String password = bfr.readLine();
+                        JPanel studentAccountInfoPanel = new JPanel();
+                        Container studentAccountInfoContainer = studentAccountInfoMenu.getContentPane();
+                        studentAccountInfoContainer.setLayout(new BorderLayout());
+                        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                        studentAccountInfoPanel.setSize(screenSize.width, screenSize.height);
+                        JTextField studentID = new JTextField("Your ID is: " + Integer.toString(userID) + "\n");
+                        JTextField studentName = new JTextField("Your name is: " + name + "\n");
+                        JTextField studentEmail = new JTextField("Your email is: " + email + "\n");
+                        JTextField studentPassword = new JTextField("Your password is: " + password + "\n");
+                        studentAccountInfoPanel.add(studentID);
+                        studentAccountInfoPanel.add(studentName);
+                        studentAccountInfoPanel.add(studentEmail);
+                        studentAccountInfoPanel.add(studentPassword);
+                        studentAccountInfoContainer.add(studentAccountInfoPanel, BorderLayout.CENTER);
+                        studentAccountInfoMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        studentAccountInfoMenu.setVisible(true);
                     }
                 }
             } catch (Exception e) {

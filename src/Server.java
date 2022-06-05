@@ -264,11 +264,13 @@ public class Server implements Runnable {
                     case "Student Edit Password": {
                         String newPassword = bfr.readLine();
                         String stringID = bfr.readLine();
+                        String temp = "temp";
                         int ID = Integer.parseInt(stringID);
                         synchronized (race) {
                             for (int x = 0; x < students.size(); x++) {
                                 if (students.get(x).getID() == ID) {
                                     students.get(x).setPassword(newPassword);
+                                    temp = students.get(x).getPassword();
                                     break;
                                 }
                             }
@@ -277,7 +279,7 @@ public class Server implements Runnable {
                         writer.write("Student Edit Password");
                         writer.println();
                         writer.flush();
-                        writer.write(newPassword);
+                        writer.write(temp);
                         writer.println();
                         writer.flush();
                         break;
@@ -312,6 +314,37 @@ public class Server implements Runnable {
                         }
                         writer = new PrintWriter(this.socket.getOutputStream());
                         writer.write("Student Delete Account");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Student View Account Info": {
+                        String stringID = bfr.readLine();
+                        int ID = Integer.parseInt(stringID);
+                        String name = "";
+                        String email = "";
+                        String password = "";
+                        synchronized (race) {
+                            for (int x = 0; x < students.size(); x++) {
+                                if (students.get(x).getID() == ID) {
+                                    name = students.get(x).getName();
+                                    email = students.get(x).getEmail();
+                                    password = students.get(x).getPassword();
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student View Account Info");
+                        writer.println();
+                        writer.flush();
+                        writer.write(name);
+                        writer.println();
+                        writer.flush();
+                        writer.write(email);
+                        writer.println();
+                        writer.flush();
+                        writer.write(password);
                         writer.println();
                         writer.flush();
                         break;
