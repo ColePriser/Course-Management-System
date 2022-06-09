@@ -1,9 +1,11 @@
+import java.util.ArrayList;
+
 public class Person {
+    private ArrayList<Course> enrolledCourses; //courses person is enrolled in
     private int ID; //ID of person
     private String name; //name of person
     private String email; //email of person
     private String password; //password of person
-    private String textFile; //text file for person
 
     /**
      * Constructor for Person.java
@@ -17,15 +19,14 @@ public class Person {
         this.ID = ID;
         this.email = email;
         this.password = password;
-        this.textFile = email + ".txt";
+    }
+
+    public void addCourse(Course course) {
+        this.enrolledCourses.add(course);
     }
 
     public int getID() {
         return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     public String getName() {
@@ -50,13 +51,5 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getTextFile() {
-        return textFile;
-    }
-
-    public void setTextFile(String textFile) {
-        this.textFile = textFile;
     }
 }
