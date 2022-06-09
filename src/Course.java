@@ -18,8 +18,4 @@ public class Course {
     public int getCourseID() {
         return courseID;
     }
-
-    public void setCourseID(int courseID) {
-        this.courseID = courseID;
-    }
 }
