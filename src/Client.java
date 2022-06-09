@@ -12,6 +12,9 @@ public class Client implements Runnable {
     private static BufferedReader bfr; //BufferedReader object
     private static PrintWriter writer; //PrintWriter object
     private static int userID; //ID of user
+    private static String userName; //Name of user
+    private static String userEmail; //Email of user
+    private static String userPassword; //Password of user
 
     private static JFrame mainMenu = new JFrame("Main Menu");
     private static JFrame teacherMenu = new JFrame("Teacher Menu");
@@ -19,6 +22,11 @@ public class Client implements Runnable {
     private static JFrame teacherSettingsMenu = new JFrame("Teacher Settings");
     private static JFrame studentSettingsMenu = new JFrame("Student Settings");
     private static JFrame studentAccountInfoMenu = new JFrame("Student Account Info");
+    private static JTextField studentID;
+    private static JTextField studentName;
+    private static JTextField studentEmail;
+    private static JTextField studentPassword;
+
 
 
     public static void main(String[] args) {
@@ -67,10 +75,12 @@ public class Client implements Runnable {
             Container teacherMenuContainer = teacherMenu.getContentPane();
             teacherMenuContainer.setLayout(new BorderLayout());
             teacherPanel.setSize(screenSize.width, screenSize.height);
+            JButton teacherViewCoursesButton = new JButton("View Courses");
+            JButton teacherCreateCourseButton = new JButton("Create New Course");
             JButton teacherSettingsButton = new JButton("Settings");
-            JButton teacherManageCoursesButton = new JButton("Manage Courses");
+            teacherPanel.add(teacherViewCoursesButton);
+            teacherPanel.add(teacherCreateCourseButton);
             teacherPanel.add(teacherSettingsButton);
-            teacherPanel.add(teacherManageCoursesButton);
             teacherMenuContainer.add(teacherPanel, BorderLayout.CENTER);
             teacherMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             teacherMenu.addWindowListener(new WindowAdapter() {
@@ -113,10 +123,12 @@ public class Client implements Runnable {
             Container studentMenuContainer = studentMenu.getContentPane();
             studentMenuContainer.setLayout(new BorderLayout());
             studentPanel.setSize(screenSize.width, screenSize.height);
+            JButton studentViewEnrolledCoursesButton = new JButton("View Enrolled Courses");
+            JButton studentAddCourseButton = new JButton("Add New Course");
             JButton studentSettingsButton = new JButton("Settings");
-            JButton studentManageCoursesButton = new JButton("Manage Courses");
+            studentPanel.add(studentViewEnrolledCoursesButton);
+            studentPanel.add(studentAddCourseButton);
             studentPanel.add(studentSettingsButton);
-            studentPanel.add(studentManageCoursesButton);
             studentMenuContainer.add(studentPanel, BorderLayout.CENTER);
             studentMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             studentMenu.addWindowListener(new WindowAdapter() {
@@ -331,6 +343,63 @@ public class Client implements Runnable {
                 }
             };
             signInButton.addActionListener(signInListener);
+
+            /**
+             * When user clicks "Create New Course" in Teacher Menu,
+             * they will be prompted to input a course name and ID.
+             */
+            ActionListener teacherCreateCourseListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == teacherCreateCourseButton) {
+                        teacherMenu.setVisible(false);
+                        String courseName = "";
+                        do {
+                            courseName = JOptionPane.showInputDialog(null, "Enter the name of your course.",
+                                    "Create New Course", JOptionPane.QUESTION_MESSAGE);
+                            if ((courseName == null) || (courseName.isBlank())) {
+                                JOptionPane.showMessageDialog(null, "Course Name cannot be empty!", "Create New Course",
+                                        JOptionPane.ERROR_MESSAGE);
+
+                            }
+                        } while ((courseName == null) || (courseName.isBlank()));
+                        int courseID = 0;
+                        boolean IDError = true;
+                        boolean IDLengthError = true;
+                        do {
+                            IDError = false;
+                            IDLengthError = false;
+                            try {
+                                courseID = Integer.parseInt(JOptionPane.showInputDialog(null, "What is the Course ID?",
+                                        "Create New Course",
+                                        JOptionPane.QUESTION_MESSAGE));
+                            } catch (NumberFormatException ime) {
+                                JOptionPane.showMessageDialog(null, "ID can only contain numbers!", "Create New Course",
+                                        JOptionPane.ERROR_MESSAGE);
+                                IDError = true;
+                            }
+                            if (!IDError && String.valueOf(courseID).length() != 5) {
+                                JOptionPane.showMessageDialog(null, "ID must have length of 5!", "Create New Course",
+                                        JOptionPane.ERROR_MESSAGE);
+                                IDLengthError = true;
+                            }
+                        } while (IDError || IDLengthError);
+                        writer.write("Create New Course");
+                        writer.println();
+                        writer.flush();
+                        writer.write(courseName);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(courseID));
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(userID));
+                        writer.println();
+                        writer.flush();
+                    }
+                }
+            };
+            teacherCreateCourseButton.addActionListener(teacherCreateCourseListener);
 
             /**
              * When user clicks "Settings" on the Teacher Menu, they are showed
@@ -648,6 +717,9 @@ public class Client implements Runnable {
                         mainMenu.setVisible(true);
                     }
                     case "Teacher Sign In Success" -> {
+                        userName = bfr.readLine();
+                        userEmail = bfr.readLine();
+                        userPassword = bfr.readLine();
                         JOptionPane.showMessageDialog(null,
                                 "You have signed in successfully!",
                                 "Sign In", JOptionPane.INFORMATION_MESSAGE);
@@ -668,6 +740,9 @@ public class Client implements Runnable {
                         mainMenu.setVisible(true);
                     }
                     case "Student Sign In Success" -> {
+                        userName = bfr.readLine();
+                        userEmail = bfr.readLine();
+                        userPassword = bfr.readLine();
                         JOptionPane.showMessageDialog(null,
                                 "You have signed in successfully!",
                                 "Sign In", JOptionPane.INFORMATION_MESSAGE);
@@ -681,6 +756,28 @@ public class Client implements Runnable {
                                 "Create Account", JOptionPane.ERROR_MESSAGE);
                         mainMenu.setVisible(true);
                     }
+                    case "New Course Created" -> {
+                        String courseName = bfr.readLine();
+                        String courseID = bfr.readLine();
+                        JOptionPane.showMessageDialog(null,
+                                "The Course " + courseName + "with ID: " + courseID +
+                                        "has been made successfully!",
+                                "Create New Course", JOptionPane.INFORMATION_MESSAGE);
+                        teacherMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        teacherMenu.setVisible(true);
+                        System.out.print("success");
+                    }
+                    case "Course ID Taken" -> {
+                        System.out.print("taken");
+                        String courseName = bfr.readLine();
+                        String courseID = bfr.readLine();
+                        JOptionPane.showMessageDialog(null,
+                                "The Course " + courseName + "with ID: " + courseID +
+                                        "can't be made, as this Course ID is taken!",
+                                "Create New Course", JOptionPane.ERROR_MESSAGE);
+                        teacherMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        teacherMenu.setVisible(true);
+                    }
                     case "Open Teacher Settings" -> {
                         teacherMenu.setVisible(false);
                         teacherSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -692,50 +789,53 @@ public class Client implements Runnable {
                         studentSettingsMenu.setVisible(true);
                     }
                     case "Teacher Edit Name" -> {
-                        String newName = bfr.readLine();
+                        userName = bfr.readLine();
                         JOptionPane.showMessageDialog(null,
-                                "Hello " + newName + "! You have successfully changed your name!",
+                                "Hello " + userName + "! You have successfully changed your name!",
                                 "Edit Name", JOptionPane.INFORMATION_MESSAGE);
                         teacherSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         teacherSettingsMenu.setVisible(true);
                     }
                     case "Student Edit Name" -> {
-                        String newName = bfr.readLine();
+                        userName = bfr.readLine();
                         JOptionPane.showMessageDialog(null,
-                                "Hello " + newName + "! You have successfully changed your name!",
+                                "Hello " + userName + "! You have successfully changed your name!",
                                 "Edit Name", JOptionPane.INFORMATION_MESSAGE);
+                        studentAccountInfoMenu.remove(studentName);
                         studentSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         studentSettingsMenu.setVisible(true);
                     }
                     case "Teacher Edit Email" -> {
-                        String newEmail = bfr.readLine();
+                        userEmail = bfr.readLine();
                         JOptionPane.showMessageDialog(null,
-                                "You have successfully changed your email to " + newEmail,
+                                "You have successfully changed your email to " + userEmail,
                                 "Edit Email", JOptionPane.INFORMATION_MESSAGE);
                         teacherSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         teacherSettingsMenu.setVisible(true);
                     }
                     case "Student Edit Email" -> {
-                        String newEmail = bfr.readLine();
+                        userEmail = bfr.readLine();
                         JOptionPane.showMessageDialog(null,
-                                "You have successfully changed your email to " + newEmail,
+                                "You have successfully changed your email to " + userEmail,
                                 "Edit Email", JOptionPane.INFORMATION_MESSAGE);
+                        studentAccountInfoMenu.remove(studentEmail);
                         studentSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         studentSettingsMenu.setVisible(true);
                     }
                     case "Teacher Edit Password" -> {
-                        String newPassword = bfr.readLine();
+                        userPassword = bfr.readLine();
                         JOptionPane.showMessageDialog(null,
-                                "You have successfully changed your password to " + newPassword,
+                                "You have successfully changed your password to " + userPassword,
                                 "Edit Password", JOptionPane.INFORMATION_MESSAGE);
                         teacherSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         teacherSettingsMenu.setVisible(true);
                     }
                     case "Student Edit Password" -> {
-                        String newPassword = bfr.readLine();
+                        userPassword = bfr.readLine();
                         JOptionPane.showMessageDialog(null,
-                                "You have successfully changed your password to " + newPassword,
+                                "You have successfully changed your password to " + userPassword,
                                 "Edit Password", JOptionPane.INFORMATION_MESSAGE);
+                        studentAccountInfoMenu.remove(studentPassword);
                         studentSettingsMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         studentSettingsMenu.setVisible(true);
                     }
@@ -756,10 +856,10 @@ public class Client implements Runnable {
                         studentAccountInfoContainer.setLayout(new BorderLayout());
                         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                         studentAccountInfoPanel.setSize(screenSize.width, screenSize.height);
-                        JTextField studentID = new JTextField("Your ID is: " + Integer.toString(userID) + "\n");
-                        JTextField studentName = new JTextField("Your name is: " + name + "\n");
-                        JTextField studentEmail = new JTextField("Your email is: " + email + "\n");
-                        JTextField studentPassword = new JTextField("Your password is: " + password + "\n");
+                        studentID = new JTextField("Your ID is: " + Integer.toString(userID) + "\n");
+                        studentName = new JTextField("Your name is: " + name + "\n");
+                        studentEmail = new JTextField("Your email is: " + email + "\n");
+                        studentPassword = new JTextField("Your password is: " + password + "\n");
                         studentAccountInfoPanel.add(studentID);
                         studentAccountInfoPanel.add(studentName);
                         studentAccountInfoPanel.add(studentEmail);
