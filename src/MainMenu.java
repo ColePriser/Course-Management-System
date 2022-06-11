@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.PrintWriter;
 
 public class MainMenu extends JFrame {
     private int userID; //ID of user
@@ -9,9 +12,11 @@ public class MainMenu extends JFrame {
     private String userEmail; //Email of user
     private String userPassword; //Password of user
 
+    private boolean close = false;
+
     private JPanel mainMenuPanel;
     private JButton createNewAccountButton;
-    private JButton signInToAccountButton;
+    private JButton logInToAccountButton;
 
     public MainMenu() {
         setContentPane(mainMenuPanel);
@@ -23,19 +28,36 @@ public class MainMenu extends JFrame {
         setIconImage(logo);
         setVisible(true);
 
-        createNewAccountButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                CreateAccountMenu createAct = new CreateAccountMenu();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                User.writer.write("Close");
+                User.writer.println();
+                User.writer.flush();
             }
         });
 
-        signInToAccountButton.addActionListener(new ActionListener() {
+        createNewAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
+                User.writer.write("Main Menu Create Account");
+                User.writer.println();
+                User.writer.flush();
             }
         });
+
+        logInToAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User.writer.write("Main Menu Log In");
+                User.writer.println();
+                User.writer.flush();
+            }
+        });
+    }
+
+    public boolean getClose() {
+        return close;
     }
 }

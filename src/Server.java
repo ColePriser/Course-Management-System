@@ -28,8 +28,7 @@ public class Server implements Runnable {
             try {
                 String messageFromClient = bfr.readLine();
                 switch (messageFromClient) {
-                    case "Main Menu Close": {
-
+                    case "Close": {
                         /**
                          * Since the client closes the Course Management System
                          * and wants to end the program, they are removed from the list of clients.
@@ -42,6 +41,19 @@ public class Server implements Runnable {
                                 }
                             }
                         }
+                        System.out.println("close");
+                    }
+                    case "Main Menu Create Account": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Create Account");
+                        writer.println();
+                        writer.flush();
+                    }
+                    case "Main Menu Log In": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Log In");
+                        writer.println();
+                        writer.flush();
                     }
                     case "Create Teacher Account": {
                         String name = bfr.readLine();
