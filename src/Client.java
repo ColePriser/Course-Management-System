@@ -27,8 +27,6 @@ public class Client implements Runnable {
     private static JTextField studentEmail;
     private static JTextField studentPassword;
 
-
-
     public static void main(String[] args) {
         Thread client = new Thread(new Client());
         client.start();
