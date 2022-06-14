@@ -4,15 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.PrintWriter;
 
 public class MainMenu extends JFrame {
     private int userID; //ID of user
     private String userName; //Name of user
     private String userEmail; //Email of user
     private String userPassword; //Password of user
-
-    private boolean close = false;
 
     private JPanel mainMenuPanel;
     private JButton createNewAccountButton;
@@ -38,26 +35,26 @@ public class MainMenu extends JFrame {
             }
         });
 
-        createNewAccountButton.addActionListener(new ActionListener() {
+        ActionListener createNewAccountListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.writer.write("Main Menu Create Account");
-                User.writer.println();
-                User.writer.flush();
+                if (e.getSource() == createNewAccountButton) {
+                    User.mainMenuFrame.setVisible(false);
+                    User.createActFrame.setVisible(true);
+                }
             }
-        });
+        };
+        createNewAccountButton.addActionListener(createNewAccountListener);
 
-        logInToAccountButton.addActionListener(new ActionListener() {
+        ActionListener logInToAccountListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.writer.write("Main Menu Log In");
-                User.writer.println();
-                User.writer.flush();
+                if (e.getSource() == logInToAccountButton) {
+                    User.mainMenuFrame.setVisible(false);
+                    User.logInFrame.setVisible(true);
+                }
             }
-        });
-    }
-
-    public boolean getClose() {
-        return close;
+        };
+        logInToAccountButton.addActionListener(logInToAccountListener);
     }
 }
