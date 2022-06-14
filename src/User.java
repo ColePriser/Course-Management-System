@@ -1,9 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 
@@ -17,9 +12,10 @@ public class User implements Runnable {
     private static String userEmail; //Email of user
     private static String userPassword; //Password of user
 
-    private static MainMenu mainMenuFrame;
-    private static CreateAccountMenu createActFrame;
-    private static LogInMenu logInFrame;
+    public static MainMenu mainMenuFrame;
+    public static CreateAccountMenu createActFrame;
+    public static LogInMenu logInFrame;
+    public static TeacherMenu teacherFrame;
 
     public static void main(String[] args) {
         Thread user = new Thread(new User());
@@ -52,70 +48,62 @@ public class User implements Runnable {
                     continue;
                 }
                 switch (messageFromServer) {
-                    case "Create Account" -> {
-                        mainMenuFrame.setVisible(false);
-                        createActFrame.setVisible(true);
-                        System.out.println("create act");
-                    }
-                    case "Log In" -> {
-                        mainMenuFrame.setVisible(false);
-                        logInFrame.setVisible(true);
-                    }
-                    case "Teacher Account Created Success", "Student Account Created Success" -> {
-                        JOptionPane.showMessageDialog(null,
-                                "Your account has been made successfully!",
-                                "Create Account", JOptionPane.INFORMATION_MESSAGE);
-                        mainMenuFrame.setVisible(true);
-                    }
                     case "Teacher ID Taken" -> {
                         JOptionPane.showMessageDialog(null,
                                 "Failed to create account! There already exists a teacher with this ID!",
                                 "Create Account", JOptionPane.ERROR_MESSAGE);
-                        mainMenuFrame.setVisible(true);
-                    }
-                    case "Teacher Sign In Success" -> {
-                        userName = bfr.readLine();
-                        userEmail = bfr.readLine();
-                        userPassword = bfr.readLine();
-                        JOptionPane.showMessageDialog(null,
-                                "You have signed in successfully!",
-                                "Sign In", JOptionPane.INFORMATION_MESSAGE);
-                        mainMenuFrame.setVisible(false);
-                        //teacherMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                        //teacherMenu.setVisible(true);
-                    }
-                    case "Teacher Sign In Failed" -> {
-                        JOptionPane.showMessageDialog(null,
-                                "No teacher account exists with the given ID and password.",
-                                "Create Account", JOptionPane.ERROR_MESSAGE);
+                        createActFrame.setVisible(false);
                         mainMenuFrame.setVisible(true);
                     }
                     case "Student ID Taken" -> {
                         JOptionPane.showMessageDialog(null,
                                 "Failed to create account! There already exists a student with this ID!",
                                 "Create Account", JOptionPane.ERROR_MESSAGE);
+                        createActFrame.setVisible(false);
                         mainMenuFrame.setVisible(true);
                     }
-                    case "Student Sign In Success" -> {
+                    case "Student Account Created Success", "Teacher Account Created Success" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "Your account has been made successfully!",
+                                "Create Account", JOptionPane.INFORMATION_MESSAGE);
+                        createActFrame.setVisible(false);
+                        mainMenuFrame.setVisible(true);
+                    }
+                    case "Log In Both Checked", "Log In Neither Checked" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "Choose either Student or Teacher!",
+                                "Log In", JOptionPane.ERROR_MESSAGE);
+                    }
+                    case "Log In Teacher Success" -> {
                         userName = bfr.readLine();
                         userEmail = bfr.readLine();
                         userPassword = bfr.readLine();
+                        userID = Integer.parseInt(bfr.readLine());
                         JOptionPane.showMessageDialog(null,
-                                "You have signed in successfully!",
-                                "Sign In", JOptionPane.INFORMATION_MESSAGE);
-                        mainMenuFrame.setVisible(false);
-                        //studentMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                        //studentMenu.setVisible(true);
+                                "You have logged in successfully!",
+                                "Log In", JOptionPane.INFORMATION_MESSAGE);
+                        logInFrame.setVisible(false);
                     }
-                    case "Student Sign In Failed" -> {
+                    case "Log In Student Success" -> {
+                        userName = bfr.readLine();
+                        userEmail = bfr.readLine();
+                        userPassword = bfr.readLine();
+                        userID = Integer.parseInt(bfr.readLine());
                         JOptionPane.showMessageDialog(null,
-                                "No student account exists with the given ID and password.",
+                                "You have logged in successfully!",
+                                "Log In", JOptionPane.INFORMATION_MESSAGE);
+                        logInFrame.setVisible(false);
+                    }
+                    case "Log In Failure" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "Failed to create account! There already exists an account with this ID!",
                                 "Create Account", JOptionPane.ERROR_MESSAGE);
+                        logInFrame.setVisible(false);
                         mainMenuFrame.setVisible(true);
                     }
                 }
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
