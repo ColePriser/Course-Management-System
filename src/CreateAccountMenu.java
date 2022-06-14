@@ -22,19 +22,67 @@ public class CreateAccountMenu extends JFrame {
         ImageIcon logoIcon = new ImageIcon("book.png");
         Image logo = logoIcon.getImage();
         setIconImage(logo);
+        setVisible(false);
 
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean prevError = true;
+                String pass = String.valueOf(passwordField.getPassword());
                 if (studentCheckBox.isSelected() && teacherCheckBox.isSelected()) {
-                    User.writer.write("Create Account Both Checked");
-                    User.writer.println();
-                    User.writer.flush();
+                    JOptionPane.showMessageDialog(null,
+                            "Choose either Student or Teacher!",
+                            "Create Account", JOptionPane.ERROR_MESSAGE);
+                    prevError = false;
                 }
                 else if (!studentCheckBox.isSelected() && !teacherCheckBox.isSelected()) {
-                    User.writer.write("Create Account Neither Checked");
-                    User.writer.println();
-                    User.writer.flush();
+                    JOptionPane.showMessageDialog(null,
+                            "Choose either Student or Teacher!",
+                            "Create Account", JOptionPane.ERROR_MESSAGE);
+                    prevError = false;
+                }
+                else if (nameField.getText() == null || nameField.getText().isBlank()) {
+                    JOptionPane.showMessageDialog(null, "Name cannot be empty!",
+                            "Create Account", JOptionPane.ERROR_MESSAGE);
+                    prevError = false;
+                }
+                else if (emailField.getText() == null || emailField.getText().isBlank()) {
+                    JOptionPane.showMessageDialog(null, "Email cannot be empty!",
+                            "Create Account", JOptionPane.ERROR_MESSAGE);
+                    prevError = false;
+                }
+                else if (pass == null) {
+                    JOptionPane.showMessageDialog(null, "Password cannot be empty!",
+                            "Create Account", JOptionPane.ERROR_MESSAGE);
+                    prevError = false;
+                }
+                int ID = 0;
+                if (prevError) {
+                    try {
+                        ID = Integer.parseInt(IDField.getText());
+                    } catch (NumberFormatException ime) {
+                        JOptionPane.showMessageDialog(null, "ID can only contain numbers!", "Create Account",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else if (String.valueOf(ID).length() != 7) {
+                    JOptionPane.showMessageDialog(null, "ID must have length of 7!", "Create Account",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+                else if (teacherCheckBox.isSelected()) {
+                    if (String.valueOf(ID).charAt(0) != '2') {
+                        JOptionPane.showMessageDialog(null, "Teacher Accounts must have ID number that starts with '2'!",
+                                "Create Account",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else if (studentCheckBox.isSelected()) {
+                    if (String.valueOf(ID).charAt(0) != '1') {
+                        JOptionPane.showMessageDialog(null, "Student Accounts must have ID number that starts with '1'!",
+                                "Create Account",
+                                JOptionPane.ERROR_MESSAGE);
+
+                    }
                 }
                 else if (studentCheckBox.isSelected()) {
                     User.writer.write("Create Student Account");
@@ -70,6 +118,14 @@ public class CreateAccountMenu extends JFrame {
                     User.writer.println();
                     User.writer.flush();
                 }
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User.createActFrame.setVisible(false);
+                User.mainMenuFrame.setVisible(true);
             }
         });
     }
