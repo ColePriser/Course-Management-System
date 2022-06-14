@@ -27,62 +27,53 @@ public class CreateAccountMenu extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean prevError = true;
-                String pass = String.valueOf(passwordField.getPassword());
+                boolean idError = false;
+                int ID = 0;
+                try {
+                    ID = Integer.parseInt(IDField.getText());
+                } catch (NumberFormatException ime) {
+                    idError = true;
+                }
                 if (studentCheckBox.isSelected() && teacherCheckBox.isSelected()) {
                     JOptionPane.showMessageDialog(null,
                             "Choose either Student or Teacher!",
                             "Create Account", JOptionPane.ERROR_MESSAGE);
-                    prevError = false;
                 }
                 else if (!studentCheckBox.isSelected() && !teacherCheckBox.isSelected()) {
                     JOptionPane.showMessageDialog(null,
                             "Choose either Student or Teacher!",
                             "Create Account", JOptionPane.ERROR_MESSAGE);
-                    prevError = false;
                 }
                 else if (nameField.getText() == null || nameField.getText().isBlank()) {
                     JOptionPane.showMessageDialog(null, "Name cannot be empty!",
                             "Create Account", JOptionPane.ERROR_MESSAGE);
-                    prevError = false;
                 }
                 else if (emailField.getText() == null || emailField.getText().isBlank()) {
                     JOptionPane.showMessageDialog(null, "Email cannot be empty!",
                             "Create Account", JOptionPane.ERROR_MESSAGE);
-                    prevError = false;
                 }
-                else if (pass == null) {
+                else if (String.valueOf(passwordField.getPassword()).isBlank()) {
                     JOptionPane.showMessageDialog(null, "Password cannot be empty!",
                             "Create Account", JOptionPane.ERROR_MESSAGE);
-                    prevError = false;
                 }
-                int ID = 0;
-                if (prevError) {
-                    try {
-                        ID = Integer.parseInt(IDField.getText());
-                    } catch (NumberFormatException ime) {
-                        JOptionPane.showMessageDialog(null, "ID can only contain numbers!", "Create Account",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
+                else if (idError) {
+                    JOptionPane.showMessageDialog(null, "ID can only contain numbers!", "Create Account",
+                            JOptionPane.ERROR_MESSAGE);
                 }
                 else if (String.valueOf(ID).length() != 7) {
                     JOptionPane.showMessageDialog(null, "ID must have length of 7!", "Create Account",
                             JOptionPane.ERROR_MESSAGE);
                 }
-                else if (teacherCheckBox.isSelected()) {
-                    if (String.valueOf(ID).charAt(0) != '2') {
-                        JOptionPane.showMessageDialog(null, "Teacher Accounts must have ID number that starts with '2'!",
-                                "Create Account",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
+                else if (teacherCheckBox.isSelected() && String.valueOf(ID).charAt(0) != '2') {
+                    JOptionPane.showMessageDialog(null, "Teacher Accounts must have ID number that starts with '2'!",
+                            "Create Account",
+                            JOptionPane.ERROR_MESSAGE);
                 }
-                else if (studentCheckBox.isSelected()) {
-                    if (String.valueOf(ID).charAt(0) != '1') {
-                        JOptionPane.showMessageDialog(null, "Student Accounts must have ID number that starts with '1'!",
-                                "Create Account",
-                                JOptionPane.ERROR_MESSAGE);
+                else if (studentCheckBox.isSelected() && String.valueOf(ID).charAt(0) != '1') {
+                    JOptionPane.showMessageDialog(null, "Student Accounts must have ID number that starts with '1'!",
+                            "Create Account",
+                            JOptionPane.ERROR_MESSAGE);
 
-                    }
                 }
                 else if (studentCheckBox.isSelected()) {
                     User.writer.write("Create Student Account");
@@ -94,7 +85,7 @@ public class CreateAccountMenu extends JFrame {
                     User.writer.write(emailField.getText());
                     User.writer.println();
                     User.writer.flush();
-                    User.writer.write(passwordField.getPassword());
+                    User.writer.write(String.valueOf(passwordField.getPassword()));
                     User.writer.println();
                     User.writer.flush();
                     User.writer.write(IDField.getText());
@@ -111,7 +102,7 @@ public class CreateAccountMenu extends JFrame {
                     User.writer.write(emailField.getText());
                     User.writer.println();
                     User.writer.flush();
-                    User.writer.write(passwordField.getPassword());
+                    User.writer.write(String.valueOf(passwordField.getPassword()));
                     User.writer.println();
                     User.writer.flush();
                     User.writer.write(IDField.getText());
