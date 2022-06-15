@@ -16,6 +16,7 @@ public class User implements Runnable {
     public static CreateAccountMenu createActFrame;
     public static LogInMenu logInFrame;
     public static TeacherMenu teacherFrame;
+    public static StudentMenu studentFrame;
 
     public static void main(String[] args) {
         Thread user = new Thread(new User());
@@ -83,6 +84,7 @@ public class User implements Runnable {
                                 "You have logged in successfully!",
                                 "Log In", JOptionPane.INFORMATION_MESSAGE);
                         logInFrame.setVisible(false);
+                        teacherFrame.setVisible(true);
                     }
                     case "Log In Student Success" -> {
                         userName = bfr.readLine();
@@ -93,6 +95,7 @@ public class User implements Runnable {
                                 "You have logged in successfully!",
                                 "Log In", JOptionPane.INFORMATION_MESSAGE);
                         logInFrame.setVisible(false);
+                        studentFrame.setVisible(true);
                     }
                     case "Log In Failure" -> {
                         JOptionPane.showMessageDialog(null,
