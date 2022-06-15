@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class LogInMenu extends JFrame {
     private JCheckBox teacherCheckBox;
@@ -21,44 +23,16 @@ public class LogInMenu extends JFrame {
         Image logo = logoIcon.getImage();
         setIconImage(logo);
         setVisible(false);
-/*
-        ActionListener submitListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == submitButton) {
-                    if (studentCheckBox.isSelected() && teacherCheckBox.isSelected()) {
-                        User.writer.write("Log In Menu Both Checked");
-                        User.writer.println();
-                        User.writer.flush();
-                    } else if (!studentCheckBox.isSelected() && !teacherCheckBox.isSelected()) {
-                        User.writer.write("Log In Menu Neither Checked");
-                        User.writer.println();
-                        User.writer.flush();
-                    } else if (studentCheckBox.isSelected()) {
-                        User.writer.write("Log In Menu Student Account");
-                        User.writer.println();
-                        User.writer.flush();
-                        User.writer.write(IDField.getText());
-                        User.writer.println();
-                        User.writer.flush();
-                        User.writer.write(passwordField1.getPassword());
-                        User.writer.println();
-                        User.writer.flush();
-                    } else if (teacherCheckBox.isSelected()) {
-                        User.writer.write("Log In Menu Teacher Account");
-                        User.writer.println();
-                        User.writer.flush();
-                        User.writer.write(IDField.getText());
-                        User.writer.println();
-                        User.writer.flush();
-                        User.writer.write(passwordField1.getPassword());
-                        User.writer.println();
-                        User.writer.flush();
-                    }
-                }
+
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                User.writer.write("Close");
+                User.writer.println();
+                User.writer.flush();
             }
-        };
-        submitButton.addActionListener(submitListener);*/
+        });
 
         submitButton.addActionListener(new ActionListener() {
             @Override
