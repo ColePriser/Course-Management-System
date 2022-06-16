@@ -2,10 +2,11 @@ import java.util.ArrayList;
 
 public class Person {
     private ArrayList<Course> enrolledCourses; //courses person is enrolled in
-    private int ID; //ID of person
+    private final int ID; //ID of person
     private String name; //name of person
     private String email; //email of person
     private String password; //password of person
+    private int numEnrolledCourses; //number of courses a person is enrolled in
 
     /**
      * Constructor for Person.java
@@ -19,6 +20,7 @@ public class Person {
         this.ID = ID;
         this.email = email;
         this.password = password;
+        this.numEnrolledCourses = 0;
     }
 
     public void addCourse(Course course) {
@@ -51,5 +53,17 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getNumEnrolledCourses() {
+        return numEnrolledCourses;
+    }
+
+    public void incrementNumEnrolledCourses () {
+        this.numEnrolledCourses++;
+    }
+
+    public void decrementNumEnrolledCourses () {
+        this.numEnrolledCourses--;
     }
 }
