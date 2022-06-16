@@ -33,6 +33,14 @@ public class StudentMenu extends JFrame {
             }
         });
 
+        settingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User.studentFrame.setVisible(false);
+                User.studentSettingsFrame.setVisible(true);
+            }
+        });
+
         returnToMainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
