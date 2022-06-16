@@ -2,21 +2,22 @@ import javax.swing.*;
 import java.net.*;
 import java.io.*;
 
-
 public class User implements Runnable {
     public static Socket socket; //Socket object
     public static BufferedReader bfr; //BufferedReader object
     public static PrintWriter writer; //PrintWriter object
-    private static int userID; //ID of user
-    private static String userName; //Name of user
-    private static String userEmail; //Email of user
-    private static String userPassword; //Password of user
+    public static int userID; //ID of user
+    public static String userName; //Name of user
+    public static String userEmail; //Email of user
+    public static String userPassword; //Password of user
 
     public static MainMenu mainMenuFrame;
     public static CreateAccountMenu createActFrame;
     public static LogInMenu logInFrame;
     public static TeacherMenu teacherFrame;
     public static StudentMenu studentFrame;
+    public static TeacherSettingsMenu teacherSettingsFrame;
+    public static StudentSettingsMenu studentSettingsFrame;
 
     public static void main(String[] args) {
         Thread user = new Thread(new User());
@@ -32,6 +33,10 @@ public class User implements Runnable {
             mainMenuFrame = new MainMenu();
             createActFrame = new CreateAccountMenu();
             logInFrame = new LogInMenu();
+            teacherFrame = new TeacherMenu();
+            studentFrame = new StudentMenu();
+            teacherSettingsFrame = new TeacherSettingsMenu();
+            studentSettingsFrame = new StudentSettingsMenu();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,8 +104,8 @@ public class User implements Runnable {
                     }
                     case "Log In Failure" -> {
                         JOptionPane.showMessageDialog(null,
-                                "Failed to create account! There already exists an account with this ID!",
-                                "Create Account", JOptionPane.ERROR_MESSAGE);
+                                "No account exists with the given ID and password.",
+                                "Log In", JOptionPane.ERROR_MESSAGE);
                         logInFrame.setVisible(false);
                         mainMenuFrame.setVisible(true);
                     }
@@ -110,6 +115,38 @@ public class User implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static int getUserID() {
+        return userID;
+    }
+
+    public static void setUserID(int userID) {
+        User.userID = userID;
+    }
+
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static void setUserName(String userName) {
+        User.userName = userName;
+    }
+
+    public static String getUserEmail() {
+        return userEmail;
+    }
+
+    public static void setUserEmail(String userEmail) {
+        User.userEmail = userEmail;
+    }
+
+    public static String getUserPassword() {
+        return userPassword;
+    }
+
+    public static void setUserPassword(String userPassword) {
+        User.userPassword = userPassword;
     }
 }
 
