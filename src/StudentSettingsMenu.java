@@ -17,9 +17,6 @@ public class StudentSettingsMenu extends JFrame {
     private JPanel studentSettingsPanel;
 
     public StudentSettingsMenu() {
-        nameLabel.setText(User.getUserName());
-        emailLabel.setText(User.getUserEmail());
-        idLabel.setText(Integer.toString(User.getUserID()));
         setContentPane(studentSettingsPanel);
         setTitle("Student Settings Menu");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -56,6 +53,7 @@ public class StudentSettingsMenu extends JFrame {
                         "Your name has been changed successfully!",
                         "Edit Name", JOptionPane.INFORMATION_MESSAGE);
                 User.userName = tempName;
+                resetStudentSettingLabels();
             }
         });
 
@@ -64,15 +62,19 @@ public class StudentSettingsMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String tempEmail = "";
                 do {
-                    tempEmail = (JOptionPane.showInputDialog(null, "What is your new name?",
+                    tempEmail = (JOptionPane.showInputDialog(null, "What is your new email?",
                             "Edit Name",
                             JOptionPane.QUESTION_MESSAGE));
                     if ((tempEmail == null) || (tempEmail.isBlank())) {
-                        JOptionPane.showMessageDialog(null, "Name cannot be empty!", "Edit Name",
+                        JOptionPane.showMessageDialog(null, "Email cannot be empty!", "Edit Email",
                                 JOptionPane.ERROR_MESSAGE);
                     }
                 } while ((tempEmail == null) || (tempEmail.isBlank()));
+                JOptionPane.showMessageDialog(null,
+                        "Your email has been changed successfully!",
+                        "Edit Email", JOptionPane.INFORMATION_MESSAGE);
                 User.userEmail = tempEmail;
+                resetStudentSettingLabels();
             }
         });
 
@@ -81,15 +83,31 @@ public class StudentSettingsMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String tempPassword = "";
                 do {
-                    tempPassword = (JOptionPane.showInputDialog(null, "What is your new name?",
-                            "Edit Name",
+                    tempPassword = (JOptionPane.showInputDialog(null, "What is your new password?",
+                            "Edit Password",
                             JOptionPane.QUESTION_MESSAGE));
                     if ((tempPassword == null) || (tempPassword.isBlank())) {
-                        JOptionPane.showMessageDialog(null, "Name cannot be empty!", "Edit Name",
+                        JOptionPane.showMessageDialog(null, "Password cannot be empty!", "Edit Password",
                                 JOptionPane.ERROR_MESSAGE);
                     }
                 } while ((tempPassword == null) || (tempPassword.isBlank()));
+                JOptionPane.showMessageDialog(null,
+                        "Your password has been changed successfully!",
+                        "Edit Password", JOptionPane.INFORMATION_MESSAGE);
                 User.userPassword = tempPassword;
+                resetStudentSettingLabels();
+            }
+        });
+
+        deleteAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User.writer.write("Delete Student Account");
+                User.writer.println();
+                User.writer.flush();
+                User.writer.write(Integer.toString(User.userID));
+                User.writer.println();
+                User.writer.flush();
             }
         });
 
@@ -100,6 +118,12 @@ public class StudentSettingsMenu extends JFrame {
                 User.studentFrame.setVisible(true);
             }
         });
+    }
+
+    public void resetStudentSettingLabels() {
+        idLabel.setText("ID: " + User.userID);
+        nameLabel.setText("Name: " + User.userName);
+        emailLabel.setText("Email: " + User.userEmail);
     }
 }
 
