@@ -109,44 +109,19 @@ public class User implements Runnable {
                         logInFrame.setVisible(false);
                         mainMenuFrame.setVisible(true);
                     }
+                    case "Student Account Deleted" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "Account successfully deleted! Returning to Main Menu.",
+                                "Delete Account", JOptionPane.INFORMATION_MESSAGE);
+                        studentSettingsFrame.setVisible(false);
+                        mainMenuFrame.setVisible(true);
+                    }
                 }
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static int getUserID() {
-        return userID;
-    }
-
-    public static void setUserID(int userID) {
-        User.userID = userID;
-    }
-
-    public static String getUserName() {
-        return userName;
-    }
-
-    public static void setUserName(String userName) {
-        User.userName = userName;
-    }
-
-    public static String getUserEmail() {
-        return userEmail;
-    }
-
-    public static void setUserEmail(String userEmail) {
-        User.userEmail = userEmail;
-    }
-
-    public static String getUserPassword() {
-        return userPassword;
-    }
-
-    public static void setUserPassword(String userPassword) {
-        User.userPassword = userPassword;
     }
 }
 
