@@ -6,11 +6,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class MainMenu extends JFrame {
-    private int userID; //ID of user
-    private String userName; //Name of user
-    private String userEmail; //Email of user
-    private String userPassword; //Password of user
-
     private JPanel mainMenuPanel;
     private JButton createNewAccountButton;
     private JButton logInToAccountButton;
