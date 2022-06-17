@@ -220,6 +220,22 @@ public class Server implements Runnable {
                             writer.flush();
                         }
                     }
+                    case "Delete Student Account": {
+                        int ID = Integer.parseInt(bfr.readLine());
+                        synchronized (race) {
+                            for (int x = 0; x < students.size(); x++) {
+                                if (students.get(x).getID() == ID) {
+                                    students.remove(x);
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student Account Deleted");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
                     /*
                     case "Sign In To Teacher Account": {
                         int ID = Integer.parseInt(bfr.readLine());
