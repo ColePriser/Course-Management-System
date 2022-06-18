@@ -7,8 +7,8 @@ public class LogInMenu extends JFrame {
     private JTextField idField;
     private JPasswordField passwordField;
     private JPanel logInPanel;
+    private JButton logInButton;
     private JButton backButton;
-    private JButton submitButton;
     private JCheckBox studentCheckBox;
 
     public LogInMenu() {
@@ -31,7 +31,7 @@ public class LogInMenu extends JFrame {
             }
         });
 
-        submitButton.addActionListener(new ActionListener() {
+        logInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean idError = false;
@@ -68,7 +68,6 @@ public class LogInMenu extends JFrame {
                     JOptionPane.showMessageDialog(null, "Student Accounts must have ID number that starts with '1'!",
                             "Log In",
                             JOptionPane.ERROR_MESSAGE);
-
                 }
                 else if (String.valueOf(passwordField.getPassword()).isBlank()) {
                     JOptionPane.showMessageDialog(null, "Password cannot be empty!",
