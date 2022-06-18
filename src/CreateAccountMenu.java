@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
 public class CreateAccountMenu extends JFrame {
     private JTextField nameField;
     private JTextField emailField;
-    private JTextField IDField;
+    private JTextField idField;
     private JPasswordField passwordField;
     private JCheckBox studentCheckBox;
     private JCheckBox teacherCheckBox;
@@ -42,7 +42,7 @@ public class CreateAccountMenu extends JFrame {
                 boolean idError = false;
                 int ID = 0;
                 try {
-                    ID = Integer.parseInt(IDField.getText());
+                    ID = Integer.parseInt(idField.getText());
                 } catch (NumberFormatException ime) {
                     idError = true;
                 }
@@ -100,9 +100,10 @@ public class CreateAccountMenu extends JFrame {
                     User.writer.write(String.valueOf(passwordField.getPassword()));
                     User.writer.println();
                     User.writer.flush();
-                    User.writer.write(IDField.getText());
+                    User.writer.write(idField.getText());
                     User.writer.println();
                     User.writer.flush();
+                    resetCreateAccountLabels();
                 }
                 else if (teacherCheckBox.isSelected()) {
                     User.writer.write("Create Teacher Account");
@@ -117,9 +118,10 @@ public class CreateAccountMenu extends JFrame {
                     User.writer.write(String.valueOf(passwordField.getPassword()));
                     User.writer.println();
                     User.writer.flush();
-                    User.writer.write(IDField.getText());
+                    User.writer.write(idField.getText());
                     User.writer.println();
                     User.writer.flush();
+                    resetCreateAccountLabels();
                 }
             }
         });
@@ -129,7 +131,17 @@ public class CreateAccountMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 User.createActFrame.setVisible(false);
                 User.mainMenuFrame.setVisible(true);
+                resetCreateAccountLabels();
             }
         });
+    }
+
+    public void resetCreateAccountLabels() {
+        studentCheckBox.setSelected(false);
+        teacherCheckBox.setSelected(false);
+        nameField.setText("");
+        emailField.setText("");
+        passwordField.setText("");
+        idField.setText("");
     }
 }

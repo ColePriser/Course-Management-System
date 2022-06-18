@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 public class LogInMenu extends JFrame {
     private JCheckBox teacherCheckBox;
-    private JTextField IDField;
+    private JTextField idField;
     private JPasswordField passwordField;
     private JPanel logInPanel;
     private JButton backButton;
@@ -37,7 +37,7 @@ public class LogInMenu extends JFrame {
                 boolean idError = false;
                 int ID = 0;
                 try {
-                    ID = Integer.parseInt(IDField.getText());
+                    ID = Integer.parseInt(idField.getText());
                 } catch (NumberFormatException ime) {
                     idError = true;
                 }
@@ -78,23 +78,25 @@ public class LogInMenu extends JFrame {
                     User.writer.write("Log In Menu Student Account");
                     User.writer.println();
                     User.writer.flush();
-                    User.writer.write(IDField.getText());
+                    User.writer.write(idField.getText());
                     User.writer.println();
                     User.writer.flush();
                     User.writer.write(String.valueOf(passwordField.getPassword()));
                     User.writer.println();
                     User.writer.flush();
+                    resetCreateAccountLabels();
                 }
                 else if (teacherCheckBox.isSelected()) {
                     User.writer.write("Log In Menu Teacher Account");
                     User.writer.println();
                     User.writer.flush();
-                    User.writer.write(IDField.getText());
+                    User.writer.write(idField.getText());
                     User.writer.println();
                     User.writer.flush();
                     User.writer.write(String.valueOf(passwordField.getPassword()));
                     User.writer.println();
                     User.writer.flush();
+                    resetCreateAccountLabels();
                 }
             }
         });
@@ -104,9 +106,15 @@ public class LogInMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 User.logInFrame.setVisible(false);
                 User.mainMenuFrame.setVisible(true);
+                resetCreateAccountLabels();
             }
         });
+    }
 
-
+    public void resetCreateAccountLabels() {
+        studentCheckBox.setSelected(false);
+        teacherCheckBox.setSelected(false);
+        passwordField.setText("");
+        idField.setText("");
     }
 }
