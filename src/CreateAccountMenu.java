@@ -13,6 +13,7 @@ public class CreateAccountMenu extends JFrame {
     private JCheckBox studentCheckBox;
     private JCheckBox teacherCheckBox;
     private JPanel createAccountPanel;
+    private JButton createButton;
     private JButton submitButton;
     private JButton backButton;
 
@@ -36,7 +37,7 @@ public class CreateAccountMenu extends JFrame {
             }
         });
 
-        submitButton.addActionListener(new ActionListener() {
+        createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean idError = false;
