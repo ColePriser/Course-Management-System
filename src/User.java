@@ -104,17 +104,8 @@ public class User implements Runnable {
                     }
                     case "Log In Failure" -> {
                         JOptionPane.showMessageDialog(null,
-                                "No account exists with the given ID and password.",
+                                "No account exists with the given ID and password. Try again!",
                                 "Log In", JOptionPane.ERROR_MESSAGE);
-                        logInFrame.setVisible(false);
-                        mainMenuFrame.setVisible(true);
-                    }
-                    case "Student Account Deleted" -> {
-                        JOptionPane.showMessageDialog(null,
-                                "Account successfully deleted! Returning to Main Menu.",
-                                "Delete Account", JOptionPane.INFORMATION_MESSAGE);
-                        studentSettingsFrame.setVisible(false);
-                        mainMenuFrame.setVisible(true);
                     }
                 }
             }
