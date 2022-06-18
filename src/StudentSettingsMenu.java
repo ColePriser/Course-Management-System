@@ -54,6 +54,15 @@ public class StudentSettingsMenu extends JFrame {
                         "Edit Name", JOptionPane.INFORMATION_MESSAGE);
                 User.userName = tempName;
                 resetStudentSettingLabels();
+                User.writer.write("Student Edit Name");
+                User.writer.println();
+                User.writer.flush();
+                User.writer.write(tempName);
+                User.writer.println();
+                User.writer.flush();
+                User.writer.write(Integer.toString(User.userID));
+                User.writer.println();
+                User.writer.flush();
             }
         });
 
@@ -75,6 +84,15 @@ public class StudentSettingsMenu extends JFrame {
                         "Edit Email", JOptionPane.INFORMATION_MESSAGE);
                 User.userEmail = tempEmail;
                 resetStudentSettingLabels();
+                User.writer.write("Student Edit Email");
+                User.writer.println();
+                User.writer.flush();
+                User.writer.write(tempEmail);
+                User.writer.println();
+                User.writer.flush();
+                User.writer.write(Integer.toString(User.userID));
+                User.writer.println();
+                User.writer.flush();
             }
         });
 
@@ -96,6 +114,15 @@ public class StudentSettingsMenu extends JFrame {
                         "Edit Password", JOptionPane.INFORMATION_MESSAGE);
                 User.userPassword = tempPassword;
                 resetStudentSettingLabels();
+                User.writer.write("Student Edit Password");
+                User.writer.println();
+                User.writer.flush();
+                User.writer.write(tempPassword);
+                User.writer.println();
+                User.writer.flush();
+                User.writer.write(Integer.toString(User.userID));
+                User.writer.println();
+                User.writer.flush();
             }
         });
 
@@ -108,6 +135,11 @@ public class StudentSettingsMenu extends JFrame {
                 User.writer.write(Integer.toString(User.userID));
                 User.writer.println();
                 User.writer.flush();
+                JOptionPane.showMessageDialog(null,
+                        "Account successfully deleted! Returning to Main Menu.",
+                        "Delete Account", JOptionPane.INFORMATION_MESSAGE);
+                User.studentSettingsFrame.setVisible(false);
+                User.mainMenuFrame.setVisible(true);
             }
         });
 
