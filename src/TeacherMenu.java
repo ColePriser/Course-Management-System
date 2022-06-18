@@ -32,7 +32,14 @@ public class TeacherMenu extends JFrame {
             }
         });
 
-
+        settingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User.studentFrame.setVisible(false);
+                User.studentSettingsFrame.setVisible(true);
+                User.studentSettingsFrame.resetStudentSettingLabels();
+            }
+        });
 
         returnToMainMenuButton.addActionListener(new ActionListener() {
             @Override
