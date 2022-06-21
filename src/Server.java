@@ -68,18 +68,6 @@ public class Server implements Runnable {
                             writer.write("Teacher Account Created Success");
                             writer.println();
                             writer.flush();
-                            writer.write(name);
-                            writer.println();
-                            writer.flush();
-                            writer.write(email);
-                            writer.println();
-                            writer.flush();
-                            writer.write(password);
-                            writer.println();
-                            writer.flush();
-                            writer.write(Integer.toString(ID));
-                            writer.println();
-                            writer.flush();
                         }
                         break;
                     }
@@ -106,18 +94,6 @@ public class Server implements Runnable {
                             Student newAccount = new Student(name, ID, email, password);
                             students.add(newAccount);
                             writer.write("Student Account Created Success");
-                            writer.println();
-                            writer.flush();
-                            writer.write(name);
-                            writer.println();
-                            writer.flush();
-                            writer.write(email);
-                            writer.println();
-                            writer.flush();
-                            writer.write(password);
-                            writer.println();
-                            writer.flush();
-                            writer.write(Integer.toString(ID));
                             writer.println();
                             writer.flush();
                         }
@@ -324,6 +300,40 @@ public class Server implements Runnable {
                                     break;
                                 }
                             }
+                        }
+                        break;
+                    }
+                    case "Create Course": {
+                        String name = bfr.readLine();
+                        int courseID = Integer.parseInt(bfr.readLine());
+                        int teacherID = Integer.parseInt(bfr.readLine());
+                        Teacher tempTeacher = null;
+                        boolean taken = false;
+                        synchronized (race) {
+                            for (int x = 0; x < courses.size(); x++) {
+                                if (courses.get(x).getCourseID() == courseID) {
+                                    taken = true;
+                                    break;
+                                }
+                            }
+                            for (int y = 0; y < teachers.size(); y++) {
+                                if (teachers.get(y).getID() == teacherID) {
+                                    tempTeacher = teachers.get(y);
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        if (taken) {
+                            writer.write("Course ID Taken");
+                            writer.println();
+                            writer.flush();
+                        } else {
+                            Course newCourse = new Course(name, courseID, tempTeacher);
+                            courses.add(newCourse);
+                            writer.write("Course Created Success");
+                            writer.println();
+                            writer.flush();
                         }
                         break;
                     }

@@ -18,6 +18,7 @@ public class User implements Runnable {
     public static StudentMenu studentFrame;
     public static TeacherSettingsMenu teacherSettingsFrame;
     public static StudentSettingsMenu studentSettingsFrame;
+    public static CreateNewCourseMenu createCourseFrame;
 
     public static void main(String[] args) {
         Thread user = new Thread(new User());
@@ -37,6 +38,7 @@ public class User implements Runnable {
             studentFrame = new StudentMenu();
             teacherSettingsFrame = new TeacherSettingsMenu();
             studentSettingsFrame = new StudentSettingsMenu();
+            createCourseFrame = new CreateNewCourseMenu();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,6 +108,20 @@ public class User implements Runnable {
                         JOptionPane.showMessageDialog(null,
                                 "No account exists with the given ID and password. Try again!",
                                 "Log In", JOptionPane.ERROR_MESSAGE);
+                    }
+                    case "Course Created Success" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "You have created a course successfully!",
+                                "Create Course", JOptionPane.INFORMATION_MESSAGE);
+                        createCourseFrame.setVisible(false);
+                        teacherFrame.setVisible(true);
+                    }
+                    case "Course ID Taken" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "Failed to create course! There already exists a course with this ID!",
+                                "Create Course", JOptionPane.ERROR_MESSAGE);
+                        createCourseFrame.setVisible(false);
+                        teacherFrame.setVisible(true);
                     }
                 }
             }
