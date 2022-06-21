@@ -1,18 +1,12 @@
 public class Course {
     private String courseName;
     private int courseID;
+    private Teacher teacher;
 
-    public Course(String courseName, int courseID) {
+    public Course(String courseName, int courseID, Teacher teacher) {
         this.courseName = courseName;
         this.courseID = courseID;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+        this.teacher = teacher;
     }
 
     public int getCourseID() {
