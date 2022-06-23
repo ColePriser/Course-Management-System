@@ -11,7 +11,11 @@ public class TeacherMenu extends JFrame {
     private JButton settingsButton;
     private JButton returnToMainMenuButton;
     private JPanel teacherMenuPanel;
+
     private int userID;
+    private String userName;
+    private String userEmail;
+    private String userPassword;
 
     public TeacherMenu() {
         setContentPane(teacherMenuPanel);
@@ -38,7 +42,7 @@ public class TeacherMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 User.teacherFrame.setVisible(false);
                 User.teacherSettingsFrame.setVisible(true);
-                User.teacherSettingsFrame.resetTeacherSettingLabels();
+                //User.teacherSettingsFrame.resetTeacherSettingLabels();
             }
         });
 
@@ -61,5 +65,17 @@ public class TeacherMenu extends JFrame {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 }

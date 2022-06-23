@@ -16,7 +16,11 @@ public class StudentSettingsMenu extends JFrame {
     private JButton deleteAccountButton;
     private JButton backButton;
     private JPanel studentSettingsPanel;
+
     private int userID;
+    private String userName;
+    private String userEmail;
+    private String userPassword;
 
     public StudentSettingsMenu() {
         setContentPane(studentSettingsPanel);
@@ -54,7 +58,6 @@ public class StudentSettingsMenu extends JFrame {
                 JOptionPane.showMessageDialog(null,
                         "Your name has been changed successfully!",
                         "Edit Name", JOptionPane.INFORMATION_MESSAGE);
-                resetStudentSettingLabels();
                 User.writer.write("Student Edit Name");
                 User.writer.println();
                 User.writer.flush();
@@ -64,6 +67,7 @@ public class StudentSettingsMenu extends JFrame {
                 User.writer.write(Integer.toString(userID));
                 User.writer.println();
                 User.writer.flush();
+                resetStudentSettingLabels();
             }
         });
 
@@ -83,7 +87,6 @@ public class StudentSettingsMenu extends JFrame {
                 JOptionPane.showMessageDialog(null,
                         "Your email has been changed successfully!",
                         "Edit Email", JOptionPane.INFORMATION_MESSAGE);
-                resetStudentSettingLabels();
                 User.writer.write("Student Edit Email");
                 User.writer.println();
                 User.writer.flush();
@@ -152,26 +155,24 @@ public class StudentSettingsMenu extends JFrame {
 
     public void resetStudentSettingLabels() {
         idLabel.setText("ID: " + userID);
-        User.writer.write("Reset Student Setting Labels");
-        User.writer.println();
-        User.writer.flush();
-        User.writer.write(Integer.toString(userID));
-        User.writer.println();
-        User.writer.flush();
-        String name = "failure";
-        String email = "failure";
-        try {
-            name = User.bfr.readLine();
-            email = User.bfr.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        nameLabel.setText("Name: " + name);
-        emailLabel.setText("Email: " + email);
+        nameLabel.setText("Name: " + userName);
+        emailLabel.setText("Email: " + userEmail);
     }
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 }
 

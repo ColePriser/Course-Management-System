@@ -12,7 +12,11 @@ public class StudentMenu extends JFrame {
     private JPanel studentMenuPanel;
     private JButton returnToMainMenuButton;
     private JButton settingsButton;
+
     private int userID;
+    private String userName;
+    private String userEmail;
+    private String userPassword;
 
     public StudentMenu() {
         setContentPane(studentMenuPanel);
@@ -34,12 +38,19 @@ public class StudentMenu extends JFrame {
             }
         });
 
+        enrollInNewCourseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User.studentFrame.setVisible(false);
+            }
+        });
+
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 User.studentFrame.setVisible(false);
                 User.studentSettingsFrame.setVisible(true);
-                User.studentSettingsFrame.resetStudentSettingLabels();
+                //User.studentSettingsFrame.resetStudentSettingLabels();
             }
         });
 
@@ -54,5 +65,17 @@ public class StudentMenu extends JFrame {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 }

@@ -11,7 +11,11 @@ public class CreateNewCourseMenu extends JFrame {
     private JButton createButton;
     private JButton backButton;
     private JPanel createNewCoursePanel;
+
     private int userID;
+    private String userName;
+    private String userEmail;
+    private String userPassword;
 
     public CreateNewCourseMenu() {
         setContentPane(createNewCoursePanel);
@@ -89,5 +93,17 @@ public class CreateNewCourseMenu extends JFrame {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 }
