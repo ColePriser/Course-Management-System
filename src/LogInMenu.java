@@ -52,11 +52,11 @@ public class LogInMenu extends JFrame {
                             "Log In", JOptionPane.ERROR_MESSAGE);
                 }
                 else if (idError) {
-                    JOptionPane.showMessageDialog(null, "ID can only contain numbers!", "Log In",
+                    JOptionPane.showMessageDialog(null, "Account ID can only contain numbers!", "Log In",
                             JOptionPane.ERROR_MESSAGE);
                 }
                 else if (String.valueOf(ID).length() != 7) {
-                    JOptionPane.showMessageDialog(null, "ID must have length of 7!", "Log In",
+                    JOptionPane.showMessageDialog(null, "Account ID must have length of 7!", "Log In",
                             JOptionPane.ERROR_MESSAGE);
                 }
                 else if (teacherCheckBox.isSelected() && String.valueOf(ID).charAt(0) != '2') {

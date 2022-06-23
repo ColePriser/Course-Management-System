@@ -70,11 +70,11 @@ public class CreateAccountMenu extends JFrame {
                             "Create Account", JOptionPane.ERROR_MESSAGE);
                 }
                 else if (idError) {
-                    JOptionPane.showMessageDialog(null, "ID can only contain numbers!", "Create Account",
+                    JOptionPane.showMessageDialog(null, "Account ID can only contain numbers!", "Create Account",
                             JOptionPane.ERROR_MESSAGE);
                 }
                 else if (String.valueOf(ID).length() != 7) {
-                    JOptionPane.showMessageDialog(null, "ID must have length of 7!", "Create Account",
+                    JOptionPane.showMessageDialog(null, "Account ID must have length of 7!", "Create Account",
                             JOptionPane.ERROR_MESSAGE);
                 }
                 else if (teacherCheckBox.isSelected() && String.valueOf(ID).charAt(0) != '2') {
