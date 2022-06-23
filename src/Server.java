@@ -3,14 +3,16 @@ import java.io.*;
 import java.util.*;
 
 public class Server implements Runnable {
-    private Socket socket; //Socket object
-    private BufferedReader bfr; //BufferedReader object
-    private PrintWriter writer; //PrintWriter object
-    private static ArrayList<Socket> clients = new ArrayList<>(); //ArrayList of clients
-    private static ArrayList<Teacher> teachers = new ArrayList<>(); //ArrayList of teachers
-    private static ArrayList<Student> students = new ArrayList<>(); //ArrayList of students
-    private static ArrayList<Course> courses = new ArrayList<>();
-    private static final Object race = new Object(); //Object used in synchronized blocks to prevent race conditions
+    public Socket socket; //Socket object
+    public BufferedReader bfr; //BufferedReader object
+    public PrintWriter writer; //PrintWriter object
+
+    public static ArrayList<Socket> clients = new ArrayList<>(); //ArrayList of clients
+    public static ArrayList<Teacher> teachers = new ArrayList<>(); //ArrayList of teachers
+    public static ArrayList<Student> students = new ArrayList<>(); //ArrayList of students
+    public static ArrayList<Course> courses = new ArrayList<>();
+
+    public static final Object race = new Object(); //Object used in synchronized blocks to prevent race conditions
 
     public Server(Socket inputSocket) {
         this.socket = inputSocket;
@@ -68,6 +70,9 @@ public class Server implements Runnable {
                             writer.write("Teacher Account Created Success");
                             writer.println();
                             writer.flush();
+                            writer.write(Integer.toString(ID));
+                            writer.println();
+                            writer.flush();
                         }
                         break;
                     }
@@ -96,54 +101,7 @@ public class Server implements Runnable {
                             writer.write("Student Account Created Success");
                             writer.println();
                             writer.flush();
-                        }
-                        break;
-                    }
-                    case "Log In Menu Student Account": {
-                        int ID = Integer.parseInt(bfr.readLine());
-                        String password = bfr.readLine();
-                        /**
-                         * Check to see if a student with given ID and password exists.
-                         */
-                        boolean studentFound = false;
-                        String studentName = "";
-                        String studentEmail = "";
-                        String studentPassword = "";
-                        String studentID = "";
-                        synchronized (race) {
-                            for (int x = 0; x < students.size(); x++) {
-                                if (students.get(x).getID() == ID) {
-                                    if (students.get(x).getPassword().equals(password)) {
-                                        studentFound = true;
-                                        studentName = students.get(x).getName();
-                                        studentEmail = students.get(x).getEmail();
-                                        studentPassword = students.get(x).getPassword();
-                                        studentID = Integer.toString(students.get(x).getID());
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        if (studentFound) {
-                            writer.write("Log In Student Success");
-                            writer.println();
-                            writer.flush();
-                            writer.write(studentName);
-                            writer.println();
-                            writer.flush();
-                            writer.write(studentEmail);
-                            writer.println();
-                            writer.flush();
-                            writer.write(studentPassword);
-                            writer.println();
-                            writer.flush();
-                            writer.write(studentID);
-                            writer.println();
-                            writer.flush();
-                        }
-                        else {
-                            writer.write("Log In Failure");
+                            writer.write(Integer.toString(ID));
                             writer.println();
                             writer.flush();
                         }
@@ -156,18 +114,12 @@ public class Server implements Runnable {
                          * Check to see if a student with given ID and password exists.
                          */
                         boolean teacherFound = false;
-                        String teacherName = "";
-                        String teacherEmail = "";
-                        String teacherPassword = "";
                         String teacherID = "";
                         synchronized (race) {
                             for (int x = 0; x < teachers.size(); x++) {
                                 if (teachers.get(x).getID() == ID) {
                                     if (teachers.get(x).getPassword().equals(password)) {
                                         teacherFound = true;
-                                        teacherName = teachers.get(x).getName();
-                                        teacherEmail = teachers.get(x).getEmail();
-                                        teacherPassword = teachers.get(x).getPassword();
                                         teacherID = Integer.toString(teachers.get(x).getID());
                                         break;
                                     }
@@ -179,16 +131,42 @@ public class Server implements Runnable {
                             writer.write("Log In Teacher Success");
                             writer.println();
                             writer.flush();
-                            writer.write(teacherName);
-                            writer.println();
-                            writer.flush();
-                            writer.write(teacherEmail);
-                            writer.println();
-                            writer.flush();
-                            writer.write(teacherPassword);
-                            writer.println();
-                            writer.flush();
                             writer.write(teacherID);
+                            writer.println();
+                            writer.flush();
+                        }
+                        else {
+                            writer.write("Log In Failure");
+                            writer.println();
+                            writer.flush();
+                        }
+                        break;
+                    }
+                    case "Log In Menu Student Account": {
+                        int ID = Integer.parseInt(bfr.readLine());
+                        String password = bfr.readLine();
+                        /**
+                         * Check to see if a student with given ID and password exists.
+                         */
+                        boolean studentFound = false;
+                        String studentID = "";
+                        synchronized (race) {
+                            for (int x = 0; x < students.size(); x++) {
+                                if (students.get(x).getID() == ID) {
+                                    if (students.get(x).getPassword().equals(password)) {
+                                        studentFound = true;
+                                        studentID = Integer.toString(students.get(x).getID());
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        if (studentFound) {
+                            writer.write("Log In Student Success");
+                            writer.println();
+                            writer.flush();
+                            writer.write(studentID);
                             writer.println();
                             writer.flush();
                         }
@@ -290,13 +268,11 @@ public class Server implements Runnable {
                     }
                     case "Student Edit Password": {
                         String newPassword = bfr.readLine();
-                        String temp = "";
                         int ID = Integer.parseInt(bfr.readLine());
                         synchronized (race) {
                             for (int x = 0; x < students.size(); x++) {
                                 if (students.get(x).getID() == ID) {
                                     students.get(x).setPassword(newPassword);
-                                    temp = students.get(x).getPassword();
                                     break;
                                 }
                             }
@@ -307,7 +283,6 @@ public class Server implements Runnable {
                         String name = bfr.readLine();
                         int courseID = Integer.parseInt(bfr.readLine());
                         int teacherID = Integer.parseInt(bfr.readLine());
-                        Teacher tempTeacher = null;
                         boolean taken = false;
                         synchronized (race) {
                             for (int x = 0; x < courses.size(); x++) {
@@ -316,10 +291,13 @@ public class Server implements Runnable {
                                     break;
                                 }
                             }
-                            for (int y = 0; y < teachers.size(); y++) {
-                                if (teachers.get(y).getID() == teacherID) {
-                                    tempTeacher = teachers.get(y);
-                                    break;
+                            if (!taken) {
+                                for (int y = 0; y < teachers.size(); y++) {
+                                    if (teachers.get(y).getID() == teacherID) {
+                                        Course newCourse = new Course(name, courseID, teachers.get(y));
+                                        courses.add(newCourse);
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -329,12 +307,54 @@ public class Server implements Runnable {
                             writer.println();
                             writer.flush();
                         } else {
-                            Course newCourse = new Course(name, courseID, tempTeacher);
-                            courses.add(newCourse);
                             writer.write("Course Created Success");
                             writer.println();
                             writer.flush();
                         }
+                        break;
+                    }
+                    case "Reset Teacher Setting Labels": {
+                        int ID = Integer.parseInt(bfr.readLine());
+                        String name = "didnt work";
+                        String email = "didnt work";
+                        synchronized (race) {
+                            for (int x = 0; x < teachers.size(); x++) {
+                                if (teachers.get(x).getID() == ID) {
+                                    name = teachers.get(x).getName();
+                                    email = teachers.get(x).getEmail();
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write(name);
+                        writer.println();
+                        writer.flush();
+                        writer.write(email);
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Reset Student Setting Labels": {
+                        int ID = Integer.parseInt(bfr.readLine());
+                        String name = "didnt work";
+                        String email = "didnt work";
+                        synchronized (race) {
+                            for (int x = 0; x < students.size(); x++) {
+                                if (students.get(x).getID() == ID) {
+                                    name = students.get(x).getName();
+                                    email = students.get(x).getEmail();
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write(name);
+                        writer.println();
+                        writer.flush();
+                        writer.write(email);
+                        writer.println();
+                        writer.flush();
                         break;
                     }
                     /*
