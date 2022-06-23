@@ -11,6 +11,7 @@ public class CreateNewCourseMenu extends JFrame {
     private JButton createButton;
     private JButton backButton;
     private JPanel createNewCoursePanel;
+    private int userID;
 
     public CreateNewCourseMenu() {
         setContentPane(createNewCoursePanel);
@@ -36,7 +37,7 @@ public class CreateNewCourseMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 User.createCourseFrame.setVisible(false);
-                User.teacherSettingsFrame.setVisible(true);
+                User.teacherFrame.setVisible(true);
             }
         });
 
@@ -72,7 +73,7 @@ public class CreateNewCourseMenu extends JFrame {
                     User.writer.write(idField.getText());
                     User.writer.println();
                     User.writer.flush();
-                    User.writer.write(User.userID);
+                    User.writer.write(Integer.toString(userID));
                     User.writer.println();
                     User.writer.flush();
                     resetCreateCourseLabels();
@@ -84,5 +85,9 @@ public class CreateNewCourseMenu extends JFrame {
     public void resetCreateCourseLabels() {
         nameField.setText("");
         idField.setText("");
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 }

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class TeacherSettingsMenu extends JFrame {
     private JLabel idLabel;
@@ -15,6 +16,7 @@ public class TeacherSettingsMenu extends JFrame {
     private JButton deleteAccountButton;
     private JButton backButton;
     private JPanel teacherSettingsPanel;
+    private int userID;
 
     public TeacherSettingsMenu() {
         setContentPane(teacherSettingsPanel);
@@ -52,7 +54,6 @@ public class TeacherSettingsMenu extends JFrame {
                 JOptionPane.showMessageDialog(null,
                         "Your name has been changed successfully!",
                         "Edit Name", JOptionPane.INFORMATION_MESSAGE);
-                User.userName = tempName;
                 resetTeacherSettingLabels();
                 User.writer.write("Teacher Edit Name");
                 User.writer.println();
@@ -60,7 +61,7 @@ public class TeacherSettingsMenu extends JFrame {
                 User.writer.write(tempName);
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(User.userID));
+                User.writer.write(Integer.toString(userID));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -82,7 +83,6 @@ public class TeacherSettingsMenu extends JFrame {
                 JOptionPane.showMessageDialog(null,
                         "Your email has been changed successfully!",
                         "Edit Email", JOptionPane.INFORMATION_MESSAGE);
-                User.userEmail = tempEmail;
                 resetTeacherSettingLabels();
                 User.writer.write("Teacher Edit Email");
                 User.writer.println();
@@ -90,7 +90,7 @@ public class TeacherSettingsMenu extends JFrame {
                 User.writer.write(tempEmail);
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(User.userID));
+                User.writer.write(Integer.toString(userID));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -112,15 +112,13 @@ public class TeacherSettingsMenu extends JFrame {
                 JOptionPane.showMessageDialog(null,
                         "Your password has been changed successfully!",
                         "Edit Password", JOptionPane.INFORMATION_MESSAGE);
-                User.userPassword = tempPassword;
-                resetTeacherSettingLabels();
                 User.writer.write("Teacher Edit Password");
                 User.writer.println();
                 User.writer.flush();
                 User.writer.write(tempPassword);
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(User.userID));
+                User.writer.write(Integer.toString(userID));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -132,7 +130,7 @@ public class TeacherSettingsMenu extends JFrame {
                 User.writer.write("Delete Teacher Account");
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(User.userID));
+                User.writer.write(Integer.toString(userID));
                 User.writer.println();
                 User.writer.flush();
                 JOptionPane.showMessageDialog(null,
@@ -153,8 +151,26 @@ public class TeacherSettingsMenu extends JFrame {
     }
 
     public void resetTeacherSettingLabels() {
-        idLabel.setText("ID: " + User.userID);
-        nameLabel.setText("Name: " + User.userName);
-        emailLabel.setText("Email: " + User.userEmail);
+        idLabel.setText("ID: " + userID);
+        User.writer.write("Reset Teacher Setting Labels");
+        User.writer.println();
+        User.writer.flush();
+        User.writer.write(Integer.toString(userID));
+        User.writer.println();
+        User.writer.flush();
+        String name = "failure";
+        String email = "failure";
+        try {
+            name = User.bfr.readLine();
+            email = User.bfr.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        nameLabel.setText("Name: " + name);
+        emailLabel.setText("Email: " + email);
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 }

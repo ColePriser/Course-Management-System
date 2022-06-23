@@ -12,6 +12,7 @@ public class StudentMenu extends JFrame {
     private JPanel studentMenuPanel;
     private JButton returnToMainMenuButton;
     private JButton settingsButton;
+    private int userID;
 
     public StudentMenu() {
         setContentPane(studentMenuPanel);
@@ -49,5 +50,9 @@ public class StudentMenu extends JFrame {
                 User.mainMenuFrame.setVisible(true);
             }
         });
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 }
