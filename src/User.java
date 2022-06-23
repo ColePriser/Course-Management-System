@@ -6,10 +6,6 @@ public class User implements Runnable {
     public static Socket socket; //Socket object
     public static BufferedReader bfr; //BufferedReader object
     public static PrintWriter writer; //PrintWriter object
-    public static int userID; //ID of user
-    public static String userName; //Name of user
-    public static String userEmail; //Email of user
-    public static String userPassword; //Password of user
 
     public static MainMenu mainMenuFrame;
     public static CreateAccountMenu createActFrame;
@@ -20,6 +16,8 @@ public class User implements Runnable {
     public static StudentSettingsMenu studentSettingsFrame;
     public static CreateNewCourseMenu createCourseFrame;
 
+    private int userID;
+
     public static void main(String[] args) {
         Thread user = new Thread(new User());
         user.start();
@@ -28,7 +26,7 @@ public class User implements Runnable {
              * Creating socket and setting up reading and writing capabilities
              * to communicate with the server.
              */
-            socket = new Socket("localhost", 2361);
+            socket = new Socket(InetAddress.getLocalHost(), 2361);
             bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream());
             mainMenuFrame = new MainMenu();
@@ -39,7 +37,6 @@ public class User implements Runnable {
             teacherSettingsFrame = new TeacherSettingsMenu();
             studentSettingsFrame = new StudentSettingsMenu();
             createCourseFrame = new CreateNewCourseMenu();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,12 +67,23 @@ public class User implements Runnable {
                         createActFrame.setVisible(false);
                         mainMenuFrame.setVisible(true);
                     }
-                    case "Student Account Created Success", "Teacher Account Created Success" -> {
+                    case "Teacher Account Created Success" -> {
+                        int userID = Integer.parseInt(bfr.readLine());
+                        setID(userID);
                         JOptionPane.showMessageDialog(null,
                                 "Your account has been made successfully!",
                                 "Create Account", JOptionPane.INFORMATION_MESSAGE);
                         createActFrame.setVisible(false);
-                        mainMenuFrame.setVisible(true);
+                        teacherFrame.setVisible(true);
+                    }
+                    case "Student Account Created Success" -> {
+                        int userID = Integer.parseInt(bfr.readLine());
+                        setID(userID);
+                        JOptionPane.showMessageDialog(null,
+                                "Your account has been made successfully!",
+                                "Create Account", JOptionPane.INFORMATION_MESSAGE);
+                        createActFrame.setVisible(false);
+                        studentFrame.setVisible(true);
                     }
                     case "Log In Both Checked", "Log In Neither Checked" -> {
                         JOptionPane.showMessageDialog(null,
@@ -83,10 +91,8 @@ public class User implements Runnable {
                                 "Log In", JOptionPane.ERROR_MESSAGE);
                     }
                     case "Log In Teacher Success" -> {
-                        userName = bfr.readLine();
-                        userEmail = bfr.readLine();
-                        userPassword = bfr.readLine();
-                        userID = Integer.parseInt(bfr.readLine());
+                        int userID = Integer.parseInt(bfr.readLine());
+                        setID(userID);
                         JOptionPane.showMessageDialog(null,
                                 "You have logged in successfully!",
                                 "Log In", JOptionPane.INFORMATION_MESSAGE);
@@ -94,10 +100,8 @@ public class User implements Runnable {
                         teacherFrame.setVisible(true);
                     }
                     case "Log In Student Success" -> {
-                        userName = bfr.readLine();
-                        userEmail = bfr.readLine();
-                        userPassword = bfr.readLine();
-                        userID = Integer.parseInt(bfr.readLine());
+                        int userID = Integer.parseInt(bfr.readLine());
+                        setID(userID);
                         JOptionPane.showMessageDialog(null,
                                 "You have logged in successfully!",
                                 "Log In", JOptionPane.INFORMATION_MESSAGE);
@@ -129,6 +133,14 @@ public class User implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setID(int userID) {
+        teacherFrame.setUserID(userID);
+        studentFrame.setUserID(userID);
+        teacherSettingsFrame.setUserID(userID);
+        studentSettingsFrame.setUserID(userID);
+        createCourseFrame.setUserID(userID);
     }
 }
 
