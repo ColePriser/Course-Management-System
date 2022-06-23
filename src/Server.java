@@ -70,6 +70,15 @@ public class Server implements Runnable {
                             writer.write("Teacher Account Created Success");
                             writer.println();
                             writer.flush();
+                            writer.write(name);
+                            writer.println();
+                            writer.flush();
+                            writer.write(email);
+                            writer.println();
+                            writer.flush();
+                            writer.write(password);
+                            writer.println();
+                            writer.flush();
                             writer.write(Integer.toString(ID));
                             writer.println();
                             writer.flush();
@@ -101,6 +110,15 @@ public class Server implements Runnable {
                             writer.write("Student Account Created Success");
                             writer.println();
                             writer.flush();
+                            writer.write(name);
+                            writer.println();
+                            writer.flush();
+                            writer.write(email);
+                            writer.println();
+                            writer.flush();
+                            writer.write(password);
+                            writer.println();
+                            writer.flush();
                             writer.write(Integer.toString(ID));
                             writer.println();
                             writer.flush();
@@ -110,10 +128,10 @@ public class Server implements Runnable {
                     case "Log In Menu Teacher Account": {
                         int ID = Integer.parseInt(bfr.readLine());
                         String password = bfr.readLine();
-                        /**
-                         * Check to see if a student with given ID and password exists.
-                         */
                         boolean teacherFound = false;
+                        String teacherName = "";
+                        String teacherEmail = "";
+                        String teacherPassword = "";
                         String teacherID = "";
                         synchronized (race) {
                             for (int x = 0; x < teachers.size(); x++) {
@@ -131,6 +149,15 @@ public class Server implements Runnable {
                             writer.write("Log In Teacher Success");
                             writer.println();
                             writer.flush();
+                            writer.write(teacherName);
+                            writer.println();
+                            writer.flush();
+                            writer.write(teacherEmail);
+                            writer.println();
+                            writer.flush();
+                            writer.write(teacherPassword);
+                            writer.println();
+                            writer.flush();
                             writer.write(teacherID);
                             writer.println();
                             writer.flush();
@@ -145,10 +172,10 @@ public class Server implements Runnable {
                     case "Log In Menu Student Account": {
                         int ID = Integer.parseInt(bfr.readLine());
                         String password = bfr.readLine();
-                        /**
-                         * Check to see if a student with given ID and password exists.
-                         */
                         boolean studentFound = false;
+                        String studentName = "";
+                        String studentEmail = "";
+                        String studentPassword = "";
                         String studentID = "";
                         synchronized (race) {
                             for (int x = 0; x < students.size(); x++) {
@@ -156,6 +183,9 @@ public class Server implements Runnable {
                                     if (students.get(x).getPassword().equals(password)) {
                                         studentFound = true;
                                         studentID = Integer.toString(students.get(x).getID());
+                                        studentName = students.get(x).getName();
+                                        studentEmail = students.get(x).getEmail();
+                                        studentPassword = students.get(x).getPassword();
                                         break;
                                     }
                                 }
@@ -164,6 +194,15 @@ public class Server implements Runnable {
                         writer = new PrintWriter(this.socket.getOutputStream());
                         if (studentFound) {
                             writer.write("Log In Student Success");
+                            writer.println();
+                            writer.flush();
+                            writer.write(studentName);
+                            writer.println();
+                            writer.flush();
+                            writer.write(studentEmail);
+                            writer.println();
+                            writer.flush();
+                            writer.write(studentPassword);
                             writer.println();
                             writer.flush();
                             writer.write(studentID);
@@ -203,85 +242,206 @@ public class Server implements Runnable {
                     }
                     case "Teacher Edit Name": {
                         String newName = bfr.readLine();
+                        String email = "";
+                        String password = "";
                         int ID = Integer.parseInt(bfr.readLine());
                         synchronized (race) {
                             for (int x = 0; x < teachers.size(); x++) {
                                 if (teachers.get(x).getID() == ID) {
                                     teachers.get(x).setName(newName);
+                                    email = teachers.get(x).getEmail();
+                                    password = teachers.get(x).getPassword();
                                     break;
                                 }
                             }
                         }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("User Info Edit");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newName);
+                        writer.println();
+                        writer.flush();
+                        writer.write(email);
+                        writer.println();
+                        writer.flush();
+                        writer.write(password);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(ID));
+                        writer.println();
+                        writer.flush();
                         break;
                     }
                     case "Student Edit Name": {
                         String newName = bfr.readLine();
+                        String email = "";
+                        String password = "";
                         int ID = Integer.parseInt(bfr.readLine());
                         synchronized (race) {
                             for (int x = 0; x < students.size(); x++) {
                                 if (students.get(x).getID() == ID) {
+                                    email = students.get(x).getEmail();
+                                    password = students.get(x).getPassword();
                                     students.get(x).setName(newName);
                                     break;
                                 }
                             }
                         }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("User Info Edit");
+                        writer.println();
+                        writer.flush();
+                        writer.write(newName);
+                        writer.println();
+                        writer.flush();
+                        writer.write(email);
+                        writer.println();
+                        writer.flush();
+                        writer.write(password);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(ID));
+                        writer.println();
+                        writer.flush();
                         break;
                     }
                     case "Teacher Edit Email": {
                         String newEmail = bfr.readLine();
+                        String name = "";
+                        String password = "";
                         int ID = Integer.parseInt(bfr.readLine());
                         synchronized (race) {
                             for (int x = 0; x < teachers.size(); x++) {
                                 if (teachers.get(x).getID() == ID) {
+                                    name = teachers.get(x).getName();
+                                    password = teachers.get(x).getPassword();
                                     teachers.get(x).setEmail(newEmail);
                                     break;
                                 }
                             }
                         }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("User Info Edit");
+                        writer.println();
+                        writer.flush();
+                        writer.write(name);
+                        writer.println();
+                        writer.flush();
+                        writer.write(newEmail);
+                        writer.println();
+                        writer.flush();
+                        writer.write(password);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(ID));
+                        writer.println();
+                        writer.flush();
                         break;
                     }
                     case "Student Edit Email": {
                         String newEmail = bfr.readLine();
+                        String name = "";
+                        String password = "";
                         int ID = Integer.parseInt(bfr.readLine());
                         synchronized (race) {
                             for (int x = 0; x < students.size(); x++) {
                                 if (students.get(x).getID() == ID) {
+                                    name = students.get(x).getName();
+                                    password = students.get(x).getPassword();
                                     students.get(x).setEmail(newEmail);
                                     break;
                                 }
                             }
                         }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("User Info Edit");
+                        writer.println();
+                        writer.flush();
+                        writer.write(name);
+                        writer.println();
+                        writer.flush();
+                        writer.write(newEmail);
+                        writer.println();
+                        writer.flush();
+                        writer.write(password);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(ID));
+                        writer.println();
+                        writer.flush();
                         break;
                     }
                     case "Teacher Edit Password": {
                         String newPassword = bfr.readLine();
+                        String email = "";
+                        String name = "";
                         int ID = Integer.parseInt(bfr.readLine());
                         synchronized (race) {
                             for (int x = 0; x < teachers.size(); x++) {
                                 if (teachers.get(x).getID() == ID) {
+                                    name = teachers.get(x).getName();
+                                    email = teachers.get(x).getEmail();
                                     teachers.get(x).setPassword(newPassword);
                                     break;
                                 }
                             }
                         }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("User Info Edit");
+                        writer.println();
+                        writer.flush();
+                        writer.write(name);
+                        writer.println();
+                        writer.flush();
+                        writer.write(email);
+                        writer.println();
+                        writer.flush();
+                        writer.write(newPassword);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(ID));
+                        writer.println();
+                        writer.flush();
                         break;
                     }
                     case "Student Edit Password": {
                         String newPassword = bfr.readLine();
+                        String email = "";
+                        String name = "";
                         int ID = Integer.parseInt(bfr.readLine());
                         synchronized (race) {
                             for (int x = 0; x < students.size(); x++) {
                                 if (students.get(x).getID() == ID) {
                                     students.get(x).setPassword(newPassword);
+                                    name = students.get(x).getName();
+                                    email = students.get(x).getEmail();
                                     break;
                                 }
                             }
                         }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("User Info Edit");
+                        writer.println();
+                        writer.flush();
+                        writer.write(name);
+                        writer.println();
+                        writer.flush();
+                        writer.write(email);
+                        writer.println();
+                        writer.flush();
+                        writer.write(newPassword);
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(ID));
+                        writer.println();
+                        writer.flush();
                         break;
                     }
                     case "Create Course": {
                         String name = bfr.readLine();
                         int courseID = Integer.parseInt(bfr.readLine());
+                        String
                         int teacherID = Integer.parseInt(bfr.readLine());
                         boolean taken = false;
                         synchronized (race) {
@@ -313,244 +473,49 @@ public class Server implements Runnable {
                         }
                         break;
                     }
-                    case "Reset Teacher Setting Labels": {
-                        int ID = Integer.parseInt(bfr.readLine());
-                        String name = "didnt work";
-                        String email = "didnt work";
-                        synchronized (race) {
-                            for (int x = 0; x < teachers.size(); x++) {
-                                if (teachers.get(x).getID() == ID) {
-                                    name = teachers.get(x).getName();
-                                    email = teachers.get(x).getEmail();
-                                    break;
-                                }
-                            }
-                        }
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        writer.write(name);
-                        writer.println();
-                        writer.flush();
-                        writer.write(email);
-                        writer.println();
-                        writer.flush();
-                        break;
-                    }
-                    case "Reset Student Setting Labels": {
-                        int ID = Integer.parseInt(bfr.readLine());
-                        String name = "didnt work";
-                        String email = "didnt work";
-                        synchronized (race) {
-                            for (int x = 0; x < students.size(); x++) {
-                                if (students.get(x).getID() == ID) {
-                                    name = students.get(x).getName();
-                                    email = students.get(x).getEmail();
-                                    break;
-                                }
-                            }
-                        }
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        writer.write(name);
-                        writer.println();
-                        writer.flush();
-                        writer.write(email);
-                        writer.println();
-                        writer.flush();
-                        break;
-                    }
-                    /*
-                    case "Sign In To Teacher Account": {
-                        int ID = Integer.parseInt(bfr.readLine());
-                        String password = bfr.readLine();
-                        String name = "";
-                        String email = "";
-                        boolean accountFound = false;
-                        synchronized (race) {
-                            for (Teacher teacher : teachers) {
-                                if (teacher.getID() == ID) {
-                                    if (teacher.getPassword().equals(password)) {
-                                        name = teacher.getName();
-                                        email = teacher.getEmail();
-                                        accountFound = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        if (accountFound) {
-                            writer.write("Teacher Sign In Success");
-                            writer.println();
-                            writer.flush();
-                            writer.write(name);
-                            writer.println();
-                            writer.flush();
-                            writer.write(email);
-                            writer.println();
-                            writer.flush();
-                            writer.write(password);
-                            writer.println();
-                            writer.flush();
-                        } else {
-                            writer.write("Teacher Sign In Failed");
-                            writer.println();
-                            writer.flush();
-                        }
-                        break;
-                    }
-                    case "Sign In To Student Account": {
-                        int ID = Integer.parseInt(bfr.readLine());
-                        String password = bfr.readLine();
-                        String name = "";
-                        String email = "";
-                        boolean accountFound = false;
-                        synchronized (race) {
-                            for (Student student : students) {
-                                if (student.getID() == ID) {
-                                    if (student.getPassword().equals(password)) {
-                                        name = student.getName();
-                                        email = student.getEmail();
-                                        accountFound = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        if (accountFound) {
-                            writer.write("Student Sign In Success");
-                            writer.println();
-                            writer.flush();
-                            writer.write(name);
-                            writer.println();
-                            writer.flush();
-                            writer.write(email);
-                            writer.println();
-                            writer.flush();
-                            writer.write(password);
-                        } else {
-                            writer.write("Student Sign In Failed");
-                        }
-                        writer.println();
-                        writer.flush();
-                        writer.println();
-                        writer.flush();
-                        break;
-                    }
-                    case "Create New Course": {
-                        String courseName = bfr.readLine();
+                    case "Enroll in Course" -> {
                         int courseID = Integer.parseInt(bfr.readLine());
-                        int teacherID = Integer.parseInt(bfr.readLine());
-                        boolean taken = false;
+                        String coursePassword = bfr.readLine();
+                        int userID = Integer.parseInt(bfr.readLine());
+                        boolean alreadyEnrolled = false;
+                        boolean success = false;
+                        writer = new PrintWriter(this.socket.getOutputStream());
                         synchronized (race) {
                             for (int x = 0; x < courses.size(); x++) {
                                 if (courses.get(x).getCourseID() == courseID) {
-                                    taken = true;
-                                    break;
+                                    if (courses.get(x).getCoursePassword().equals(coursePassword)) {
+                                        for (int y = 0; y < courses.get(x).getEnrolledStudents().size(); y++) {
+                                            if (courses.get(x).getEnrolledStudents().get(y).getID() == userID) {
+                                                alreadyEnrolled = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!alreadyEnrolled) {
+                                            success = true;
+                                        }
+                                    }
                                 }
                             }
                         }
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        if (taken) {
-                            writer.write("Course ID Taken");
-                        } else {
-                            Course newCourse = new Course(courseName, courseID);
-                            for (int x = 0; x < teachers.size(); x++) {
-                                if (teachers.get(x).getID() == teacherID) {
-                                    teachers.get(x).addCourse(newCourse);
-                                    courses.add(newCourse);
-                                }
-                            }
-                            writer.write("New Course Created");
+                        if (alreadyEnrolled) {
+                            writer.write("Already Enrolled In Course");
+                            writer.println();
+                            writer.flush();
+                            break;
                         }
-                        writer.println();
-                        writer.flush();
-                        writer.write(courseName);
-                        writer.println();
-                        writer.flush();
-                        writer.write(Integer.toString(courseID));
-                        writer.println();
-                        writer.flush();
-                        break;
-                    }
-                    case "Open Teacher Settings": {
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        writer.write("Open Teacher Settings");
-                        writer.println();
-                        writer.flush();
-                        break;
-                    }
-                    case "Open Student Settings": {
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        writer.write("Open Student Settings");
-                        writer.println();
-                        writer.flush();
-                        break;
-                    }
-                    case "Teacher Delete Account": {
-                        String stringID = bfr.readLine();
-                        int ID = Integer.parseInt(stringID);
-                        synchronized (race) {
-                            for (int x = 0; x < teachers.size(); x++) {
-                                if (teachers.get(x).getID() == ID) {
-                                    teachers.remove(x);
-                                    break;
-                                }
-                            }
+                        else if (success) {
+                            writer.write("Enroll In Course Success");
+                            writer.println();
+                            writer.flush();
+                            break;
                         }
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        writer.write("Teacher Delete Account");
-                        writer.println();
-                        writer.flush();
-                        break;
-                    }
-                    case "Student Delete Account": {
-                        String stringID = bfr.readLine();
-                        int ID = Integer.parseInt(stringID);
-                        synchronized (race) {
-                            for (int x = 0; x < students.size(); x++) {
-                                if (students.get(x).getID() == ID) {
-                                    students.remove(x);
-                                    break;
-                                }
-                            }
+                        else {
+                            writer.write("Enroll In Course Error");
+                            writer.println();
+                            writer.flush();
+                            break;
                         }
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        writer.write("Student Delete Account");
-                        writer.println();
-                        writer.flush();
-                        break;
                     }
-                    case "Student View Account Info": {
-                        String stringID = bfr.readLine();
-                        int ID = Integer.parseInt(stringID);
-                        String name = "";
-                        String email = "";
-                        String password = "";
-                        synchronized (race) {
-                            for (int x = 0; x < students.size(); x++) {
-                                if (students.get(x).getID() == ID) {
-                                    name = students.get(x).getName();
-                                    email = students.get(x).getEmail();
-                                    password = students.get(x).getPassword();
-                                    break;
-                                }
-                            }
-                        }
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        writer.write("Student View Account Info");
-                        writer.println();
-                        writer.flush();
-                        writer.write(name);
-                        writer.println();
-                        writer.flush();
-                        writer.write(email);
-                        writer.println();
-                        writer.flush();
-                        writer.write(password);
-                        writer.println();
-                        writer.flush();
-                        break;
-                    }*/
                 }
             } catch (Exception e) {
                 e.printStackTrace();

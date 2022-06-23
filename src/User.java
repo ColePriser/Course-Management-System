@@ -15,8 +15,7 @@ public class User implements Runnable {
     public static TeacherSettingsMenu teacherSettingsFrame;
     public static StudentSettingsMenu studentSettingsFrame;
     public static CreateNewCourseMenu createCourseFrame;
-
-    private int userID;
+    public static EnrollCourse enrollCourseFrame;
 
     public static void main(String[] args) {
         Thread user = new Thread(new User());
@@ -37,6 +36,8 @@ public class User implements Runnable {
             teacherSettingsFrame = new TeacherSettingsMenu();
             studentSettingsFrame = new StudentSettingsMenu();
             createCourseFrame = new CreateNewCourseMenu();
+            enrollCourseFrame = new EnrollCourse();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,8 +69,11 @@ public class User implements Runnable {
                         mainMenuFrame.setVisible(true);
                     }
                     case "Teacher Account Created Success" -> {
+                        String userName = bfr.readLine();
+                        String userEmail = bfr.readLine();
+                        String userPassword = bfr.readLine();
                         int userID = Integer.parseInt(bfr.readLine());
-                        setID(userID);
+                        setUserInfo(userID, userName, userEmail, userPassword);
                         JOptionPane.showMessageDialog(null,
                                 "Your account has been made successfully!",
                                 "Create Account", JOptionPane.INFORMATION_MESSAGE);
@@ -77,8 +81,11 @@ public class User implements Runnable {
                         teacherFrame.setVisible(true);
                     }
                     case "Student Account Created Success" -> {
+                        String userName = bfr.readLine();
+                        String userEmail = bfr.readLine();
+                        String userPassword = bfr.readLine();
                         int userID = Integer.parseInt(bfr.readLine());
-                        setID(userID);
+                        setUserInfo(userID, userName, userEmail, userPassword);
                         JOptionPane.showMessageDialog(null,
                                 "Your account has been made successfully!",
                                 "Create Account", JOptionPane.INFORMATION_MESSAGE);
@@ -91,8 +98,11 @@ public class User implements Runnable {
                                 "Log In", JOptionPane.ERROR_MESSAGE);
                     }
                     case "Log In Teacher Success" -> {
+                        String userName = bfr.readLine();
+                        String userEmail = bfr.readLine();
+                        String userPassword = bfr.readLine();
                         int userID = Integer.parseInt(bfr.readLine());
-                        setID(userID);
+                        setUserInfo(userID, userName, userEmail, userPassword);
                         JOptionPane.showMessageDialog(null,
                                 "You have logged in successfully!",
                                 "Log In", JOptionPane.INFORMATION_MESSAGE);
@@ -100,8 +110,11 @@ public class User implements Runnable {
                         teacherFrame.setVisible(true);
                     }
                     case "Log In Student Success" -> {
+                        String userName = bfr.readLine();
+                        String userEmail = bfr.readLine();
+                        String userPassword = bfr.readLine();
                         int userID = Integer.parseInt(bfr.readLine());
-                        setID(userID);
+                        setUserInfo(userID, userName, userEmail, userPassword);
                         JOptionPane.showMessageDialog(null,
                                 "You have logged in successfully!",
                                 "Log In", JOptionPane.INFORMATION_MESSAGE);
@@ -127,6 +140,13 @@ public class User implements Runnable {
                         createCourseFrame.setVisible(false);
                         teacherFrame.setVisible(true);
                     }
+                    case "User Info Edit" -> {
+                        String name = bfr.readLine();
+                        String email = bfr.readLine();
+                        String password = bfr.readLine();
+                        int ID = Integer.parseInt(bfr.readLine());
+                        setUserInfo(ID, name, email, password);
+                    }
                 }
             }
             catch (Exception e) {
@@ -135,12 +155,33 @@ public class User implements Runnable {
         }
     }
 
-    public void setID(int userID) {
+    public void setUserInfo(int userID, String userName, String userEmail, String userPassword) {
         teacherFrame.setUserID(userID);
         studentFrame.setUserID(userID);
         teacherSettingsFrame.setUserID(userID);
         studentSettingsFrame.setUserID(userID);
         createCourseFrame.setUserID(userID);
+        enrollCourseFrame.setUserID(userID);
+        teacherFrame.setUserName(userName);
+        studentFrame.setUserName(userName);
+        teacherSettingsFrame.setUserName(userName);
+        studentSettingsFrame.setUserName(userName);
+        createCourseFrame.setUserName(userName);
+        enrollCourseFrame.setUserName(userName);
+        teacherFrame.setUserEmail(userEmail);
+        studentFrame.setUserEmail(userEmail);
+        teacherSettingsFrame.setUserEmail(userEmail);
+        studentSettingsFrame.setUserEmail(userEmail);
+        createCourseFrame.setUserEmail(userEmail);
+        enrollCourseFrame.setUserEmail(userEmail);
+        teacherFrame.setUserPassword(userPassword);
+        studentFrame.setUserPassword(userPassword);
+        teacherSettingsFrame.setUserPassword(userPassword);
+        studentSettingsFrame.setUserPassword(userPassword);
+        createCourseFrame.setUserPassword(userPassword);
+        enrollCourseFrame.setUserPassword(userPassword);
+        teacherSettingsFrame.resetTeacherSettingLabels();
+        studentSettingsFrame.resetStudentSettingLabels();
     }
 }
 
