@@ -72,6 +72,7 @@ public class EnrollCourse extends JFrame {
                     User.writer.write(Integer.toString(userID));
                     User.writer.println();
                     User.writer.flush();
+                    resetEnrollCourseLabels();
                 }
             }
         });
@@ -81,6 +82,7 @@ public class EnrollCourse extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 User.enrollCourseFrame.setVisible(false);
                 User.studentFrame.setVisible(true);
+                resetEnrollCourseLabels();
             }
         });
     }
@@ -99,6 +101,11 @@ public class EnrollCourse extends JFrame {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    public void resetEnrollCourseLabels() {
+        idField.setText("");
+        passwordField.setText("");
     }
 
 }
