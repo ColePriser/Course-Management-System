@@ -26,7 +26,7 @@ public class Course {
         return coursePassword;
     }
 
-    public void setCoursePassword(String coursePassword) {
-        this.coursePassword = coursePassword;
+    public Teacher getTeacher() {
+        return teacher;
     }
 }
