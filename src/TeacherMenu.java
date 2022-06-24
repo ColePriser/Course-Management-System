@@ -61,6 +61,15 @@ public class TeacherMenu extends JFrame {
                 User.createCourseFrame.setVisible(true);
             }
         });
+
+        viewCoursesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User.teacherFrame.setVisible(false);
+                User.teacherViewCoursesFrame.setVisible(true);
+                User.teacherViewCoursesFrame.resetCourseList();
+            }
+        });
     }
 
     public void setUserID(int userID) {
