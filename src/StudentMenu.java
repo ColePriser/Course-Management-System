@@ -42,6 +42,7 @@ public class StudentMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 User.studentFrame.setVisible(false);
+                User.enrollCourseFrame.setVisible(true);
             }
         });
 
@@ -50,7 +51,6 @@ public class StudentMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 User.studentFrame.setVisible(false);
                 User.studentSettingsFrame.setVisible(true);
-                //User.studentSettingsFrame.resetStudentSettingLabels();
             }
         });
 
