@@ -216,24 +216,32 @@ public class Server implements Runnable {
                         }
                         break;
                     }
-                    case "Delete Student Account": {
-                        int ID = Integer.parseInt(bfr.readLine());
-                        synchronized (race) {
-                            for (int x = 0; x < students.size(); x++) {
-                                if (students.get(x).getID() == ID) {
-                                    students.remove(x);
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-                    }
                     case "Delete Teacher Account": {
                         int ID = Integer.parseInt(bfr.readLine());
                         synchronized (race) {
                             for (int x = 0; x < teachers.size(); x++) {
                                 if (teachers.get(x).getID() == ID) {
                                     teachers.remove(x);
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                    case "Delete Student Account": {
+                        int ID = Integer.parseInt(bfr.readLine());
+                        synchronized (race) {
+                            for (int x = 0; x< courses.size(); x++) {
+                                for (int y = 0; y < courses.get(x).getEnrolledStudents().size(); y++) {
+                                    if (courses.get(x).getEnrolledStudents().get(y).getID() == ID) {
+                                        courses.get(x).getEnrolledStudents().remove(y);
+                                        break;
+                                    }
+                                }
+                            }
+                            for (int z = 0; z < students.size(); z++) {
+                                if (students.get(z).getID() == ID) {
+                                    students.remove(z);
                                     break;
                                 }
                             }
@@ -441,7 +449,7 @@ public class Server implements Runnable {
                     case "Create Course": {
                         String name = bfr.readLine();
                         int courseID = Integer.parseInt(bfr.readLine());
-                        String
+                        String coursePassword = bfr.readLine();
                         int teacherID = Integer.parseInt(bfr.readLine());
                         boolean taken = false;
                         synchronized (race) {
@@ -454,7 +462,7 @@ public class Server implements Runnable {
                             if (!taken) {
                                 for (int y = 0; y < teachers.size(); y++) {
                                     if (teachers.get(y).getID() == teacherID) {
-                                        Course newCourse = new Course(name, courseID, teachers.get(y));
+                                        Course newCourse = new Course(name, courseID, coursePassword, teachers.get(y));
                                         courses.add(newCourse);
                                         break;
                                     }
@@ -473,7 +481,7 @@ public class Server implements Runnable {
                         }
                         break;
                     }
-                    case "Enroll in Course" -> {
+                    case "Enroll In Course": {
                         int courseID = Integer.parseInt(bfr.readLine());
                         String coursePassword = bfr.readLine();
                         int userID = Integer.parseInt(bfr.readLine());
@@ -492,6 +500,12 @@ public class Server implements Runnable {
                                         }
                                         if (!alreadyEnrolled) {
                                             success = true;
+                                            for (int z = 0; z < students.size(); z++) {
+                                                if (students.get(z).getID() == userID) {
+                                                    courses.get(x).getEnrolledStudents().add(students.get(z));
+                                                    students.get(z).incrementNumEnrolledCourses();
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -502,14 +516,12 @@ public class Server implements Runnable {
                             writer.println();
                             writer.flush();
                             break;
-                        }
-                        else if (success) {
+                        } else if (success) {
                             writer.write("Enroll In Course Success");
                             writer.println();
                             writer.flush();
                             break;
-                        }
-                        else {
+                        } else {
                             writer.write("Enroll In Course Error");
                             writer.println();
                             writer.flush();
@@ -521,5 +533,15 @@ public class Server implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public ArrayList<Course> getCourses(int teacherID) {
+        ArrayList<Course> tempCourse = new ArrayList<>();
+        for (int x = 0; x < courses.size(); x++) {
+            if (courses.get(x).getTeacher().getID() == teacherID) {
+                tempCourse.add(courses.get(x));
+            }
+        }
+        return tempCourse;
     }
 }
