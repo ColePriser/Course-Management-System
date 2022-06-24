@@ -535,7 +535,7 @@ public class Server implements Runnable {
         }
     }
 
-    public ArrayList<Course> getCourses(int teacherID) {
+    public static ArrayList<Course> getCourses(int teacherID) {
         ArrayList<Course> tempCourse = new ArrayList<>();
         for (int x = 0; x < courses.size(); x++) {
             if (courses.get(x).getTeacher().getID() == teacherID) {
