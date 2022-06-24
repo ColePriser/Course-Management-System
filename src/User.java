@@ -16,6 +16,7 @@ public class User implements Runnable {
     public static StudentSettingsMenu studentSettingsFrame;
     public static CreateNewCourseMenu createCourseFrame;
     public static EnrollCourse enrollCourseFrame;
+    public static teacherViewCourses teacherViewCoursesFrame;
 
     public static void main(String[] args) {
         Thread user = new Thread(new User());
@@ -37,6 +38,7 @@ public class User implements Runnable {
             studentSettingsFrame = new StudentSettingsMenu();
             createCourseFrame = new CreateNewCourseMenu();
             enrollCourseFrame = new EnrollCourse();
+            teacherViewCoursesFrame = new teacherViewCourses();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,8 +139,6 @@ public class User implements Runnable {
                         JOptionPane.showMessageDialog(null,
                                 "Failed to create course! There already exists a course with this ID!",
                                 "Create Course", JOptionPane.ERROR_MESSAGE);
-                        createCourseFrame.setVisible(false);
-                        teacherFrame.setVisible(true);
                     }
                     case "User Info Edit" -> {
                         String name = bfr.readLine();
@@ -146,6 +146,25 @@ public class User implements Runnable {
                         String password = bfr.readLine();
                         int ID = Integer.parseInt(bfr.readLine());
                         setUserInfo(ID, name, email, password);
+                    }
+                    case "Already Enrolled In Course" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "You are already enrolled in this course!",
+                                "Enroll In Course", JOptionPane.ERROR_MESSAGE);
+                        enrollCourseFrame.setVisible(false);
+                        studentFrame.setVisible(true);
+                    }
+                    case "Enroll In Course Success" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "You have successfully enrolled in this course!",
+                                "Enroll In Course", JOptionPane.INFORMATION_MESSAGE);
+                        enrollCourseFrame.setVisible(false);
+                        studentFrame.setVisible(true);
+                    }
+                    case "Enroll In Course Error" -> {
+                        JOptionPane.showMessageDialog(null,
+                                "No course exists with the given ID and password. Try again!",
+                                "Enroll In Course", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -162,24 +181,28 @@ public class User implements Runnable {
         studentSettingsFrame.setUserID(userID);
         createCourseFrame.setUserID(userID);
         enrollCourseFrame.setUserID(userID);
+        teacherViewCoursesFrame.setUserID(userID);
         teacherFrame.setUserName(userName);
         studentFrame.setUserName(userName);
         teacherSettingsFrame.setUserName(userName);
         studentSettingsFrame.setUserName(userName);
         createCourseFrame.setUserName(userName);
         enrollCourseFrame.setUserName(userName);
+        teacherViewCoursesFrame.setUserName(userName);
         teacherFrame.setUserEmail(userEmail);
         studentFrame.setUserEmail(userEmail);
         teacherSettingsFrame.setUserEmail(userEmail);
         studentSettingsFrame.setUserEmail(userEmail);
         createCourseFrame.setUserEmail(userEmail);
         enrollCourseFrame.setUserEmail(userEmail);
+        teacherViewCoursesFrame.setUserEmail(userEmail);
         teacherFrame.setUserPassword(userPassword);
         studentFrame.setUserPassword(userPassword);
         teacherSettingsFrame.setUserPassword(userPassword);
         studentSettingsFrame.setUserPassword(userPassword);
         createCourseFrame.setUserPassword(userPassword);
         enrollCourseFrame.setUserPassword(userPassword);
+        teacherViewCoursesFrame.setUserPassword(userPassword);
         teacherSettingsFrame.resetTeacherSettingLabels();
         studentSettingsFrame.resetStudentSettingLabels();
     }
