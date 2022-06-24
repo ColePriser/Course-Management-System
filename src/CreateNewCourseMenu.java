@@ -8,9 +8,10 @@ import java.awt.event.WindowEvent;
 public class CreateNewCourseMenu extends JFrame {
     private JTextField nameField;
     private JTextField idField;
-    private JButton createButton;
     private JButton backButton;
+    private JButton createButton;
     private JPanel createNewCoursePanel;
+    private JPasswordField passwordField;
 
     private int userID;
     private String userName;
@@ -67,6 +68,10 @@ public class CreateNewCourseMenu extends JFrame {
                     JOptionPane.showMessageDialog(null, "Course ID must have length of 5!", "Create Course",
                             JOptionPane.ERROR_MESSAGE);
                 }
+                else if (String.valueOf(passwordField.getPassword()).isBlank()) {
+                    JOptionPane.showMessageDialog(null, "Password cannot be empty!",
+                            "Create Course", JOptionPane.ERROR_MESSAGE);
+                }
                 else {
                     User.writer.write("Create Course");
                     User.writer.println();
@@ -75,6 +80,9 @@ public class CreateNewCourseMenu extends JFrame {
                     User.writer.println();
                     User.writer.flush();
                     User.writer.write(idField.getText());
+                    User.writer.println();
+                    User.writer.flush();
+                    User.writer.write(String.valueOf(passwordField.getPassword()));
                     User.writer.println();
                     User.writer.flush();
                     User.writer.write(Integer.toString(userID));
@@ -89,6 +97,7 @@ public class CreateNewCourseMenu extends JFrame {
     public void resetCreateCourseLabels() {
         nameField.setText("");
         idField.setText("");
+        passwordField.setText("");
     }
 
     public void setUserID(int userID) {
