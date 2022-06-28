@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -23,13 +25,17 @@ public class teacherViewCourses extends JFrame {
     private JLabel courseNameSeven;
     private JLabel courseNameEight;
     private JLabel test;
+    private JButton backButton;
+    private JLabel tempLabel;
 
+    private int numCourses;
     private int userID;
     private String userName;
     private String userEmail;
     private String userPassword;
-    private ArrayList<Course> teacherCourses = new ArrayList<>();
-    private ArrayList<JLabel> nameLabels = new ArrayList<>();
+    //private ArrayList<Course> teacherCourses = new ArrayList<>();
+    private final ArrayList<JPanel> panels = new ArrayList<>();
+    private final ArrayList<JLabel> nameLabels = new ArrayList<>();
 
     public teacherViewCourses() {
         setContentPane(teacherViewCoursesPanel);
@@ -40,7 +46,8 @@ public class teacherViewCourses extends JFrame {
         Image logo = logoIcon.getImage();
         setIconImage(logo);
         setVisible(false);
-        nameLabels.add(courseNameOne);
+        this.numCourses = 0;
+        /*nameLabels.add(courseNameOne);
         nameLabels.add(courseNameTwo);
         nameLabels.add(courseNameThree);
         nameLabels.add(courseNameFour);
@@ -48,7 +55,14 @@ public class teacherViewCourses extends JFrame {
         nameLabels.add(courseNameSix);
         nameLabels.add(courseNameSeven);
         nameLabels.add(courseNameEight);
-        resetCourseList();
+        panels.add(courseOne);
+        panels.add(courseTwo);
+        panels.add(courseThree);
+        panels.add(courseFour);
+        panels.add(courseFive);
+        panels.add(courseSix);
+        panels.add(courseSeven);
+        panels.add(courseEight);*/
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -59,20 +73,30 @@ public class teacherViewCourses extends JFrame {
                 User.writer.flush();
             }
         });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User.teacherViewCoursesFrame.setVisible(false);
+                User.teacherFrame.setVisible(true);
+            }
+        });
     }
 
     public void resetCourseList() {
-        this.teacherCourses = Server.getCourses(userID);
-        for (int x = 0; x < teacherCourses.size(); x++) {
-            nameLabels.get(x).setText(teacherCourses.get(x).getCourseName());
-        }
-        int diff = nameLabels.size() - teacherCourses.size();
-        if (diff > 0) {
-            for (int y = teacherCourses.size(); y < nameLabels.size(); y++) {
-                nameLabels.get(y).setText("");
-                //find a way to hind these panels??
-            }
-        }
+        User.writer.write("Reset Course List");
+        User.writer.println();
+        User.writer.flush();
+        User.writer.write(Integer.toString(Server.getCourses(userID).size()));
+        User.writer.println();
+        User.writer.flush();
+        /*for (int x = 0; x < Server.courses.size(); x++) {
+            tempLabel.setText(Server.courses.get(x).getCourseName());
+        }*/
+        tempLabel.setText(Server.getCourses(userID).get(0).getCourseName());
+        //courseNameOne.setText(Server.courses.get(0).getCourseName());
+        //getContentPane().add(courseOne);
+
     }
 
     public void setUserID(int userID) {
