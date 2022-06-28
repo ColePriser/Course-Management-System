@@ -1,16 +1,18 @@
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server implements Runnable {
     public Socket socket; //Socket object
     public BufferedReader bfr; //BufferedReader object
     public PrintWriter writer; //PrintWriter object
 
-    public static ArrayList<Socket> clients = new ArrayList<>(); //ArrayList of clients
-    public static ArrayList<Teacher> teachers = new ArrayList<>(); //ArrayList of teachers
-    public static ArrayList<Student> students = new ArrayList<>(); //ArrayList of students
-    public static ArrayList<Course> courses = new ArrayList<>();
+    private static ArrayList<Socket> clients = new ArrayList<Socket>(); //ArrayList of clients
+    private static List<Teacher> teachers = new CopyOnWriteArrayList<>(); //ArrayList of teachers
+    private static List<Student> students = new CopyOnWriteArrayList<>(); //ArrayList of students
+    private static List<Course> courses = new CopyOnWriteArrayList<>();
+
 
     public static final Object race = new Object(); //Object used in synchronized blocks to prevent race conditions
 
@@ -459,27 +461,27 @@ public class Server implements Runnable {
                                     break;
                                 }
                             }
-                            if (!taken) {
-                                for (int y = 0; y < teachers.size(); y++) {
-                                    if (teachers.get(y).getID() == teacherID) {
-                                        Course newCourse = new Course(name, courseID, coursePassword, teachers.get(y));
-                                        courses.add(newCourse);
-                                        break;
-                                    }
-                                }
-                            }
                         }
                         writer = new PrintWriter(this.socket.getOutputStream());
                         if (taken) {
                             writer.write("Course ID Taken");
                             writer.println();
                             writer.flush();
+                            break;
                         } else {
-                            writer.write("Course Created Success");
-                            writer.println();
-                            writer.flush();
+                            synchronized (race) {
+                                for (int y = 0; y < teachers.size(); y++) {
+                                    if (teachers.get(y).getID() == teacherID) {
+                                        Course newCourse = new Course(name, courseID, coursePassword, teachers.get(y));
+                                        courses.add(newCourse);
+                                        writer.write("Course Created Success");
+                                        writer.println();
+                                        writer.flush();
+                                        break;
+                                    }
+                                }
+                            }
                         }
-                        break;
                     }
                     case "Enroll In Course": {
                         int courseID = Integer.parseInt(bfr.readLine());
@@ -528,6 +530,13 @@ public class Server implements Runnable {
                             break;
                         }
                     }
+                    case "Reset Course List": {
+                        String num = bfr.readLine();
+                        System.out.println(num);
+                        for (int x = 0; x < courses.size(); x++) {
+                            System.out.println(courses.get(x).getCourseName());
+                        }
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -540,6 +549,7 @@ public class Server implements Runnable {
         for (int x = 0; x < courses.size(); x++) {
             if (courses.get(x).getTeacher().getID() == teacherID) {
                 tempCourse.add(courses.get(x));
+                System.out.println(courses.get(x).getCourseName());
             }
         }
         return tempCourse;
