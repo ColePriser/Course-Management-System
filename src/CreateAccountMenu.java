@@ -130,8 +130,9 @@ public class CreateAccountMenu extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.createActFrame.setVisible(false);
-                User.mainMenuFrame.setVisible(true);
+                User.writer.write("Create Account Back");
+                User.writer.println();
+                User.writer.flush();
                 resetCreateAccountLabels();
             }
         });

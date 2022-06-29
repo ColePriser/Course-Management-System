@@ -7,16 +7,16 @@ public class User implements Runnable {
     public static BufferedReader bfr; //BufferedReader object
     public static PrintWriter writer; //PrintWriter object
 
-    public static MainMenu mainMenuFrame;
-    public static CreateAccountMenu createActFrame;
-    public static LogInMenu logInFrame;
-    public static TeacherMenu teacherFrame;
-    public static StudentMenu studentFrame;
-    public static TeacherSettingsMenu teacherSettingsFrame;
-    public static StudentSettingsMenu studentSettingsFrame;
-    public static CreateNewCourseMenu createCourseFrame;
-    public static EnrollCourse enrollCourseFrame;
-    public static teacherViewCourses teacherViewCoursesFrame;
+    private MainMenu mainMenuFrame = new MainMenu();
+    private CreateAccountMenu createActFrame = new CreateAccountMenu();;
+    private LogInMenu logInFrame = new LogInMenu();;
+    private TeacherMenu teacherFrame = new TeacherMenu();;
+    private StudentMenu studentFrame = new StudentMenu();;
+    private TeacherSettingsMenu teacherSettingsFrame = new TeacherSettingsMenu();;
+    private StudentSettingsMenu studentSettingsFrame = new StudentSettingsMenu();;
+    private CreateNewCourseMenu createCourseFrame = new CreateNewCourseMenu();;
+    private EnrollCourse enrollCourseFrame = new EnrollCourse();;
+    private teacherViewCourses teacherViewCoursesFrame = new teacherViewCourses();;
 
     public static void main(String[] args) {
         Thread user = new Thread(new User());
@@ -29,16 +29,6 @@ public class User implements Runnable {
             socket = new Socket(InetAddress.getLocalHost(), 2361);
             bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream());
-            mainMenuFrame = new MainMenu();
-            createActFrame = new CreateAccountMenu();
-            logInFrame = new LogInMenu();
-            teacherFrame = new TeacherMenu();
-            studentFrame = new StudentMenu();
-            teacherSettingsFrame = new TeacherSettingsMenu();
-            studentSettingsFrame = new StudentSettingsMenu();
-            createCourseFrame = new CreateNewCourseMenu();
-            enrollCourseFrame = new EnrollCourse();
-            teacherViewCoursesFrame = new teacherViewCourses();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,6 +159,46 @@ public class User implements Runnable {
                         JOptionPane.showMessageDialog(null,
                                 "No course exists with the given ID and password. Try again!",
                                 "Enroll In Course", JOptionPane.ERROR_MESSAGE);
+                    }
+                    case "Create New Course Menu Back" -> {
+                        createCourseFrame.setVisible(false);
+                        teacherFrame.setVisible(true);
+                    }
+                    case "Create Account Menu Back" -> {
+                        createActFrame.setVisible(false);
+                        mainMenuFrame.setVisible(true);
+                    }
+                    case "Enroll Course Menu Back" -> {
+                        enrollCourseFrame.setVisible(false);
+                        studentFrame.setVisible(true);
+                    }
+                    case "Log In Menu Back" -> {
+                        logInFrame.setVisible(false);
+                        mainMenuFrame.setVisible(true);
+                    }
+                    case "Student Menu Back" -> {
+                        studentFrame.setVisible(false);
+                        mainMenuFrame.setVisible(true);
+                    }
+                    case "Student Settings Menu Back" -> {
+                        studentSettingsFrame.setVisible(false);
+                        studentFrame.setVisible(true);
+                    }
+                    case "Teacher Menu Back" -> {
+                        teacherFrame.setVisible(false);
+                        mainMenuFrame.setVisible(true);
+                    }
+                    case "Teacher Settings Menu Back" -> {
+                        teacherSettingsFrame.setVisible(false);
+                        teacherFrame.setVisible(true);
+                    }
+                    case "Teacher View Courses Menu Back" -> {
+                        teacherViewCoursesFrame.setVisible(false);
+                        teacherFrame.setVisible(true);
+                    }
+                    case "Main Menu Log In" -> {
+                        mainMenuFrame.setVisible(false);
+                        logInFrame.setVisible(true);
                     }
                 }
             }

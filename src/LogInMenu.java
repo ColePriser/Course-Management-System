@@ -103,8 +103,9 @@ public class LogInMenu extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.logInFrame.setVisible(false);
-                User.mainMenuFrame.setVisible(true);
+                User.writer.write("Log In Back");
+                User.writer.println();
+                User.writer.flush();
                 resetCreateAccountLabels();
             }
         });

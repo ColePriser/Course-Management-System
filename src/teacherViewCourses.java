@@ -69,7 +69,6 @@ public class teacherViewCourses extends JFrame {
         teacherViewCoursesPanel.add(courseSeven);
         teacherViewCoursesPanel.add(courseEight);*/
         setContentPane(teacherViewCoursesPanel);
-        resetCourseList();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -84,8 +83,9 @@ public class teacherViewCourses extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.teacherViewCoursesFrame.setVisible(false);
-                User.teacherFrame.setVisible(true);
+                User.writer.write("Teacher View Courses Back");
+                User.writer.println();
+                User.writer.flush();
             }
         });
     }

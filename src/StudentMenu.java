@@ -41,24 +41,25 @@ public class StudentMenu extends JFrame {
         enrollInNewCourseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.studentFrame.setVisible(false);
-                User.enrollCourseFrame.setVisible(true);
+                //User.studentFrame.setVisible(false);
+                //User.enrollCourseFrame.setVisible(true);
             }
         });
 
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.studentFrame.setVisible(false);
-                User.studentSettingsFrame.setVisible(true);
+                //User.studentFrame.setVisible(false);
+                //User.studentSettingsFrame.setVisible(true);
             }
         });
 
         returnToMainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.studentFrame.setVisible(false);
-                User.mainMenuFrame.setVisible(true);
+                User.writer.write("Student Back");
+                User.writer.println();
+                User.writer.flush();
             }
         });
     }

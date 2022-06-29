@@ -40,8 +40,8 @@ public class TeacherMenu extends JFrame {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.teacherFrame.setVisible(false);
-                User.teacherSettingsFrame.setVisible(true);
+                //User.teacherFrame.setVisible(false);
+                //User.teacherSettingsFrame.setVisible(true);
                 //User.teacherSettingsFrame.resetTeacherSettingLabels();
             }
         });
@@ -49,25 +49,26 @@ public class TeacherMenu extends JFrame {
         returnToMainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.teacherFrame.setVisible(false);
-                User.mainMenuFrame.setVisible(true);
+                User.writer.write("Teacher Back");
+                User.writer.println();
+                User.writer.flush();
             }
         });
 
         createNewCourseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.teacherFrame.setVisible(false);
-                User.createCourseFrame.setVisible(true);
+                //User.teacherFrame.setVisible(false);
+                //User.createCourseFrame.setVisible(true);
             }
         });
 
         viewCoursesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.teacherFrame.setVisible(false);
-                User.teacherViewCoursesFrame.setVisible(true);
-                User.teacherViewCoursesFrame.resetCourseList();
+                //User.teacherFrame.setVisible(false);
+                //User.teacherViewCoursesFrame.setVisible(true);
+                //User.teacherViewCoursesFrame.resetCourseList();
             }
         });
     }

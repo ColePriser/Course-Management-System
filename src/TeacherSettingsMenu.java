@@ -141,16 +141,17 @@ public class TeacherSettingsMenu extends JFrame {
                 JOptionPane.showMessageDialog(null,
                         "Account successfully deleted! Returning to Main Menu.",
                         "Delete Account", JOptionPane.INFORMATION_MESSAGE);
-                User.teacherSettingsFrame.setVisible(false);
-                User.mainMenuFrame.setVisible(true);
+                //User.teacherSettingsFrame.setVisible(false);
+                //User.mainMenuFrame.setVisible(true);
             }
         });
 
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.teacherSettingsFrame.setVisible(false);
-                User.teacherFrame.setVisible(true);
+                User.writer.write("Teacher Settings Back");
+                User.writer.println();
+                User.writer.flush();
             }
         });
     }

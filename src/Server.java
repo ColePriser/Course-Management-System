@@ -543,12 +543,75 @@ public class Server implements Runnable {
                             break;
                         }
                     }
-                    case "Reset Course List": {
-                        String num = bfr.readLine();
-                        System.out.println(num);
-                        for (int x = 0; x < courses.size(); x++) {
-                            System.out.println(courses.get(x).getCourseName());
-                        }
+                    case "Create New Course Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Create New Course Menu Back");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Create Account Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Create Account Menu Back");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Enroll Course Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Enroll Course Menu Back");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Log In Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Log In Menu Back");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Student Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student Menu Back");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Student Settings Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student Settings Menu Back");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Teacher Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Teacher Menu Back");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Teacher Settings Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Teacher Settings Menu Back");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Teacher View Courses Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Teacher View Courses Menu Back");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Main Log In": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Main Menu Log In");
+                        writer.println();
+                        writer.flush();
+                        break;
                     }
                 }
             } catch (Exception e) {

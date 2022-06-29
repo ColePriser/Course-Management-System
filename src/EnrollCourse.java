@@ -80,8 +80,9 @@ public class EnrollCourse extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.enrollCourseFrame.setVisible(false);
-                User.studentFrame.setVisible(true);
+                User.writer.write("Enroll Course Back");
+                User.writer.println();
+                User.writer.flush();
                 resetEnrollCourseLabels();
             }
         });

@@ -41,8 +41,9 @@ public class CreateNewCourseMenu extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.createCourseFrame.setVisible(false);
-                User.teacherFrame.setVisible(true);
+                User.writer.write("Create New Course Back");
+                User.writer.println();
+                User.writer.flush();
             }
         });
 
