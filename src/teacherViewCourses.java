@@ -33,9 +33,9 @@ public class teacherViewCourses extends JFrame {
     private String userName;
     private String userEmail;
     private String userPassword;
-    //private ArrayList<Course> teacherCourses = new ArrayList<>();
-    private final ArrayList<JPanel> panels = new ArrayList<>();
-    private final ArrayList<JLabel> nameLabels = new ArrayList<>();
+    private ArrayList<Course> teacherCourses = new ArrayList<>();
+    private ArrayList<JPanel> panels = new ArrayList<>();
+    private ArrayList<JLabel> nameLabels = new ArrayList<>();
 
     public teacherViewCourses() {
         setContentPane(teacherViewCoursesPanel);
@@ -47,7 +47,7 @@ public class teacherViewCourses extends JFrame {
         setIconImage(logo);
         setVisible(false);
         this.numCourses = 0;
-        /*nameLabels.add(courseNameOne);
+        nameLabels.add(courseNameOne);
         nameLabels.add(courseNameTwo);
         nameLabels.add(courseNameThree);
         nameLabels.add(courseNameFour);
@@ -62,7 +62,15 @@ public class teacherViewCourses extends JFrame {
         panels.add(courseFive);
         panels.add(courseSix);
         panels.add(courseSeven);
-        panels.add(courseEight);*/
+        panels.add(courseEight);
+        courseNameOne.setText("hello");
+        courseNameTwo.setText("hello");
+        courseNameThree.setText("hello");
+        courseNameFour.setText("hello");
+        courseNameFive.setText("hello");
+        courseNameSix.setText("hello");
+        courseNameSeven.setText("hello");
+        courseNameEight.setText("hello");
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -93,7 +101,7 @@ public class teacherViewCourses extends JFrame {
         /*for (int x = 0; x < Server.courses.size(); x++) {
             tempLabel.setText(Server.courses.get(x).getCourseName());
         }*/
-        tempLabel.setText(Server.getCourses(userID).get(0).getCourseName());
+        //tempLabel.setText(Server.getCourses(userID).get(0).getCourseName());
         //courseNameOne.setText(Server.courses.get(0).getCourseName());
         //getContentPane().add(courseOne);
 
@@ -113,5 +121,12 @@ public class teacherViewCourses extends JFrame {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    public void addTeacherCourse(String name, int courseID, String password) {
+        Teacher cur = new Teacher(this.userName, this.userID, this.userEmail, this.userPassword);
+        Course newCourse = new Course(name, courseID, password, cur);
+        teacherCourses.add(newCourse);
+        this.numCourses++;
     }
 }

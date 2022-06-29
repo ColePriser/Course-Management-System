@@ -454,30 +454,43 @@ public class Server implements Runnable {
                         String coursePassword = bfr.readLine();
                         int teacherID = Integer.parseInt(bfr.readLine());
                         boolean taken = false;
+                        writer = new PrintWriter(this.socket.getOutputStream());
                         synchronized (race) {
                             for (int x = 0; x < courses.size(); x++) {
                                 if (courses.get(x).getCourseID() == courseID) {
                                     taken = true;
+                                    writer.write("Course ID Taken");
+                                    writer.println();
+                                    writer.flush();
                                     break;
                                 }
                             }
-                        }
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        if (taken) {
-                            writer.write("Course ID Taken");
-                            writer.println();
-                            writer.flush();
-                            break;
-                        } else {
-                            synchronized (race) {
+                            if (!taken) {
                                 for (int y = 0; y < teachers.size(); y++) {
                                     if (teachers.get(y).getID() == teacherID) {
-                                        Course newCourse = new Course(name, courseID, coursePassword, teachers.get(y));
-                                        courses.add(newCourse);
-                                        writer.write("Course Created Success");
-                                        writer.println();
-                                        writer.flush();
-                                        break;
+                                        if (teachers.get(y).getNumEnrolledCourses() >= 8) {
+                                            writer.write("Teacher Too Many Courses");
+                                            writer.println();
+                                            writer.flush();
+                                            break;
+                                        } else {
+                                            Course newCourse = new Course(name, courseID, coursePassword, teachers.get(y));
+                                            courses.add(newCourse);
+                                            teachers.get(y).incrementNumEnrolledCourses();
+                                            writer.write("Course Created Success");
+                                            writer.println();
+                                            writer.flush();
+                                            writer.write(name);
+                                            writer.println();
+                                            writer.flush();
+                                            writer.write(Integer.toString(courseID));
+                                            writer.println();
+                                            writer.flush();
+                                            writer.write(coursePassword);
+                                            writer.println();
+                                            writer.flush();
+                                            break;
+                                        }
                                     }
                                 }
                             }

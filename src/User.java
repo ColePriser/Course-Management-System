@@ -129,6 +129,10 @@ public class User implements Runnable {
                                 "Log In", JOptionPane.ERROR_MESSAGE);
                     }
                     case "Course Created Success" -> {
+                        String name = bfr.readLine();
+                        int ID = Integer.parseInt(bfr.readLine());
+                        String password = bfr.readLine();
+                        teacherViewCoursesFrame.addTeacherCourse(name, ID, password);
                         JOptionPane.showMessageDialog(null,
                                 "You have created a course successfully!",
                                 "Create Course", JOptionPane.INFORMATION_MESSAGE);
