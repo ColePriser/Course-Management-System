@@ -24,9 +24,7 @@ public class teacherViewCourses extends JFrame {
     private JLabel courseNameSix;
     private JLabel courseNameSeven;
     private JLabel courseNameEight;
-    private JLabel test;
     private JButton backButton;
-    private JLabel tempLabel;
 
     private int numCourses;
     private int userID;
@@ -38,7 +36,6 @@ public class teacherViewCourses extends JFrame {
     private ArrayList<JLabel> nameLabels = new ArrayList<>();
 
     public teacherViewCourses() {
-        setContentPane(teacherViewCoursesPanel);
         setTitle("View Courses");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
@@ -46,7 +43,7 @@ public class teacherViewCourses extends JFrame {
         Image logo = logoIcon.getImage();
         setIconImage(logo);
         setVisible(false);
-        this.numCourses = 0;
+        numCourses = 0;
         nameLabels.add(courseNameOne);
         nameLabels.add(courseNameTwo);
         nameLabels.add(courseNameThree);
@@ -63,14 +60,16 @@ public class teacherViewCourses extends JFrame {
         panels.add(courseSix);
         panels.add(courseSeven);
         panels.add(courseEight);
-        courseNameOne.setText("hello");
-        courseNameTwo.setText("hello");
-        courseNameThree.setText("hello");
-        courseNameFour.setText("hello");
-        courseNameFive.setText("hello");
-        courseNameSix.setText("hello");
-        courseNameSeven.setText("hello");
-        courseNameEight.setText("hello");
+        /*teacherViewCoursesPanel.add(courseOne);
+        teacherViewCoursesPanel.add(courseTwo);
+        teacherViewCoursesPanel.add(courseThree);
+        teacherViewCoursesPanel.add(courseFour);
+        teacherViewCoursesPanel.add(courseFive);
+        teacherViewCoursesPanel.add(courseSix);
+        teacherViewCoursesPanel.add(courseSeven);
+        teacherViewCoursesPanel.add(courseEight);*/
+        setContentPane(teacherViewCoursesPanel);
+        resetCourseList();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -98,13 +97,12 @@ public class teacherViewCourses extends JFrame {
         User.writer.write(Integer.toString(Server.getCourses(userID).size()));
         User.writer.println();
         User.writer.flush();
-        /*for (int x = 0; x < Server.courses.size(); x++) {
-            tempLabel.setText(Server.courses.get(x).getCourseName());
-        }*/
-        //tempLabel.setText(Server.getCourses(userID).get(0).getCourseName());
-        //courseNameOne.setText(Server.courses.get(0).getCourseName());
-        //getContentPane().add(courseOne);
-
+        for (int x = 0; x < numCourses; x++) {
+            nameLabels.get(x).setText(teacherCourses.get(x).getCourseName());
+        }
+        for (int y = numCourses; y < 8; y++) {
+            nameLabels.get(y).setText("");
+        }
     }
 
     public void setUserID(int userID) {
