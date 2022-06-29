@@ -200,6 +200,40 @@ public class User implements Runnable {
                         mainMenuFrame.setVisible(false);
                         logInFrame.setVisible(true);
                     }
+                    case "Delete Teacher Account User" -> {
+                        teacherSettingsFrame.setVisible(false);
+                        mainMenuFrame.setVisible(true);
+                    }
+                    case "Teacher Settings User" -> {
+                        teacherFrame.setVisible(false);
+                        teacherSettingsFrame.setVisible(true);
+                        teacherSettingsFrame.resetTeacherSettingLabels();
+                    }
+                    case "Teacher Create New Course Button User" -> {
+                        teacherFrame.setVisible(false);
+                        createCourseFrame.setVisible(true);
+                    }
+                    case "Teacher View Courses Button User"  -> {
+                        teacherFrame.setVisible(false);
+                        teacherViewCoursesFrame.setVisible(true);
+                        teacherViewCoursesFrame.resetCourseList();
+                    }
+                    case "Delete Student Account User" -> {
+                        studentSettingsFrame.setVisible(false);
+                        mainMenuFrame.setVisible(true);
+                    }
+                    case "Main Menu Create New Account User" -> {
+                        mainMenuFrame.setVisible(false);
+                        createActFrame.setVisible(true);
+                    }
+                    case "Student Settings User" -> {
+                        studentFrame.setVisible(false);
+                        studentSettingsFrame.setVisible(true);
+                    }
+                    case "Student Menu Enroll In Course User" -> {
+                        studentFrame.setVisible(false);
+                        enrollCourseFrame.setVisible(true);
+                    }
                 }
             }
             catch (Exception e) {

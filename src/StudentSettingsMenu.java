@@ -139,8 +139,6 @@ public class StudentSettingsMenu extends JFrame {
                 JOptionPane.showMessageDialog(null,
                         "Account successfully deleted! Returning to Main Menu.",
                         "Delete Account", JOptionPane.INFORMATION_MESSAGE);
-                //User.studentSettingsFrame.setVisible(false);
-                //User.mainMenuFrame.setVisible(true);
             }
         });
 

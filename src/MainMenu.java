@@ -34,8 +34,9 @@ public class MainMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == createNewAccountButton) {
-                    //User.mainMenuFrame.setVisible(false);
-                    //User.createActFrame.setVisible(true);
+                    User.writer.write("Main Menu Create New Account");
+                    User.writer.println();
+                    User.writer.flush();
                 }
             }
         };
@@ -45,8 +46,6 @@ public class MainMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == logInToAccountButton) {
-                    //User.mainMenuFrame.setVisible(false);
-                    //User.logInFrame.setVisible(true);
                     User.writer.write("Main Log In");
                     User.writer.println();
                     User.writer.flush();

@@ -228,6 +228,10 @@ public class Server implements Runnable {
                                 }
                             }
                         }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Delete Teacher Account User");
+                        writer.println();
+                        writer.flush();
                         break;
                     }
                     case "Delete Student Account": {
@@ -248,6 +252,10 @@ public class Server implements Runnable {
                                 }
                             }
                         }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Delete Student Account User");
+                        writer.println();
+                        writer.flush();
                         break;
                     }
                     case "Teacher Edit Name": {
@@ -496,8 +504,10 @@ public class Server implements Runnable {
                             }
                         }
                     }
-                    case "Enroll In Course": {
-                        int courseID = Integer.parseInt(bfr.readLine());
+                    /*case "Enroll In Course": {
+                        System.out.println(bfr.readLine());
+                        //int courseID = Integer.parseInt(bfr.readLine());
+                        int courseID = 0;
                         String coursePassword = bfr.readLine();
                         int userID = Integer.parseInt(bfr.readLine());
                         boolean alreadyEnrolled = false;
@@ -542,7 +552,7 @@ public class Server implements Runnable {
                             writer.flush();
                             break;
                         }
-                    }
+                    }*/
                     case "Create New Course Back": {
                         writer = new PrintWriter(this.socket.getOutputStream());
                         writer.write("Create New Course Menu Back");
@@ -609,6 +619,48 @@ public class Server implements Runnable {
                     case "Main Log In": {
                         writer = new PrintWriter(this.socket.getOutputStream());
                         writer.write("Main Menu Log In");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Teacher Settings": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Teacher Settings User");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Teacher Create New Course Button": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Teacher Create New Course Button User");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Teacher View Courses Button": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Teacher View Courses Button User");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Main Menu Create New Account": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Main Menu Create New Account User");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Student Settings": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student Settings User");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Student Menu Enroll In Course": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student Menu Enroll In Course User");
                         writer.println();
                         writer.flush();
                         break;

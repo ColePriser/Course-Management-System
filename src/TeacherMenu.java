@@ -40,9 +40,9 @@ public class TeacherMenu extends JFrame {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //User.teacherFrame.setVisible(false);
-                //User.teacherSettingsFrame.setVisible(true);
-                //User.teacherSettingsFrame.resetTeacherSettingLabels();
+                User.writer.write("Teacher Settings");
+                User.writer.println();
+                User.writer.flush();
             }
         });
 
@@ -58,17 +58,18 @@ public class TeacherMenu extends JFrame {
         createNewCourseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //User.teacherFrame.setVisible(false);
-                //User.createCourseFrame.setVisible(true);
+                User.writer.write("Teacher Create New Course Button");
+                User.writer.println();
+                User.writer.flush();
             }
         });
 
         viewCoursesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //User.teacherFrame.setVisible(false);
-                //User.teacherViewCoursesFrame.setVisible(true);
-                //User.teacherViewCoursesFrame.resetCourseList();
+                User.writer.write("Teacher View Courses Button");
+                User.writer.println();
+                User.writer.flush();
             }
         });
     }

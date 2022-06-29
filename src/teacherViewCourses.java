@@ -60,14 +60,6 @@ public class teacherViewCourses extends JFrame {
         panels.add(courseSix);
         panels.add(courseSeven);
         panels.add(courseEight);
-        /*teacherViewCoursesPanel.add(courseOne);
-        teacherViewCoursesPanel.add(courseTwo);
-        teacherViewCoursesPanel.add(courseThree);
-        teacherViewCoursesPanel.add(courseFour);
-        teacherViewCoursesPanel.add(courseFive);
-        teacherViewCoursesPanel.add(courseSix);
-        teacherViewCoursesPanel.add(courseSeven);
-        teacherViewCoursesPanel.add(courseEight);*/
         setContentPane(teacherViewCoursesPanel);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

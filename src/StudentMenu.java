@@ -41,16 +41,18 @@ public class StudentMenu extends JFrame {
         enrollInNewCourseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //User.studentFrame.setVisible(false);
-                //User.enrollCourseFrame.setVisible(true);
+                User.writer.write("Student Menu Enroll In Course");
+                User.writer.println();
+                User.writer.flush();
             }
         });
 
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //User.studentFrame.setVisible(false);
-                //User.studentSettingsFrame.setVisible(true);
+                User.writer.write("Student Settings");
+                User.writer.println();
+                User.writer.flush();
             }
         });
 
