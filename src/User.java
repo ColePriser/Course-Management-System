@@ -8,15 +8,16 @@ public class User implements Runnable {
     public static PrintWriter writer; //PrintWriter object
 
     private MainMenu mainMenuFrame = new MainMenu();
-    private CreateAccountMenu createActFrame = new CreateAccountMenu();;
-    private LogInMenu logInFrame = new LogInMenu();;
-    private TeacherMenu teacherFrame = new TeacherMenu();;
-    private StudentMenu studentFrame = new StudentMenu();;
-    private TeacherSettingsMenu teacherSettingsFrame = new TeacherSettingsMenu();;
-    private StudentSettingsMenu studentSettingsFrame = new StudentSettingsMenu();;
-    private CreateNewCourseMenu createCourseFrame = new CreateNewCourseMenu();;
-    private EnrollCourse enrollCourseFrame = new EnrollCourse();;
-    private teacherViewCourses teacherViewCoursesFrame = new teacherViewCourses();;
+    private CreateAccountMenu createActFrame = new CreateAccountMenu();
+    private LogInMenu logInFrame = new LogInMenu();
+    private TeacherMenu teacherFrame = new TeacherMenu();
+    private StudentMenu studentFrame = new StudentMenu();
+    private TeacherSettingsMenu teacherSettingsFrame = new TeacherSettingsMenu();
+    private StudentSettingsMenu studentSettingsFrame = new StudentSettingsMenu();
+    private CreateNewCourseMenu createCourseFrame = new CreateNewCourseMenu();
+    private EnrollCourse enrollCourseFrame = new EnrollCourse();
+    private teacherViewCourses teacherViewCoursesFrame = new teacherViewCourses();
+    private TeacherEditCourse teacherEditCourseFrame = new TeacherEditCourse();
 
     public static void main(String[] args) {
         Thread user = new Thread(new User());
@@ -120,9 +121,9 @@ public class User implements Runnable {
                     }
                     case "Course Created Success" -> {
                         String name = bfr.readLine();
-                        int ID = Integer.parseInt(bfr.readLine());
+                        int courseID = Integer.parseInt(bfr.readLine());
                         String password = bfr.readLine();
-                        teacherViewCoursesFrame.addTeacherCourse(name, ID, password);
+                        teacherViewCoursesFrame.addTeacherCourse(name, courseID, password);
                         JOptionPane.showMessageDialog(null,
                                 "You have created a course successfully!",
                                 "Create Course", JOptionPane.INFORMATION_MESSAGE);
@@ -234,6 +235,32 @@ public class User implements Runnable {
                         studentFrame.setVisible(false);
                         enrollCourseFrame.setVisible(true);
                     }
+                    case "Teacher Edit Courses Menu Back" -> {
+                        teacherEditCourseFrame.setVisible(false);
+                        teacherViewCoursesFrame.setVisible(true);
+                    }
+                    case "Teacher Edit Course Button User" -> {
+                        String courseName = bfr.readLine();
+                        int courseID = Integer.parseInt(bfr.readLine());
+                        String teacherName = bfr.readLine();
+                        String coursePassword = bfr.readLine();
+                        teacherViewCoursesFrame.setVisible(false);
+                        teacherEditCourseFrame.setCourseInfo(courseName, courseID, teacherName, coursePassword);
+                        teacherEditCourseFrame.resetEditCourseLabels();
+                        teacherEditCourseFrame.setVisible(true);
+                    }
+                    case "Edit Course Name or Password User" -> {
+                        String courseName = bfr.readLine();
+                        int courseID = Integer.parseInt(bfr.readLine());
+                        String teacherName = bfr.readLine();
+                        String coursePassword = bfr.readLine();
+                        teacherEditCourseFrame.setCourseInfo(courseName, courseID, teacherName, coursePassword);
+                        teacherEditCourseFrame.resetEditCourseLabels();
+                    }
+                    case "Delete Course Account User" -> {
+                        teacherEditCourseFrame.setVisible(false);
+                        teacherFrame.setVisible(true);
+                    }
                 }
             }
             catch (Exception e) {
@@ -250,6 +277,7 @@ public class User implements Runnable {
         createCourseFrame.setUserID(userID);
         enrollCourseFrame.setUserID(userID);
         teacherViewCoursesFrame.setUserID(userID);
+        teacherEditCourseFrame.setUserID(userID);
         teacherFrame.setUserName(userName);
         studentFrame.setUserName(userName);
         teacherSettingsFrame.setUserName(userName);
@@ -257,6 +285,7 @@ public class User implements Runnable {
         createCourseFrame.setUserName(userName);
         enrollCourseFrame.setUserName(userName);
         teacherViewCoursesFrame.setUserName(userName);
+        teacherEditCourseFrame.setUserName(userName);
         teacherFrame.setUserEmail(userEmail);
         studentFrame.setUserEmail(userEmail);
         teacherSettingsFrame.setUserEmail(userEmail);
@@ -264,6 +293,7 @@ public class User implements Runnable {
         createCourseFrame.setUserEmail(userEmail);
         enrollCourseFrame.setUserEmail(userEmail);
         teacherViewCoursesFrame.setUserEmail(userEmail);
+        teacherEditCourseFrame.setUserEmail(userEmail);
         teacherFrame.setUserPassword(userPassword);
         studentFrame.setUserPassword(userPassword);
         teacherSettingsFrame.setUserPassword(userPassword);
@@ -271,6 +301,7 @@ public class User implements Runnable {
         createCourseFrame.setUserPassword(userPassword);
         enrollCourseFrame.setUserPassword(userPassword);
         teacherViewCoursesFrame.setUserPassword(userPassword);
+        teacherEditCourseFrame.setUserPassword(userPassword);
         teacherSettingsFrame.resetTeacherSettingLabels();
         studentSettingsFrame.resetStudentSettingLabels();
     }

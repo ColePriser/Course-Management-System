@@ -497,6 +497,9 @@ public class Server implements Runnable {
                                             writer.write(coursePassword);
                                             writer.println();
                                             writer.flush();
+                                            writer.write(Integer.toString(teachers.get(y).getID()));
+                                            writer.println();
+                                            writer.flush();
                                             break;
                                         }
                                     }
@@ -664,6 +667,110 @@ public class Server implements Runnable {
                         writer.println();
                         writer.flush();
                         break;
+                    }
+                    case "Teacher Edit Courses Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Teacher Edit Courses Menu Back");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Teacher Edit Course Courses Button": {
+                        int courseID = Integer.parseInt(bfr.readLine());
+                        synchronized (race) {
+                            for (int x = 0; x < courses.size(); x++) {
+                                if (courses.get(x).getCourseID() == courseID) {
+                                    writer = new PrintWriter(this.socket.getOutputStream());
+                                    writer.write("Teacher Edit Course Button User");
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(courses.get(x).getCourseName());
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(Integer.toString(courseID));
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(courses.get(x).getTeacher().getName());
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(courses.get(x).getCoursePassword());
+                                    writer.println();
+                                    writer.flush();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    case "Edit Course Name": {
+                        String newName = bfr.readLine();
+                        int courseID = Integer.parseInt(bfr.readLine());
+                        synchronized (race) {
+                            for (int x = 0; x < courses.size(); x++) {
+                                if (courses.get(x).getCourseID() == courseID) {
+                                    courses.get(x).setCourseName(newName);
+                                    writer = new PrintWriter(this.socket.getOutputStream());
+                                    writer.write("Edit Course Name or Password User");
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(newName);
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(Integer.toString(courseID));
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(courses.get(x).getTeacher().getName());
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(courses.get(x).getCoursePassword());
+                                    writer.println();
+                                    writer.flush();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    case "Edit Course Password": {
+                        String newPass = bfr.readLine();
+                        int courseID = Integer.parseInt(bfr.readLine());
+                        synchronized (race) {
+                            for (int x = 0; x < courses.size(); x++) {
+                                if (courses.get(x).getCourseID() == courseID) {
+                                    courses.get(x).setCoursePassword(newPass);
+                                    writer = new PrintWriter(this.socket.getOutputStream());
+                                    writer.write("Edit Course Name or Password User");
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(courses.get(x).getCourseName());
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(Integer.toString(courseID));
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(courses.get(x).getTeacher().getName());
+                                    writer.println();
+                                    writer.flush();
+                                    writer.write(newPass);
+                                    writer.println();
+                                    writer.flush();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    case "Delete Course Button": {
+                        int courseID = Integer.parseInt(bfr.readLine());
+                        synchronized (race) {
+                            for (int x = 0; x < courses.size(); x++) {
+                                if (courses.get(x).getCourseID() == courseID) {
+                                    courses.remove(x);
+                                    writer = new PrintWriter(this.socket.getOutputStream());
+                                    writer.write("Delete Course Account User");
+                                    writer.println();
+                                    writer.flush();
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             } catch (Exception e) {
