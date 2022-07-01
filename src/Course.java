@@ -33,4 +33,12 @@ public class Course {
     public Teacher getTeacher() {
         return teacher;
     }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public void setCoursePassword(String coursePassword) {
+        this.coursePassword = coursePassword;
+    }
 }
