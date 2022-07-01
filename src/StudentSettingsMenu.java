@@ -96,6 +96,7 @@ public class StudentSettingsMenu extends JFrame {
                 User.writer.write(Integer.toString(userID));
                 User.writer.println();
                 User.writer.flush();
+                resetStudentSettingLabels();
             }
         });
 
@@ -124,6 +125,7 @@ public class StudentSettingsMenu extends JFrame {
                 User.writer.write(Integer.toString(userID));
                 User.writer.println();
                 User.writer.flush();
+                resetStudentSettingLabels();
             }
         });
 
