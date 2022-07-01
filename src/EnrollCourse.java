@@ -60,7 +60,7 @@ public class EnrollCourse extends JFrame {
                             "Log In", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-                    User.writer.write("Enroll In Course");
+                    User.writer.write("Student Enroll In New Course");
                     User.writer.println();
                     User.writer.flush();
                     User.writer.write(idField.getText());

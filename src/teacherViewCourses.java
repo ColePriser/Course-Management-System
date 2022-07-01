@@ -66,7 +66,7 @@ public class teacherViewCourses extends JFrame {
         course1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.writer.write("Teacher Edit Course Courses Button");
+                User.writer.write("Teacher Edit Course Button");
                 User.writer.println();
                 User.writer.flush();
                 ArrayList<Course> curCourses = getCoursesByID(userID);
@@ -79,7 +79,7 @@ public class teacherViewCourses extends JFrame {
         course2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.writer.write("Teacher Edit Course Courses Button");
+                User.writer.write("Teacher Edit Course Button");
                 User.writer.println();
                 User.writer.flush();
                 ArrayList<Course> curCourses = getCoursesByID(userID);
@@ -92,7 +92,7 @@ public class teacherViewCourses extends JFrame {
         course3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.writer.write("Teacher Edit Course Courses Button");
+                User.writer.write("Teacher Edit Course Button");
                 User.writer.println();
                 User.writer.flush();
                 ArrayList<Course> curCourses = getCoursesByID(userID);
@@ -105,7 +105,7 @@ public class teacherViewCourses extends JFrame {
         course4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.writer.write("Teacher Edit Course Courses Button");
+                User.writer.write("Teacher Edit Course Button");
                 User.writer.println();
                 User.writer.flush();
                 ArrayList<Course> curCourses = getCoursesByID(userID);
@@ -118,7 +118,7 @@ public class teacherViewCourses extends JFrame {
         course5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.writer.write("Teacher Edit Course Courses Button");
+                User.writer.write("Teacher Edit Course Button");
                 User.writer.println();
                 User.writer.flush();
                 ArrayList<Course> curCourses = getCoursesByID(userID);
@@ -131,7 +131,7 @@ public class teacherViewCourses extends JFrame {
         course6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.writer.write("Teacher Edit Course Courses Button");
+                User.writer.write("Teacher Edit Course Button");
                 User.writer.println();
                 User.writer.flush();
                 ArrayList<Course> curCourses = getCoursesByID(userID);
@@ -144,7 +144,7 @@ public class teacherViewCourses extends JFrame {
         course7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.writer.write("Teacher Edit Course Courses Button");
+                User.writer.write("Teacher Edit Course Button");
                 User.writer.println();
                 User.writer.flush();
                 ArrayList<Course> curCourses = getCoursesByID(userID);
@@ -157,7 +157,7 @@ public class teacherViewCourses extends JFrame {
         course8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.writer.write("Teacher Edit Course Courses Button");
+                User.writer.write("Teacher Edit Course Button");
                 User.writer.println();
                 User.writer.flush();
                 ArrayList<Course> curCourses = getCoursesByID(userID);

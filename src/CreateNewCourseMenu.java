@@ -74,7 +74,7 @@ public class CreateNewCourseMenu extends JFrame {
                             "Create Course", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-                    User.writer.write("Create Course");
+                    User.writer.write("Create New Course Submit");
                     User.writer.println();
                     User.writer.flush();
                     User.writer.write(nameField.getText());
