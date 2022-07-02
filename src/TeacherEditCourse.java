@@ -30,7 +30,7 @@ public class TeacherEditCourse extends JFrame {
     private String coursePassword;
 
     public TeacherEditCourse() {
-        setTitle("View Courses");
+        setTitle("Teacher Edit Courses");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
         ImageIcon logoIcon = new ImageIcon("book.png");
