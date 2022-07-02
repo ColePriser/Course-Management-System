@@ -529,11 +529,38 @@ public class Server implements Runnable {
                                         for (int y = 0; y < courses.get(x).getEnrolledStudents().size(); y++) {
                                             if (courses.get(x).getEnrolledStudents().get(y).getID() == userID) {
                                                 alreadyEnrolled = true;
+                                                writer.write("Already Enrolled In Course");
+                                                writer.println();
+                                                writer.flush();
                                                 break;
                                             }
                                         }
                                         if (!alreadyEnrolled) {
                                             success = true;
+                                            writer.write("Enroll In Course Success");
+                                            writer.println();
+                                            writer.flush();
+                                            writer.write(courses.get(x).getCourseName());
+                                            writer.println();
+                                            writer.flush();
+                                            writer.write(Integer.toString(courseID));
+                                            writer.println();
+                                            writer.flush();
+                                            writer.write(coursePassword);
+                                            writer.println();
+                                            writer.flush();
+                                            writer.write(courses.get(x).getTeacher().getName());
+                                            writer.println();
+                                            writer.flush();
+                                            writer.write(Integer.toString(courses.get(x).getTeacher().getID()));
+                                            writer.println();
+                                            writer.flush();
+                                            writer.write(courses.get(x).getTeacher().getEmail());
+                                            writer.println();
+                                            writer.flush();
+                                            writer.write(courses.get(x).getTeacher().getPassword());
+                                            writer.println();
+                                            writer.flush();
                                             for (int z = 0; z < students.size(); z++) {
                                                 if (students.get(z).getID() == userID) {
                                                     courses.get(x).getEnrolledStudents().add(students.get(z));
@@ -545,15 +572,7 @@ public class Server implements Runnable {
                                 }
                             }
                         }
-                        if (alreadyEnrolled) {
-                            writer.write("Already Enrolled In Course");
-                            writer.println();
-                            writer.flush();
-                        } else if (success) {
-                            writer.write("Enroll In Course Success");
-                            writer.println();
-                            writer.flush();
-                        } else {
+                        if (!success && !alreadyEnrolled) {
                             writer.write("Enroll In Course Error");
                             writer.println();
                             writer.flush();
@@ -789,10 +808,34 @@ public class Server implements Runnable {
                             }
                         }
                         writer = new PrintWriter(this.socket.getOutputStream());
-                        writer.write("Delete Course Account User");
+                        writer.write("Delete Course User");
                         writer.println();
                         writer.flush();
                         break;
+                    }
+                    case "Student View Enrolled Courses": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student View Enrolled Courses User");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Student View Enrolled Courses Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student View Enrolled Courses Back User");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Student Open Course Back": {
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        writer.write("Student Open Course Back User");
+                        writer.println();
+                        writer.flush();
+                        break;
+                    }
+                    case "Unenroll In Course": {
+
                     }
                 }
             } catch (Exception e) {

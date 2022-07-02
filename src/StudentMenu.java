@@ -64,6 +64,15 @@ public class StudentMenu extends JFrame {
                 User.writer.flush();
             }
         });
+
+        viewEnrolledCoursesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User.writer.write("Student View Enrolled Courses");
+                User.writer.println();
+                User.writer.flush();
+            }
+        });
     }
 
     public void setUserID(int userID) {

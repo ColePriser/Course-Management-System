@@ -57,7 +57,7 @@ public class StudentViewCourses extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User.writer.write("Student View Courses Back");
+                User.writer.write("Student View Enrolled Courses Back");
                 User.writer.println();
                 User.writer.flush();
             }
@@ -69,8 +69,7 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                ArrayList<Course> curCourses = getCoursesByID(userID);
-                User.writer.write(Integer.toString(curCourses.get(0).getCourseID()));
+                User.writer.write(Integer.toString(studentCourses.get(0).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -82,8 +81,7 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                ArrayList<Course> curCourses = getCoursesByID(userID);
-                User.writer.write(Integer.toString(curCourses.get(1).getCourseID()));
+                User.writer.write(Integer.toString(studentCourses.get(1).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -95,8 +93,7 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                ArrayList<Course> curCourses = getCoursesByID(userID);
-                User.writer.write(Integer.toString(curCourses.get(2).getCourseID()));
+                User.writer.write(Integer.toString(studentCourses.get(2).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -108,8 +105,7 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                ArrayList<Course> curCourses = getCoursesByID(userID);
-                User.writer.write(Integer.toString(curCourses.get(3).getCourseID()));
+                User.writer.write(Integer.toString(studentCourses.get(3).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -121,8 +117,7 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                ArrayList<Course> curCourses = getCoursesByID(userID);
-                User.writer.write(Integer.toString(curCourses.get(4).getCourseID()));
+                User.writer.write(Integer.toString(studentCourses.get(4).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -134,8 +129,7 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                ArrayList<Course> curCourses = getCoursesByID(userID);
-                User.writer.write(Integer.toString(curCourses.get(5).getCourseID()));
+                User.writer.write(Integer.toString(studentCourses.get(5).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -147,8 +141,7 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                ArrayList<Course> curCourses = getCoursesByID(userID);
-                User.writer.write(Integer.toString(curCourses.get(6).getCourseID()));
+                User.writer.write(Integer.toString(studentCourses.get(6).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -160,8 +153,7 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                ArrayList<Course> curCourses = getCoursesByID(userID);
-                User.writer.write(Integer.toString(curCourses.get(7).getCourseID()));
+                User.writer.write(Integer.toString(studentCourses.get(7).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -169,15 +161,14 @@ public class StudentViewCourses extends JFrame {
     }
 
     public void resetCourseList() {
-        ArrayList<Course> curCourses = getCoursesByID(userID);
-        for (int x = 0; x < curCourses.size(); x++) {
-            buttons.get(x).setText(curCourses.get(x).getCourseName());
+        for (int x = 0; x < studentCourses.size(); x++) {
+            buttons.get(x).setText(studentCourses.get(x).getCourseName());
             buttons.get(x).setVisible(true);
         }
-        for (int y = curCourses.size(); y < 8; y++) {
+        for (int y = studentCourses.size(); y < 8; y++) {
             buttons.get(y).setVisible(false);
         }
-        if (curCourses.size() == 0) {
+        if (studentCourses.size() == 0) {
             tempLabel.setText("You currently have no courses registered to your account!");
         }
         else {
@@ -201,19 +192,9 @@ public class StudentViewCourses extends JFrame {
         this.userPassword = userPassword;
     }
 
-    public void addStudentCourse(String name, int courseID, String password) {
-        Student cur = new Student(this.userName, this.userID, this.userEmail, this.userPassword);
-        Course newCourse = new Course(name, courseID, password, cur);
+    public void addStudentCourse(String courseName, int courseID, String coursePassword, String teacherName, int teacherID, String teacherEmail, String teacherPassword) {
+        Teacher cur = new Teacher(teacherName, teacherID, teacherEmail, teacherPassword);
+        Course newCourse = new Course(courseName, courseID, coursePassword, cur);
         studentCourses.add(newCourse);
-    }
-
-    public ArrayList<Course> getCoursesByID(int teacherID) {
-        ArrayList<Course> temp = new ArrayList<>();
-        for (int x = 0; x < studentCourses.size(); x++) {
-            if (studentCourses.get(x).getTeacher().getID() == teacherID) {
-                temp.add(teacherCourses.get(x));
-            }
-        }
-        return temp;
     }
 }

@@ -18,6 +18,8 @@ public class User implements Runnable {
     private EnrollCourse enrollCourseFrame = new EnrollCourse();
     private teacherViewCourses teacherViewCoursesFrame = new teacherViewCourses();
     private TeacherEditCourse teacherEditCourseFrame = new TeacherEditCourse();
+    private StudentViewCourses studentViewCoursesFrame = new StudentViewCourses();
+    private StudentOpenCourse studentOpenCourseFrame = new StudentOpenCourse();
 
     public static void main(String[] args) {
         Thread user = new Thread(new User());
@@ -150,6 +152,14 @@ public class User implements Runnable {
                         studentFrame.setVisible(true);
                     }
                     case "Enroll In Course Success" -> {
+                        String courseName = bfr.readLine();
+                        int courseID = Integer.parseInt(bfr.readLine());
+                        String coursePassword = bfr.readLine();
+                        String teacherName = bfr.readLine();
+                        int teacherID = Integer.parseInt(bfr.readLine());
+                        String teacherEmail = bfr.readLine();
+                        String teacherPassword = bfr.readLine();
+                        studentViewCoursesFrame.addStudentCourse(courseName, courseID, coursePassword, teacherName, teacherID, teacherEmail, teacherPassword);
                         JOptionPane.showMessageDialog(null,
                                 "You have successfully enrolled in this course!",
                                 "Enroll In Course", JOptionPane.INFORMATION_MESSAGE);
@@ -257,9 +267,26 @@ public class User implements Runnable {
                         teacherEditCourseFrame.setCourseInfo(courseName, courseID, teacherName, coursePassword);
                         teacherEditCourseFrame.resetEditCourseLabels();
                     }
-                    case "Delete Course Account User" -> {
+                    case "Delete Course User" -> {
                         teacherEditCourseFrame.setVisible(false);
                         teacherFrame.setVisible(true);
+                    }
+                    case "Student View Enrolled Courses User" -> {
+                        studentFrame.setVisible(false);
+                        studentViewCoursesFrame.setVisible(true);
+                        studentViewCoursesFrame.resetCourseList();
+                    }
+                    case "Student View Enrolled Courses Back User" -> {
+                        studentViewCoursesFrame.setVisible(false);
+                        studentFrame.setVisible(true);
+                    }
+                    case "Student Open Course Back User" -> {
+                        studentOpenCourseFrame.setVisible(false);
+                        studentFrame.setVisible(true);
+                    }
+                    case "Unenroll In Course User" -> {
+                        studentOpenCourseFrame.setVisible(false);
+                        studentFrame.setVisible(true);
                     }
                 }
             }
@@ -278,6 +305,8 @@ public class User implements Runnable {
         enrollCourseFrame.setUserID(userID);
         teacherViewCoursesFrame.setUserID(userID);
         teacherEditCourseFrame.setUserID(userID);
+        studentViewCoursesFrame.setUserID(userID);
+        studentOpenCourseFrame.setUserID(userID);
         teacherFrame.setUserName(userName);
         studentFrame.setUserName(userName);
         teacherSettingsFrame.setUserName(userName);
@@ -286,6 +315,8 @@ public class User implements Runnable {
         enrollCourseFrame.setUserName(userName);
         teacherViewCoursesFrame.setUserName(userName);
         teacherEditCourseFrame.setUserName(userName);
+        studentViewCoursesFrame.setUserName(userName);
+        studentOpenCourseFrame.setUserName(userName);
         teacherFrame.setUserEmail(userEmail);
         studentFrame.setUserEmail(userEmail);
         teacherSettingsFrame.setUserEmail(userEmail);
@@ -294,6 +325,8 @@ public class User implements Runnable {
         enrollCourseFrame.setUserEmail(userEmail);
         teacherViewCoursesFrame.setUserEmail(userEmail);
         teacherEditCourseFrame.setUserEmail(userEmail);
+        studentViewCoursesFrame.setUserEmail(userEmail);
+        studentOpenCourseFrame.setUserEmail(userEmail);
         teacherFrame.setUserPassword(userPassword);
         studentFrame.setUserPassword(userPassword);
         teacherSettingsFrame.setUserPassword(userPassword);
@@ -302,6 +335,8 @@ public class User implements Runnable {
         enrollCourseFrame.setUserPassword(userPassword);
         teacherViewCoursesFrame.setUserPassword(userPassword);
         teacherEditCourseFrame.setUserPassword(userPassword);
+        studentViewCoursesFrame.setUserPassword(userPassword);
+        studentOpenCourseFrame.setUserPassword(userPassword);
         teacherSettingsFrame.resetTeacherSettingLabels();
         studentSettingsFrame.resetStudentSettingLabels();
     }
