@@ -23,7 +23,7 @@ public class teacherViewCourses extends JFrame {
     private String userName;
     private String userEmail;
     private String userPassword;
-    private ArrayList<Course> teacherCourses = new ArrayList<>();
+    public static ArrayList<Course> teacherCourses = new ArrayList<>();
     private ArrayList<JButton> buttons = new ArrayList<>();
 
     public teacherViewCourses() {
@@ -205,6 +205,15 @@ public class teacherViewCourses extends JFrame {
             Teacher cur = new Teacher(this.userName, this.userID, this.userEmail, this.userPassword);
             Course newCourse = new Course(name, courseID, password, cur);
             teacherCourses.add(newCourse);
+    }
+
+    public void removeTeacherCourse(int courseID) {
+        for (int x = 0; x < teacherCourses.size(); x++) {
+            if (teacherCourses.get(x).getCourseID() == courseID) {
+                teacherCourses.remove(x);
+                break;
+            }
+        }
     }
 
     public ArrayList<Course> getCoursesByID(int teacherID) {
