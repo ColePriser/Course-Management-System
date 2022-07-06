@@ -130,6 +130,15 @@ public class TeacherEditCourse extends JFrame {
                 User.writer.flush();
             }
         });
+
+        viewEnrolledStudentsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User.writer.write("Teacher View Enrolled Students");
+                User.writer.println();
+                User.writer.flush();
+            }
+        });
     }
 
     public void setUserID(int userID) {

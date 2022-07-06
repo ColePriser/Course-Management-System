@@ -20,6 +20,7 @@ public class User implements Runnable {
     private TeacherEditCourse teacherEditCourseFrame = new TeacherEditCourse();
     private StudentViewCourses studentViewCoursesFrame = new StudentViewCourses();
     private StudentOpenCourse studentOpenCourseFrame = new StudentOpenCourse();
+    private TeacherViewEnrolledStudents teacherViewEnrolledStudentsFrame = new TeacherViewEnrolledStudents();
 
     public static void main(String[] args) {
         Thread user = new Thread(new User());
@@ -159,7 +160,12 @@ public class User implements Runnable {
                         int teacherID = Integer.parseInt(bfr.readLine());
                         String teacherEmail = bfr.readLine();
                         String teacherPassword = bfr.readLine();
+                        String studentName = bfr.readLine();
+                        int studentID = Integer.parseInt(bfr.readLine());
+                        String studentEmail = bfr.readLine();
+                        String studentPassword = bfr.readLine();
                         studentViewCoursesFrame.addStudentCourse(courseName, courseID, coursePassword, teacherName, teacherID, teacherEmail, teacherPassword);
+                        teacherViewEnrolledStudentsFrame.addStudent(studentName, studentID, studentEmail, studentPassword);
                         JOptionPane.showMessageDialog(null,
                                 "You have successfully enrolled in this course!",
                                 "Enroll In Course", JOptionPane.INFORMATION_MESSAGE);
@@ -268,6 +274,9 @@ public class User implements Runnable {
                         teacherEditCourseFrame.resetEditCourseLabels();
                     }
                     case "Delete Course User" -> {
+                        int courseID = Integer.parseInt(bfr.readLine());
+                        studentViewCoursesFrame.removeStudentCourse(courseID);
+                        teacherViewCoursesFrame.removeTeacherCourse(courseID);
                         teacherEditCourseFrame.setVisible(false);
                         teacherFrame.setVisible(true);
                     }
@@ -284,10 +293,34 @@ public class User implements Runnable {
                         studentOpenCourseFrame.setVisible(false);
                         studentFrame.setVisible(true);
                     }
+                    case "Student Open Course User" -> {
+                        String courseName = bfr.readLine();
+                        int courseID = Integer.parseInt(bfr.readLine());
+                        String teacherName = bfr.readLine();
+                        String coursePassword = bfr.readLine();
+                        studentViewCoursesFrame.setVisible(false);
+                        studentOpenCourseFrame.setCourseInfo(courseName, courseID, teacherName, coursePassword);
+                        studentOpenCourseFrame.resetEditCourseLabels();
+                        studentOpenCourseFrame.setVisible(true);
+                    }
                     case "Unenroll In Course User" -> {
+                        int courseID = Integer.parseInt(bfr.readLine());
+                        int userID = Integer.parseInt(bfr.readLine());
+                        studentViewCoursesFrame.removeStudentCourse(courseID);
+                        teacherViewEnrolledStudentsFrame.removeStudent(userID);
                         studentOpenCourseFrame.setVisible(false);
                         studentFrame.setVisible(true);
                     }
+                    case "Teacher View Enrolled Students User" -> {
+                        teacherEditCourseFrame.setVisible(false);
+                        teacherViewEnrolledStudentsFrame.setVisible(true);
+                        teacherViewEnrolledStudentsFrame.resetStudentList();
+                    }
+                    case "Teacher View Enrolled Students Back User" -> {
+                        teacherViewEnrolledStudentsFrame.setVisible(false);
+                        teacherEditCourseFrame.setVisible(true);
+                    }
+
                 }
             }
             catch (Exception e) {
@@ -307,6 +340,7 @@ public class User implements Runnable {
         teacherEditCourseFrame.setUserID(userID);
         studentViewCoursesFrame.setUserID(userID);
         studentOpenCourseFrame.setUserID(userID);
+        teacherViewEnrolledStudentsFrame.setUserID(userID);
         teacherFrame.setUserName(userName);
         studentFrame.setUserName(userName);
         teacherSettingsFrame.setUserName(userName);
@@ -317,6 +351,7 @@ public class User implements Runnable {
         teacherEditCourseFrame.setUserName(userName);
         studentViewCoursesFrame.setUserName(userName);
         studentOpenCourseFrame.setUserName(userName);
+        teacherViewEnrolledStudentsFrame.setUserName(userName);
         teacherFrame.setUserEmail(userEmail);
         studentFrame.setUserEmail(userEmail);
         teacherSettingsFrame.setUserEmail(userEmail);
@@ -327,6 +362,7 @@ public class User implements Runnable {
         teacherEditCourseFrame.setUserEmail(userEmail);
         studentViewCoursesFrame.setUserEmail(userEmail);
         studentOpenCourseFrame.setUserEmail(userEmail);
+        teacherViewEnrolledStudentsFrame.setUserEmail(userEmail);
         teacherFrame.setUserPassword(userPassword);
         studentFrame.setUserPassword(userPassword);
         teacherSettingsFrame.setUserPassword(userPassword);
@@ -337,6 +373,7 @@ public class User implements Runnable {
         teacherEditCourseFrame.setUserPassword(userPassword);
         studentViewCoursesFrame.setUserPassword(userPassword);
         studentOpenCourseFrame.setUserPassword(userPassword);
+        teacherViewEnrolledStudentsFrame.setUserPassword(userPassword);
         teacherSettingsFrame.resetTeacherSettingLabels();
         studentSettingsFrame.resetStudentSettingLabels();
     }
