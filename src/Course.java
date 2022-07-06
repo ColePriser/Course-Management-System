@@ -5,7 +5,7 @@ public class Course {
     private int courseID;
     private String coursePassword;
     private Teacher teacher;
-    public static ArrayList<Student> enrolledStudents = new ArrayList<>();
+    public ArrayList<Student> enrolledStudents = new ArrayList<>();
 
     public Course(String courseName, int courseID, String coursePassword, Teacher teacher) {
         this.courseName = courseName;
