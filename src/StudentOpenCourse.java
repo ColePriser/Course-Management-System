@@ -64,6 +64,9 @@ public class StudentOpenCourse extends JFrame {
                 User.writer.write(Integer.toString(courseID));
                 User.writer.println();
                 User.writer.flush();
+                User.writer.write(Integer.toString(userID));
+                User.writer.println();
+                User.writer.flush();
                 JOptionPane.showMessageDialog(null,
                         "Successfully Unenrolled! Returning to Student Menu.",
                         "Unenroll In Course", JOptionPane.INFORMATION_MESSAGE);
