@@ -23,7 +23,7 @@ public class StudentViewCourses extends JFrame {
     private String userName;
     private String userEmail;
     private String userPassword;
-    private ArrayList<Course> studentCourses = new ArrayList<>();
+    private static ArrayList<Course> studentCourses = new ArrayList<>();
     private ArrayList<JButton> buttons = new ArrayList<>();
 
     public StudentViewCourses() {
@@ -69,7 +69,8 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(studentCourses.get(0).getCourseID()));
+                ArrayList<Course> curCourses = getCoursesByID(userID);
+                User.writer.write(Integer.toString(curCourses.get(0).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -81,7 +82,8 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(studentCourses.get(1).getCourseID()));
+                ArrayList<Course> curCourses = getCoursesByID(userID);
+                User.writer.write(Integer.toString(curCourses.get(1).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -93,7 +95,8 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(studentCourses.get(2).getCourseID()));
+                ArrayList<Course> curCourses = getCoursesByID(userID);
+                User.writer.write(Integer.toString(curCourses.get(2).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -105,7 +108,8 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(studentCourses.get(3).getCourseID()));
+                ArrayList<Course> curCourses = getCoursesByID(userID);
+                User.writer.write(Integer.toString(curCourses.get(3).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -117,7 +121,8 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(studentCourses.get(4).getCourseID()));
+                ArrayList<Course> curCourses = getCoursesByID(userID);
+                User.writer.write(Integer.toString(curCourses.get(4).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -129,7 +134,8 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(studentCourses.get(5).getCourseID()));
+                ArrayList<Course> curCourses = getCoursesByID(userID);
+                User.writer.write(Integer.toString(curCourses.get(5).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -141,7 +147,8 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(studentCourses.get(6).getCourseID()));
+                ArrayList<Course> curCourses = getCoursesByID(userID);
+                User.writer.write(Integer.toString(curCourses.get(6).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
@@ -153,27 +160,12 @@ public class StudentViewCourses extends JFrame {
                 User.writer.write("Student Open Course");
                 User.writer.println();
                 User.writer.flush();
-                User.writer.write(Integer.toString(studentCourses.get(7).getCourseID()));
+                ArrayList<Course> curCourses = getCoursesByID(userID);
+                User.writer.write(Integer.toString(curCourses.get(7).getCourseID()));
                 User.writer.println();
                 User.writer.flush();
             }
         });
-    }
-
-    public void resetCourseList() {
-        for (int x = 0; x < studentCourses.size(); x++) {
-            buttons.get(x).setText(studentCourses.get(x).getCourseName());
-            buttons.get(x).setVisible(true);
-        }
-        for (int y = studentCourses.size(); y < 8; y++) {
-            buttons.get(y).setVisible(false);
-        }
-        if (studentCourses.size() == 0) {
-            tempLabel.setText("You currently have no courses registered to your account!");
-        }
-        else {
-            tempLabel.setText("");
-        }
     }
 
     public void setUserID(int userID) {
@@ -197,4 +189,43 @@ public class StudentViewCourses extends JFrame {
         Course newCourse = new Course(courseName, courseID, coursePassword, cur);
         studentCourses.add(newCourse);
     }
+
+    public void removeStudentCourse(int courseID) {
+        for (int x = 0; x < studentCourses.size(); x++) {
+            if (studentCourses.get(x).getCourseID() == courseID) {
+                studentCourses.remove(x);
+                break;
+            }
+        }
+    }
+
+    public void resetCourseList() {
+        for (int x = 0; x < studentCourses.size(); x++) {
+            buttons.get(x).setText(studentCourses.get(x).getCourseName());
+            buttons.get(x).setVisible(true);
+        }
+        for (int y = studentCourses.size(); y < 8; y++) {
+            buttons.get(y).setVisible(false);
+        }
+        if (studentCourses.size() == 0) {
+            tempLabel.setText("You currently have no courses registered to your account!");
+        }
+        else {
+            tempLabel.setText("");
+        }
+    }
+
+    public ArrayList<Course> getCoursesByID(int studentID) {
+        ArrayList<Course> temp = new ArrayList<>();
+        for (int x = 0; x < studentCourses.size(); x++) {
+            for (int y = 0; y < studentCourses.get(x).getEnrolledStudents().size(); y++) {
+                if (studentCourses.get(x).getEnrolledStudents().get(y).getID() == studentID) {
+                    temp.add(studentCourses.get(x));
+                }
+            }
+
+        }
+        return temp;
+    }
+
 }
