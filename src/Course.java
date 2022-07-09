@@ -5,13 +5,14 @@ public class Course {
     private int courseID;
     private String coursePassword;
     private Teacher teacher;
-    public ArrayList<Student> enrolledStudents = new ArrayList<>();
+    public ArrayList<Student> enrolledStudents;
 
     public Course(String courseName, int courseID, String coursePassword, Teacher teacher) {
         this.courseName = courseName;
         this.courseID = courseID;
         this.coursePassword = coursePassword;
         this.teacher = teacher;
+        this.enrolledStudents = new ArrayList<>();
     }
 
     public int getCourseID() {
@@ -40,5 +41,9 @@ public class Course {
 
     public void setCoursePassword(String coursePassword) {
         this.coursePassword = coursePassword;
+    }
+
+    public void addStudent(Student student) {
+        enrolledStudents.add(student);
     }
 }
