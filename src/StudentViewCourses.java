@@ -200,14 +200,21 @@ public class StudentViewCourses extends JFrame {
     }
 
     public void resetCourseList() {
-        for (int x = 0; x < studentCourses.size(); x++) {
-            buttons.get(x).setText(studentCourses.get(x).getCourseName());
+        ArrayList<Course> coursesForStudent = getCoursesByID(userID);
+        User.writer.write("meow");
+        User.writer.println();
+        User.writer.flush();
+        User.writer.write(Integer.toString(coursesForStudent.size()));
+        User.writer.println();
+        User.writer.flush();
+        for (int x = 0; x < coursesForStudent.size(); x++) {
+            buttons.get(x).setText(coursesForStudent.get(x).getCourseName());
             buttons.get(x).setVisible(true);
         }
-        for (int y = studentCourses.size(); y < 8; y++) {
+        for (int y = coursesForStudent.size(); y < 8; y++) {
             buttons.get(y).setVisible(false);
         }
-        if (studentCourses.size() == 0) {
+        if (coursesForStudent.size() == 0) {
             tempLabel.setText("You currently have no courses registered to your account!");
         }
         else {
@@ -226,6 +233,16 @@ public class StudentViewCourses extends JFrame {
 
         }
         return temp;
+    }
+
+    public void addStudentToCourse(int courseID) {
+        for (int x = 0; x < studentCourses.size(); x++) {
+            if (studentCourses.get(x).getCourseID() == courseID) {
+                //studentCourses.get(x).addStudent(new Student(userName, userID, userEmail, userPassword));
+                studentCourses.get(x).getEnrolledStudents().add(new Student(userName, userID, userEmail, userPassword));
+                break;
+            }
+        }
     }
 
 }

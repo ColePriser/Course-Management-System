@@ -824,8 +824,12 @@ public class Server implements Runnable {
                         break;
                     }
                     case "Student View Enrolled Courses": {
+                        int studentID = Integer.parseInt(bfr.readLine());
                         writer = new PrintWriter(this.socket.getOutputStream());
                         writer.write("Student View Enrolled Courses User");
+                        writer.println();
+                        writer.flush();
+                        writer.write(Integer.toString(studentID));
                         writer.println();
                         writer.flush();
                         break;
@@ -911,6 +915,10 @@ public class Server implements Runnable {
                         writer.println();
                         writer.flush();
                         break;
+                    }
+                    case "meow": {
+                        int id = Integer.parseInt(bfr.readLine());
+                        System.out.println(id);
                     }
                 }
             } catch (Exception e) {

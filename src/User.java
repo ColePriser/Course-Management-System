@@ -164,6 +164,7 @@ public class User implements Runnable {
                         int studentID = Integer.parseInt(bfr.readLine());
                         String studentEmail = bfr.readLine();
                         String studentPassword = bfr.readLine();
+                        studentViewCoursesFrame.addStudentToCourse(courseID);
                         studentViewCoursesFrame.addStudentCourse(courseName, courseID, coursePassword, teacherName, teacherID, teacherEmail, teacherPassword);
                         teacherViewEnrolledStudentsFrame.addStudent(studentName, studentID, studentEmail, studentPassword);
                         JOptionPane.showMessageDialog(null,
@@ -281,9 +282,10 @@ public class User implements Runnable {
                         teacherFrame.setVisible(true);
                     }
                     case "Student View Enrolled Courses User" -> {
+                        int studentID = Integer.parseInt(bfr.readLine());
+                        studentViewCoursesFrame.resetCourseList();
                         studentFrame.setVisible(false);
                         studentViewCoursesFrame.setVisible(true);
-                        studentViewCoursesFrame.resetCourseList();
                     }
                     case "Student View Enrolled Courses Back User" -> {
                         studentViewCoursesFrame.setVisible(false);

@@ -71,6 +71,9 @@ public class StudentMenu extends JFrame {
                 User.writer.write("Student View Enrolled Courses");
                 User.writer.println();
                 User.writer.flush();
+                User.writer.write(Integer.toString(userID));
+                User.writer.println();
+                User.writer.flush();
             }
         });
     }
