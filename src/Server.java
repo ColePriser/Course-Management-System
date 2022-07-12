@@ -3,18 +3,19 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Server implements Runnable {
+public class Server implements Runnable, Serializable {
     private Socket socket; //Socket object
     private BufferedReader bfr; //BufferedReader object
     private PrintWriter writer; //PrintWriter object
+    private ObjectInputStream objectInputStream;
+    private ObjectOutputStream objectOutputStream; //OutputStream object
 
-    private static ArrayList<Socket> clients = new ArrayList<Socket>(); //ArrayList of Clients
+    private static ArrayList<Socket> clients = new ArrayList<>(); //ArrayList of Clients
     private static List<Teacher> teachers = new CopyOnWriteArrayList<>(); //ArrayList of Teachers
     private static List<Student> students = new CopyOnWriteArrayList<>(); //ArrayList of Students
     private static List<Course> courses = new CopyOnWriteArrayList<>(); //ArrayList of Courses
 
-
-    public static final Object race = new Object(); //Object used in synchronized blocks to prevent race conditions
+    public static Object race = new Object(); //Object used in synchronized blocks to prevent race conditions
 
     public Server(Socket inputSocket) {
         this.socket = inputSocket;
@@ -22,6 +23,8 @@ public class Server implements Runnable {
         try {
             this.bfr = new BufferedReader(new InputStreamReader(inputSocket.getInputStream()));
             this.writer = new PrintWriter(inputSocket.getOutputStream());
+            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            this.objectInputStream = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,7 +91,35 @@ public class Server implements Runnable {
                         break;
                     }
                     case "Create Student Account": {
-                        String name = bfr.readLine();
+                        objectInputStream = new ObjectInputStream(this.socket.getInputStream());
+                        Student newAct = (Student) objectInputStream.readObject();
+                        boolean taken = false;
+                        synchronized (race) {
+                            for (int x = 0; x < students.size(); x++) {
+                                if (students.get(x).getID() == newAct.getID()) {
+                                    taken = true;
+                                    break;
+                                }
+                            }
+                        }
+                        writer = new PrintWriter(this.socket.getOutputStream());
+                        objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
+                        if (taken) {
+                            writer.write("Student ID Taken");
+                            writer.println();
+                            writer.flush();
+                            System.out.println("taken");
+                        } else {
+                            students.add(newAct);
+                            writer.write("Student Account Created Success");
+                            writer.println();
+                            writer.flush();
+                            objectOutputStream.writeObject(newAct);
+                            objectOutputStream.flush();
+                            System.out.println("success");
+                        }
+                        break;
+                        /*String name = bfr.readLine();
                         String email = bfr.readLine();
                         String password = bfr.readLine();
                         int ID = Integer.parseInt(bfr.readLine());
@@ -125,7 +156,7 @@ public class Server implements Runnable {
                             writer.println();
                             writer.flush();
                         }
-                        break;
+                        break;*/
                     }
                     case "Log In Menu Teacher Account": {
                         int ID = Integer.parseInt(bfr.readLine());

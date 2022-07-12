@@ -4,8 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.io.Serializable;
 
-public class CreateAccountMenu extends JFrame {
+public class CreateAccountMenu extends JFrame implements Serializable {
     private JTextField nameField;
     private JTextField emailField;
     private JTextField idField;
@@ -14,7 +16,6 @@ public class CreateAccountMenu extends JFrame {
     private JCheckBox teacherCheckBox;
     private JPanel createAccountPanel;
     private JButton createButton;
-    private JButton submitButton;
     private JButton backButton;
 
     public CreateAccountMenu() {
@@ -92,7 +93,13 @@ public class CreateAccountMenu extends JFrame {
                     User.writer.write("Create Student Account");
                     User.writer.println();
                     User.writer.flush();
-                    User.writer.write(nameField.getText());
+                    try {
+                        User.objectOutputStream.writeObject(new Student(nameField.getText(), Integer.parseInt(idField.getText()), emailField.getText(), String.valueOf(passwordField.getPassword())));
+                        User.objectOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    /*User.writer.write(nameField.getText());
                     User.writer.println();
                     User.writer.flush();
                     User.writer.write(emailField.getText());
@@ -103,7 +110,7 @@ public class CreateAccountMenu extends JFrame {
                     User.writer.flush();
                     User.writer.write(idField.getText());
                     User.writer.println();
-                    User.writer.flush();
+                    User.writer.flush();*/
                     resetCreateAccountLabels();
                 }
                 else if (teacherCheckBox.isSelected()) {
