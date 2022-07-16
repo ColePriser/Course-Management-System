@@ -93,13 +93,7 @@ public class CreateAccountMenu extends JFrame implements Serializable {
                     User.writer.write("Create Student Account");
                     User.writer.println();
                     User.writer.flush();
-                    try {
-                        User.objectOutputStream.writeObject(new Student(nameField.getText(), Integer.parseInt(idField.getText()), emailField.getText(), String.valueOf(passwordField.getPassword())));
-                        User.objectOutputStream.flush();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    /*User.writer.write(nameField.getText());
+                    User.writer.write(nameField.getText());
                     User.writer.println();
                     User.writer.flush();
                     User.writer.write(emailField.getText());
@@ -110,7 +104,7 @@ public class CreateAccountMenu extends JFrame implements Serializable {
                     User.writer.flush();
                     User.writer.write(idField.getText());
                     User.writer.println();
-                    User.writer.flush();*/
+                    User.writer.flush();
                     resetCreateAccountLabels();
                 }
                 else if (teacherCheckBox.isSelected()) {

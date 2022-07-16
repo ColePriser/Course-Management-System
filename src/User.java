@@ -6,8 +6,8 @@ public class User implements Runnable, Serializable {
     public static Socket socket; //Socket object
     public static BufferedReader bfr; //BufferedReader object
     public static PrintWriter writer; //PrintWriter object
-    private static ObjectInputStream objectInputStream; //InputStream object
-    public static ObjectOutputStream objectOutputStream; //OutputStream object
+    //private static ObjectInputStream objectInputStream; //InputStream object
+    //public static ObjectOutputStream objectOutputStream; //OutputStream object
 
     private MainMenu mainMenuFrame = new MainMenu();
     private CreateAccountMenu createActFrame = new CreateAccountMenu();
@@ -35,8 +35,8 @@ public class User implements Runnable, Serializable {
             socket = new Socket("localhost", 2361); //InetAddress.getLocalHost()
             bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream());
-            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            //objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            //objectInputStream = new ObjectInputStream(socket.getInputStream());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,13 +81,13 @@ public class User implements Runnable, Serializable {
                         teacherFrame.setVisible(true);
                     }
                     case "Student Account Created Success" -> {
-                        /*String userName = bfr.readLine();
+                        String userName = bfr.readLine();
                         String userEmail = bfr.readLine();
                         String userPassword = bfr.readLine();
                         int userID = Integer.parseInt(bfr.readLine());
-                        setUserInfo(userID, userName, userEmail, userPassword);*/
-                        Student newAct = (Student) objectInputStream.readObject();
-                        setUserInfo(newAct.getID(), newAct.getName(), newAct.getEmail(), newAct.getPassword());
+                        setUserInfo(userID, userName, userEmail, userPassword);
+                        //Student newAct = (Student) objectInputStream.readObject();
+                        //setUserInfo(newAct.getID(), newAct.getName(), newAct.getEmail(), newAct.getPassword());
                         JOptionPane.showMessageDialog(null,
                                 "Your account has been made successfully!",
                                 "Create Account", JOptionPane.INFORMATION_MESSAGE);

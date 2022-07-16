@@ -21,10 +21,10 @@ public class Server implements Runnable, Serializable {
         this.socket = inputSocket;
         clients.add(inputSocket);
         try {
-            this.bfr = new BufferedReader(new InputStreamReader(inputSocket.getInputStream()));
-            this.writer = new PrintWriter(inputSocket.getOutputStream());
-            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            this.objectInputStream = new ObjectInputStream(socket.getInputStream());
+            bfr = new BufferedReader(new InputStreamReader(inputSocket.getInputStream()));
+            writer = new PrintWriter(inputSocket.getOutputStream());
+            //objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            //objectInputStream = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,35 +91,7 @@ public class Server implements Runnable, Serializable {
                         break;
                     }
                     case "Create Student Account": {
-                        objectInputStream = new ObjectInputStream(this.socket.getInputStream());
-                        Student newAct = (Student) objectInputStream.readObject();
-                        boolean taken = false;
-                        synchronized (race) {
-                            for (int x = 0; x < students.size(); x++) {
-                                if (students.get(x).getID() == newAct.getID()) {
-                                    taken = true;
-                                    break;
-                                }
-                            }
-                        }
-                        writer = new PrintWriter(this.socket.getOutputStream());
-                        objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
-                        if (taken) {
-                            writer.write("Student ID Taken");
-                            writer.println();
-                            writer.flush();
-                            System.out.println("taken");
-                        } else {
-                            students.add(newAct);
-                            writer.write("Student Account Created Success");
-                            writer.println();
-                            writer.flush();
-                            objectOutputStream.writeObject(newAct);
-                            objectOutputStream.flush();
-                            System.out.println("success");
-                        }
-                        break;
-                        /*String name = bfr.readLine();
+                        String name = bfr.readLine();
                         String email = bfr.readLine();
                         String password = bfr.readLine();
                         int ID = Integer.parseInt(bfr.readLine());
@@ -156,7 +128,7 @@ public class Server implements Runnable, Serializable {
                             writer.println();
                             writer.flush();
                         }
-                        break;*/
+                        break;
                     }
                     case "Log In Menu Teacher Account": {
                         int ID = Integer.parseInt(bfr.readLine());

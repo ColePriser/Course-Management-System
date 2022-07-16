@@ -238,8 +238,8 @@ public class StudentViewCourses extends JFrame {
     public void addStudentToCourse(int courseID) {
         for (int x = 0; x < studentCourses.size(); x++) {
             if (studentCourses.get(x).getCourseID() == courseID) {
-                //studentCourses.get(x).addStudent(new Student(userName, userID, userEmail, userPassword));
-                studentCourses.get(x).getEnrolledStudents().add(new Student(userName, userID, userEmail, userPassword));
+                studentCourses.get(x).addStudent(new Student(userName, userID, userEmail, userPassword));
+                //studentCourses.get(x).getEnrolledStudents().add(new Student(userName, userID, userEmail, userPassword));
                 break;
             }
         }
